@@ -14,17 +14,17 @@ import java.util.List;
 @ToString
 public class User {
     @Id
-    @GeneratedValue
-    private Long no;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String nickname;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "major_no")
-    private Major majorNo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Major majorId;
 
     @OneToMany
-    @JoinColumn(name = "board_no")
+    @JoinColumn(name = "writer_id")
     private List<Board> boards = new ArrayList<>();
 }

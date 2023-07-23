@@ -13,13 +13,14 @@ import java.util.List;
 @ToString
 public class Major {
     @Id
-    @GeneratedValue
-    private Long no;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String name;
 
     @OneToMany
+    @JoinColumn(name = "major_id")
     private List<User> users = new ArrayList<>();
 }
 

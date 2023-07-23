@@ -1,16 +1,15 @@
-package com.example.yeoreumjava.major.domain;
+package com.example.yeoreumjava.meeting.domain;
 
 import com.example.yeoreumjava.meeting.domain.Meeting;
 
 import javax.persistence.*;
 
 @Entity
-public class Host {
+public class Guest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long no;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "meeting_no")
-    private Meeting meetingNo;
+    private Meeting meeting;
 }

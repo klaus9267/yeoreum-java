@@ -1,8 +1,6 @@
 package com.example.yeoreumjava.meeting.domain;
 
 import com.example.yeoreumjava.board.domain.Board;
-import com.example.yeoreumjava.major.domain.Guest;
-import com.example.yeoreumjava.major.domain.Host;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -14,20 +12,20 @@ import java.util.List;
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long no;
+    private Long id;
 
     private String place;
     private String time;
 
     @OneToOne
-    @JoinColumn(name = "board_no")
-    private Board boardNo;
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     @OneToMany
-    @JoinColumn(name = "host_no")
+    @JoinColumn(name = "meeting_id")
     private List<Host> hosts = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name = "guest_no")
+    @JoinColumn(name = "meeting_id")
     private List<Guest> guests = new ArrayList<>();
 }
