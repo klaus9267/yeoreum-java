@@ -14,12 +14,12 @@ import java.util.List;
 public class Major {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long no;
 
     @Column(nullable = false)
     private String name;
 
     @OneToMany
-    private List<User> user=new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 }
 

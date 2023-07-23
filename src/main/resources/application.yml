@@ -1,0 +1,9 @@
+spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://yeoreum-java.cr8tqejpibn2.us-east-2.rds.amazonaws.com:3306/yeoreum_java?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: doctor978
