@@ -3,6 +3,7 @@ package com.example.yeoreumjava.user.domain;
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.major.domain.Major;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
-@ToString
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
