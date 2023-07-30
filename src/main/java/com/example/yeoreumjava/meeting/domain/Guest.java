@@ -1,8 +1,7 @@
 package com.example.yeoreumjava.meeting.domain;
 
-import com.example.yeoreumjava.meeting.domain.Meeting;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 
 @Entity
 public class Guest {

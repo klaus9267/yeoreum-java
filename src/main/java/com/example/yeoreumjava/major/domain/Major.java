@@ -1,10 +1,10 @@
 package com.example.yeoreumjava.major.domain;
 
 import com.example.yeoreumjava.user.domain.User;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

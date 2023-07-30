@@ -2,10 +2,10 @@ package com.example.yeoreumjava.user.domain;
 
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.major.domain.Major;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class User {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Major majorId;
+    private Major major;
 
     @OneToMany
     @JoinColumn(name = "writer_id")

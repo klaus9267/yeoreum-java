@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MajorController {
     private final MajorService majorService;
-    @GetMapping("/")
+    @GetMapping("")
     public List<Major> findAllMajors() {
         return majorService.findAllMajors();
     }

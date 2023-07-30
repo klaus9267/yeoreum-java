@@ -1,8 +1,7 @@
 package com.example.yeoreumjava.meeting.domain;
 
-import com.example.yeoreumjava.meeting.domain.Meeting;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 
 @Entity
 public class Host {
@@ -10,6 +9,6 @@ public class Host {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Meeting meeting;
 }

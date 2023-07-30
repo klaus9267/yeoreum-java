@@ -1,9 +1,9 @@
 package com.example.yeoreumjava.meeting.domain;
 
 import com.example.yeoreumjava.board.domain.Board;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
