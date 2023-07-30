@@ -3,7 +3,7 @@
 
 해당 프로젝트는 프론트3명 백엔드3명이 한 팀으로 진행했으며 Nest.JS로 제작한 프로젝트를 Java, Spring으로 Migration했습니다.
 
-https://github.com/modern-agile-team/4term-main-back
+기존 프로젝트 : https://github.com/modern-agile-team/4term-main-back
 
 # **🧑‍🤝‍🧑**멤버구성
 
