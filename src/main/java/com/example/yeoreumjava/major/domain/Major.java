@@ -4,6 +4,7 @@ import com.example.yeoreumjava.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Major {
     private String name;
 
     @OneToMany
+    @ToString.Exclude
     @JoinColumn(name = "major_id")
     private List<User> users = new ArrayList<>();
 }

@@ -26,6 +26,7 @@ public class User {
     private Major major;
 
     @OneToMany
+    @ToString.Exclude // ToString 시 해당 컬럼 출력 해제
     @JoinColumn(name = "writer_id")
     private List<Board> boards = new ArrayList<>();
 }

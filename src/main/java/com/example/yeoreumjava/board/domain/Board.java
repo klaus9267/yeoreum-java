@@ -25,7 +25,7 @@ public class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     private User writer;
 
-    @OneToOne
+    @OneToOne(mappedBy = "board")
     @JoinColumn(name = "meeting_id")
     private Meeting meeting;
 
