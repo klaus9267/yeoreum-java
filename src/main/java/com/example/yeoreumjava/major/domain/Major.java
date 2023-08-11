@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.major.domain;
 
 import com.example.yeoreumjava.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Major {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @OneToMany
     @ToString.Exclude
     @JoinColumn(name = "major_id")

@@ -1,9 +1,9 @@
 package com.example.yeoreumjava.major;
 
 import com.example.yeoreumjava.major.domain.Major;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.meeting.domain;
 
 import com.example.yeoreumjava.board.domain.Board;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,11 +26,13 @@ public class Meeting {
     private Board board;
 
     @OneToMany
+    @JsonIgnore
     @ToString.Exclude
     @JoinColumn(name = "meeting_id")
     private List<Host> hosts = new ArrayList<>();
 
     @OneToMany
+    @JsonIgnore
     @ToString.Exclude
     @JoinColumn(name = "meeting_id")
     private List<Guest> guests = new ArrayList<>();
