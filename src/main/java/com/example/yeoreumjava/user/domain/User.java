@@ -23,7 +23,7 @@ public class User {
     private String nickname;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
     private Major major;
 
     @OneToMany

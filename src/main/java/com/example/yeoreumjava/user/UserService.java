@@ -22,6 +22,7 @@ public class UserService {
     }
 
     public void createUser(User user) {
+        System.out.println(user.getMajor());
         userRepository.save(user);
     }
 
