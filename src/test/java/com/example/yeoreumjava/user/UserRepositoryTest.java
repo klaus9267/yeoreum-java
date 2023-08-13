@@ -2,11 +2,10 @@ package com.example.yeoreumjava.user;
 
 import com.example.yeoreumjava.major.MajorRepository;
 import com.example.yeoreumjava.user.domain.User;
+import com.example.yeoreumjava.user.domain.UserDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserRepositoryTest {
@@ -17,13 +16,19 @@ class UserRepositoryTest {
     private MajorRepository majorRepository;
 
     @Test
-    void createUser(){
-        User user = new User();
+    void createUser() {
+        UserDTO userDTO = UserDTO.builder()
+                                 .name("test")
+                                 .major(majorRepository.findMajorById(1L))
+                                 .build();
+//        System.out.println(">>> : " + userDTO);
 
-        user.setNickname("test");
-        user.setMajor(majorRepository.findMajorById(1L));
-        System.out.println(majorRepository.findMajorById(1L));
-
+        User user = userDTO.toEntity();
         userRepository.save(user);
+        userRepository.findAll().forEach(System.out::println);
+//        User user = User.builder()
+
+//        System.out.println(">>> : " + user.toString());
+
     }
 }

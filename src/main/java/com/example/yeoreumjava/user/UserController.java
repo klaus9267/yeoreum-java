@@ -1,6 +1,8 @@
 package com.example.yeoreumjava.user;
 
 import com.example.yeoreumjava.user.domain.User;
+import com.example.yeoreumjava.user.domain.UserDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,17 +31,17 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        userService.createUser(user);
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
+        userService.createUser(userDTO);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userDTO);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
-        userService.updateUser(id, user);
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long id, @RequestBody UserDTO userDTO) {
+        userService.updateUser(id, userDTO);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userDTO);
     }
 
     @DeleteMapping("/{id}")

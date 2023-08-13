@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Data
+@NamedEntityGraph(name = "BoardWithMeetong",attributeNodes = @NamedAttributeNode(("meeting")))
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
