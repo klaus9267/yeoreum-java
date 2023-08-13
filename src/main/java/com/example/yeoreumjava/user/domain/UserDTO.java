@@ -17,11 +17,4 @@ public class UserDTO {
     private String name;
     @NotBlank(message = "학과를 선택해 주세요")
     private Major major;
-
-    public User toEntity() {
-        return User.builder()
-                   .name(name)
-                   .major(major)
-                   .build();
-    }
 }
