@@ -4,11 +4,13 @@ import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.UserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper{
-    UserMapper MAPPER = Mappers.getMapper( UserMapper.class );
+    UserMapper INSTANCE = Mappers.getMapper( UserMapper.class );
+    @Mapping(target = "id",source = "id")
     @Mapping(target = "name",source = "name")
     @Mapping(target = "major",source = "major")
     public UserDTO toDTO(User user);

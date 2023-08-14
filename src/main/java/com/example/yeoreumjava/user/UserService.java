@@ -3,6 +3,7 @@ package com.example.yeoreumjava.user;
 import com.example.yeoreumjava.major.MajorRepository;
 import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.UserDTO;
+import com.example.yeoreumjava.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,14 +21,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findUserById(Long id) {
-        return userRepository.findUserById(id);
+    public UserDTO findUserById(Long id) {
+        User user = userRepository.findUserById(id);
+
+        return UserMapper.INSTANCE.toDTO(user);
     }
 
     public void createUser(UserDTO userDTO) {
-//        User user = userDTO.toEntity();
+        User user = UserMapper.INSTANCE.toEntity(userDTO);
 
-//        userRepository.save(user);
+        userRepository.save(user);
     }
 
     public void updateUser(Long id, UserDTO userDTO) {

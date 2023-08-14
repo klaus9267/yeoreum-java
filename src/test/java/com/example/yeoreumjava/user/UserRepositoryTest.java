@@ -28,7 +28,7 @@ class UserRepositoryTest {
                                  .major(major)
                                  .build();
 
-        User user = UserMapper.MAPPER.toEntity(userDTO);
+        User user = UserMapper.INSTANCE.toEntity(userDTO);
 
         userRepository.save(user);
         userRepository.findAll().forEach(System.out::println);
