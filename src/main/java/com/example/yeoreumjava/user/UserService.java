@@ -32,12 +32,11 @@ public class UserService {
 
     public void updateUser(Long id, UserDTO userDTO) {
         User user = userRepository.findUserById(id);
-//        System.out.println(userDTO.getMajorId());
 
-        //        user.setNickname(input.getNickname());
-        //        user.setMajor(input.getMajor());
+        user.setName(userDTO.getName());
+        user.setMajor(userDTO.getMajor());
 
-        //        userRepository.save(user);
+        userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
