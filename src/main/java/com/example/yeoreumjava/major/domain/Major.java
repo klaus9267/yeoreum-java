@@ -3,16 +3,16 @@ package com.example.yeoreumjava.major.domain;
 import com.example.yeoreumjava.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Builder
 public class Major {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

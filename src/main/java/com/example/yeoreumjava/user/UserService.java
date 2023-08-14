@@ -15,7 +15,6 @@ import java.util.List;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
-    private final MajorRepository majorRepository;
 
     public List<User> findAll() {
         return userRepository.findAll();

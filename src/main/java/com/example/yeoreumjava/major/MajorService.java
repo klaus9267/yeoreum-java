@@ -1,6 +1,8 @@
 package com.example.yeoreumjava.major;
 
 import com.example.yeoreumjava.major.domain.Major;
+import com.example.yeoreumjava.major.domain.MajorDTO;
+import com.example.yeoreumjava.major.mapper.MajorMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,20 +14,21 @@ import java.util.List;
 @Transactional
 public class MajorService {
     private final MajorRepository majorRepository;
-    public List<Major> findAll() {
-        return majorRepository.findAll();
+    public List<MajorDTO> findAll() {
+        List<Major> majors = majorRepository.findAll();
+        return MajorMapper.INSTANCE.toDTO(majors);
     }
 
-    public Major findMajorById(Long id) {
+    public MajorDTO findMajorById(Long id) {
         return majorRepository.findMajorById(id);
     }
 
-    public void createMajor(Major major) {
-        majorRepository.save(major);
+    public void createMajor(MajorDTO majorDTO) {
+        majorRepository.save(majorDTO);
     }
 
     public void updateMajor(Long id, String name) {
-        Major major = majorRepository.findMajorById(id);
+        MajorDTO major = majorRepository.findMajorById(id);
         major.setName(name);
 
         majorRepository.save(major);
