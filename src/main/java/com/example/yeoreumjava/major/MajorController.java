@@ -1,6 +1,5 @@
 package com.example.yeoreumjava.major;
 
-import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.major.domain.MajorDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ public class MajorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MajorDTO> findMajorById(@PathVariable("id") Long id) {
-        Major major = majorService.findMajorById(id);
+        MajorDTO major = majorService.findMajorById(id);
 
         return ResponseEntity.ok(major);
     }

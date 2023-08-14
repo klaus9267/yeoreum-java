@@ -16,19 +16,24 @@ public class MajorService {
     private final MajorRepository majorRepository;
     public List<MajorDTO> findAll() {
         List<Major> majors = majorRepository.findAll();
-        return MajorMapper.INSTANCE.toDTO(majors);
+
+        return MajorMapper.INSTANCE.toDTOs(majors);
     }
 
     public MajorDTO findMajorById(Long id) {
-        return majorRepository.findMajorById(id);
+        Major major = majorRepository.findMajorById(id);
+
+        return MajorMapper.INSTANCE.toDTO(major);
     }
 
     public void createMajor(MajorDTO majorDTO) {
-        majorRepository.save(majorDTO);
+        Major major = MajorMapper.INSTANCE.toEntity(majorDTO);
+
+        majorRepository.save(major);
     }
 
     public void updateMajor(Long id, String name) {
-        MajorDTO major = majorRepository.findMajorById(id);
+        Major major = majorRepository.findMajorById(id);
         major.setName(name);
 
         majorRepository.save(major);
