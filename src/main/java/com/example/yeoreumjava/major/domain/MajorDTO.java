@@ -11,6 +11,6 @@ import lombok.Data;
 public class MajorDTO {
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "학과를 입력해 주세요.")
     private String name;
 }

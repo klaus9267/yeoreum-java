@@ -3,6 +3,8 @@ package com.example.yeoreumjava.board.domain;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.user.domain.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,7 +14,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Builder
 @NamedEntityGraph(name = "BoardWithMeetong",attributeNodes = @NamedAttributeNode(("meeting")))
 public class Board {
     @Id
@@ -35,3 +39,5 @@ public class Board {
     @LastModifiedDate
     private LocalDateTime updateAt;
 }
+
+

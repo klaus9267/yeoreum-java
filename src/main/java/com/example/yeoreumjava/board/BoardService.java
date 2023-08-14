@@ -3,6 +3,7 @@ package com.example.yeoreumjava.board;
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.meeting.MeetingRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
