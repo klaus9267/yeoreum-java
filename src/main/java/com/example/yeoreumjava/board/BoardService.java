@@ -1,6 +1,8 @@
 package com.example.yeoreumjava.board;
 
 import com.example.yeoreumjava.board.domain.Board;
+import com.example.yeoreumjava.board.domain.BoardDTO;
+import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.meeting.MeetingRepository;
 import lombok.Builder;
@@ -15,23 +17,29 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MeetingRepository meetingRepository;
 
-    public List<Board> findAll() {
-        return boardRepository.findAll();
+    public List<BoardDTO> findAll() {
+        List<Board> boards = boardRepository.findAll();
+
+        return BoardMapper.INSTANCE.toDTOs(boards);
     }
 
-    public Board findBoardById(Long id) {
-        return boardRepository.findBoardById(id);
+    public BoardDTO findBoardById(Long id) {
+        Board board = boardRepository.findBoardById(id);
+
+        return BoardMapper.INSTANCE.toDTO(board);
     }
 
-    public void createBoard(Board board) {
+    public void createBoard(BoardDTO dto) {
+        Board board = BoardMapper.INSTANCE.toEntity(dto);
+
         boardRepository.save(board);
     }
 
-    public void updateBoard(Long id, Board newBoard) {
-        Board preBoard = boardRepository.findBoardById(id);
-        newBoard.setId(preBoard.getId());
+    public void updateBoard(Long id, BoardDTO boardDTO) {
+        Board board = BoardMapper.INSTANCE.toEntity(boardDTO);
+        board.setId(id);
 
-        boardRepository.save(newBoard);
+        boardRepository.save(board);
     }
 
     public void deleteBoard(Long id) {
