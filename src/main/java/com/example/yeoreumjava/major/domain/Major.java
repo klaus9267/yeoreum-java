@@ -1,12 +1,10 @@
 package com.example.yeoreumjava.major.domain;
 
-import com.example.yeoreumjava.user.domain.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
@@ -20,11 +18,5 @@ public class Major {
 
     @Column(nullable = false)
     private String name;
-
-    @JsonIgnore
-    @OneToMany
-    @ToString.Exclude
-    @JoinColumn(name = "major_id")
-    private List<User> users = new ArrayList<>();
 }
 

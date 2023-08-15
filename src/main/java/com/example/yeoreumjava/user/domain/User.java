@@ -1,13 +1,11 @@
 package com.example.yeoreumjava.user.domain;
 
-import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.major.domain.Major;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
@@ -24,10 +22,4 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Major major;
-
-    @OneToMany
-    @JsonIgnore
-    @ToString.Exclude
-    @JoinColumn(name = "writer_id")
-    private final List<Board> boards = new ArrayList<>();
 }
