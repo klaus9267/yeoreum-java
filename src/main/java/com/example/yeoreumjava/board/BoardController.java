@@ -17,9 +17,9 @@ public class BoardController {
 
     @GetMapping("")
     public ResponseEntity<List<BoardDTO>> findBoardById() {
-        List<BoardDTO> boards = boardService.findAll();
+        List<BoardDTO> boardDTOList = boardService.findAll();
 
-        return ResponseEntity.ok(boards);
+        return ResponseEntity.ok(boardDTOList);
     }
 
     @GetMapping("/{id}")

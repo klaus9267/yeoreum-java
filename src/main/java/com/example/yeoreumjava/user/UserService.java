@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
@@ -23,20 +23,18 @@ public class UserService {
     public UserDTO findUserById(Long id) {
         User user = userRepository.findUserById(id);
 
-        return UserMapper.INSTANCE.toDTO(user);
+        return UserMapper.instance.toDto(user);
     }
 
     public void createUser(UserDTO userDTO) {
-        User user = UserMapper.INSTANCE.toEntity(userDTO);
+        User user = UserMapper.instance.toEntity(userDTO);
 
         userRepository.save(user);
     }
 
     public void updateUser(Long id, UserDTO userDTO) {
-        User user = userRepository.findUserById(id);
-
-        user.setName(userDTO.getName());
-        user.setMajor(userDTO.getMajor());
+        User user = UserMapper.instance.toEntity(userDTO);
+        user.setId(id);
 
         userRepository.save(user);
     }

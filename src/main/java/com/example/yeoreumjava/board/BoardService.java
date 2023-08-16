@@ -18,15 +18,15 @@ public class BoardService {
     private final MeetingRepository meetingRepository;
 
     public List<BoardDTO> findAll() {
-        List<Board> boards = boardRepository.findAll();
+        List<Board> boardList = boardRepository.findAll();
 
-        return BoardMapper.INSTANCE.toDTOs(boards);
+        return BoardMapper.INSTANCE.toDtoList(boardList);
     }
 
     public BoardDTO findBoardById(Long id) {
         Board board = boardRepository.findBoardById(id);
 
-        return BoardMapper.INSTANCE.toDTO(board);
+        return BoardMapper.INSTANCE.toDto(board);
     }
 
     public void createBoard(BoardDTO dto) {

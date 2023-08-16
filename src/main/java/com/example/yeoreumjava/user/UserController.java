@@ -2,6 +2,7 @@ package com.example.yeoreumjava.user;
 
 import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.UserDTO;
+import com.example.yeoreumjava.user.mapper.UserMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

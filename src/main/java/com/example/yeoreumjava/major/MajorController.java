@@ -15,16 +15,16 @@ public class MajorController {
     private final MajorService majorService;
     @GetMapping("")
     public ResponseEntity<List<MajorDTO>> findAll() {
-        List<MajorDTO> majors = majorService.findAll();
+        List<MajorDTO> majorDTOList = majorService.findAll();
 
-        return ResponseEntity.ok(majors);
+        return ResponseEntity.ok(majorDTOList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MajorDTO> findMajorById(@PathVariable("id") Long id) {
-        MajorDTO major = majorService.findMajorById(id);
+        MajorDTO majorDTO = majorService.findMajorById(id);
 
-        return ResponseEntity.ok(major);
+        return ResponseEntity.ok(majorDTO);
     }
 
     @PostMapping("")

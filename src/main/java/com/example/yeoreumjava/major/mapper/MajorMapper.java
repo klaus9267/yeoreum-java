@@ -1,29 +1,22 @@
 package com.example.yeoreumjava.major.mapper;
 
+import com.example.yeoreumjava.common.mapper.BaseMapper;
 import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.major.domain.MajorDTO;
+import com.example.yeoreumjava.user.domain.UserDTO;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface MajorMapper {
+@Mapper(componentModel = "spring")
+public interface MajorMapper extends BaseMapper<MajorDTO,Major> {
     MajorMapper INSTANCE = Mappers.getMapper(MajorMapper.class);
 
-    @Named("E2D")
-    @Mapping(target = "id",source = "id")
-    @Mapping(target = "name",source = "name")
-    public MajorDTO toDTO(Major major);
-    @Named("D2E")
-
-    @Mapping(target = "id",source = "id")
-    @Mapping(target = "name",source = "name")
-    public Major toEntity(MajorDTO majorDTO);
-
-    @IterableMapping(qualifiedByName = "E2D")
-    public List<MajorDTO> toDTOs(List<Major> majors);
-
-    @IterableMapping(qualifiedByName = "D2E")
-    public List<Major> toEntitys(List<MajorDTO> majorDTOs);
+    @Named("major")
+    default Major entityFromId(Long id) {
+        return Major.builder()
+                    .id(id)
+                    .build();
+    }
 }

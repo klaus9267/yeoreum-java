@@ -21,17 +21,21 @@ class UserRepositoryTest {
 
     @Test
     void createUser() {
-        Major major = majorRepository.findMajorById(1L);
+        Major major = majorRepository.findMajorById(3L);
+        System.out.println(major.toString());
 
         UserDTO userDTO = UserDTO.builder()
                                  .name("맞나")
-                                 .major(major)
+                                 .majorId(3L)
                                  .build();
 
-        User user = UserMapper.INSTANCE.toEntity(userDTO);
+        User user = UserMapper.instance.toEntity(userDTO, majorRepository);
+
+
+        System.out.println(user.toString());
 
         userRepository.save(user);
-        userRepository.findAll().forEach(System.out::println);
-
+        userRepository.findAll()
+                      .forEach(System.out::println);
     }
 }

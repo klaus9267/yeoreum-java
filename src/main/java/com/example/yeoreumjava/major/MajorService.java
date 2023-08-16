@@ -14,16 +14,17 @@ import java.util.List;
 @Transactional
 public class MajorService {
     private final MajorRepository majorRepository;
-    public List<MajorDTO> findAll() {
-        List<Major> majors = majorRepository.findAll();
 
-        return MajorMapper.INSTANCE.toDTOs(majors);
+    public List<MajorDTO> findAll() {
+        List<Major> majorList = majorRepository.findAll();
+
+        return MajorMapper.INSTANCE.toDtoList(majorList);
     }
 
     public MajorDTO findMajorById(Long id) {
         Major major = majorRepository.findMajorById(id);
 
-        return MajorMapper.INSTANCE.toDTO(major);
+        return MajorMapper.INSTANCE.toDto(major);
     }
 
     public void createMajor(MajorDTO majorDTO) {
