@@ -15,9 +15,12 @@ import java.util.List;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
+    private final MajorRepository majorRepository;
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO> findAll() {
+        List<User> userList = userRepository.findAll();
+
+        return UserMapper.instance.toDtoList(userList);
     }
 
     public UserDTO findUserById(Long id) {
@@ -27,13 +30,13 @@ public class UserService {
     }
 
     public void createUser(UserDTO userDTO) {
-        User user = UserMapper.instance.toEntity(userDTO);
+        User user = UserMapper.instance.toEntity(userDTO, majorRepository);
 
         userRepository.save(user);
     }
 
     public void updateUser(Long id, UserDTO userDTO) {
-        User user = UserMapper.instance.toEntity(userDTO);
+        User user = UserMapper.instance.toEntity(userDTO, majorRepository);
         user.setId(id);
 
         userRepository.save(user);

@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 @Transactional
 class UserRepositoryTest {
@@ -24,10 +26,7 @@ class UserRepositoryTest {
         Major major = majorRepository.findMajorById(3L);
         System.out.println(major.toString());
 
-        UserDTO userDTO = UserDTO.builder()
-                                 .name("맞나")
-                                 .majorId(3L)
-                                 .build();
+        UserDTO userDTO = UserDTO.builder().name("맞나").majorId(3L).build();
 
         User user = UserMapper.instance.toEntity(userDTO, majorRepository);
 
@@ -35,7 +34,13 @@ class UserRepositoryTest {
         System.out.println(user.toString());
 
         userRepository.save(user);
-        userRepository.findAll()
-                      .forEach(System.out::println);
+        userRepository.findAll().forEach(System.out::println);
+    }
+
+    @Test
+    void findAll() {
+        List<User> userList = userRepository.findAll();
+
+        System.out.println(UserMapper.instance.toDtoList(userList));
     }
 }

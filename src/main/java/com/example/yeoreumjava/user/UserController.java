@@ -1,8 +1,6 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.UserDTO;
-import com.example.yeoreumjava.user.mapper.UserMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,24 +16,25 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<List<User>> findAll() {
-        List<User> users = userService.findAll();
+    public ResponseEntity<List<UserDTO>> findAll() {
+        List<UserDTO> userDTOList = userService.findAll();
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(userDTOList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findUserById(@PathVariable("id") Long id) {
-        UserDTO user = userService.findUserById(id);
+        UserDTO userDTO = userService.findUserById(id);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userDTO);
     }
 
     @PostMapping("")
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO userDTO) {
+        System.out.println("1111111");
         userService.createUser(userDTO);
 
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
     }
 
     @PatchMapping("/{id}")
