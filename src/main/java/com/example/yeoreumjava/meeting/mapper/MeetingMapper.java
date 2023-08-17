@@ -1,6 +1,5 @@
 package com.example.yeoreumjava.meeting.mapper;
 
-import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.common.mapper.BaseMapper;
 import com.example.yeoreumjava.meeting.domain.Meeting;
@@ -11,7 +10,8 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE)
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = BoardRepository.class)
 public interface MeetingMapper extends BaseMapper<MeetingDto, Meeting> {
     MeetingMapper instance = Mappers.getMapper(MeetingMapper.class);
 
@@ -36,9 +36,4 @@ public interface MeetingMapper extends BaseMapper<MeetingDto, Meeting> {
 
     @IterableMapping(qualifiedByName = "D2E")
     List<Meeting> toEntityList(List<MeetingDto> dtoList, @Context BoardRepository boardRepository);
-
-    @Named("findBoardById")
-    default Board findBoardById(Long id, @Context BoardRepository boardRepository) {
-        return boardRepository.findBoardById(id);
-    }
 }

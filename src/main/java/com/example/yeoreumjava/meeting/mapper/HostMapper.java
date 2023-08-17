@@ -13,7 +13,8 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE)
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {MeetingRepository.class, UserRepository.class})
 public interface HostMapper extends BaseMapper<HostDto, Host> {
     HostMapper instance = Mappers.getMapper(HostMapper.class);
 
@@ -40,14 +41,4 @@ public interface HostMapper extends BaseMapper<HostDto, Host> {
     List<Host> toEntityList(List<HostDto> dtoList,
                             @Context UserRepository userRepository,
                             @Context MeetingRepository meetingRepository);
-
-    @Named("findMeetingById")
-    default Meeting findMeetingById(Long id, @Context MeetingRepository meetingRepository) {
-        return meetingRepository.findMeetingById(id);
-    }
-
-    @Named("findUserById")
-    default User findUserById(Long id, @Context UserRepository userRepository) {
-        return userRepository.findUserById(id);
-    }
 }

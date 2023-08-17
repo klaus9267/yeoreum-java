@@ -1,7 +1,6 @@
 package com.example.yeoreumjava.user.mapper;
 
 import com.example.yeoreumjava.common.mapper.BaseMapper;
-import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.major.repository.MajorRepository;
 import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.UserDto;
@@ -12,8 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = MajorRepository.class
-)
+        uses = MajorRepository.class)
 public interface UserMapper extends BaseMapper<UserDto, User> {
     UserMapper instance = Mappers.getMapper(UserMapper.class);
 

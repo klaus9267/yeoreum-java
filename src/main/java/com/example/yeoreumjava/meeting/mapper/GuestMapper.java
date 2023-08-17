@@ -2,10 +2,8 @@ package com.example.yeoreumjava.meeting.mapper;
 
 import com.example.yeoreumjava.common.mapper.BaseMapper;
 import com.example.yeoreumjava.meeting.domain.Guest;
-import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.GuestDto;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
-import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -13,7 +11,8 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE)
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {MeetingRepository.class, UserRepository.class})
 public interface GuestMapper extends BaseMapper<GuestDto, Guest> {
 
     GuestMapper instance = Mappers.getMapper(GuestMapper.class);
@@ -41,14 +40,4 @@ public interface GuestMapper extends BaseMapper<GuestDto, Guest> {
     List<Guest> toEntityList(List<GuestDto> dtoList,
                              @Context UserRepository userRepository,
                              @Context MeetingRepository meetingRepository);
-
-    @Named("findMeetingById")
-    default Meeting findMeetingById(Long id, @Context MeetingRepository meetingRepository) {
-        return meetingRepository.findMeetingById(id);
-    }
-
-    @Named("findUserById")
-    default User findUserById(Long id, @Context UserRepository userRepository) {
-        return userRepository.findUserById(id);
-    }
 }
