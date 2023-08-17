@@ -1,4 +1,4 @@
-package com.example.yeoreumjava.board;
+package com.example.yeoreumjava.board.repository;
 
 import com.example.yeoreumjava.board.domain.Board;
 import org.springframework.data.jpa.repository.JpaRepository;

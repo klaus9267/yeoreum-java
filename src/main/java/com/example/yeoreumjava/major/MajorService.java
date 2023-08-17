@@ -1,7 +1,7 @@
 package com.example.yeoreumjava.major;
 
 import com.example.yeoreumjava.major.domain.Major;
-import com.example.yeoreumjava.major.domain.MajorDTO;
+import com.example.yeoreumjava.major.domain.dto.MajorDto;
 import com.example.yeoreumjava.major.mapper.MajorMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,19 +15,19 @@ import java.util.List;
 public class MajorService {
     private final MajorRepository majorRepository;
 
-    public List<MajorDTO> findAll() {
+    public List<MajorDto> findAll() {
         List<Major> majorList = majorRepository.findAll();
 
         return MajorMapper.INSTANCE.toDtoList(majorList);
     }
 
-    public MajorDTO findMajorById(Long id) {
+    public MajorDto findMajorById(Long id) {
         Major major = majorRepository.findMajorById(id);
 
         return MajorMapper.INSTANCE.toDto(major);
     }
 
-    public void createMajor(MajorDTO majorDTO) {
+    public void createMajor(MajorDto majorDTO) {
         Major major = MajorMapper.INSTANCE.toEntity(majorDTO);
 
         majorRepository.save(major);

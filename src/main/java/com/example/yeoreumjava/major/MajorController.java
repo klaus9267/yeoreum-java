@@ -1,6 +1,6 @@
 package com.example.yeoreumjava.major;
 
-import com.example.yeoreumjava.major.domain.MajorDTO;
+import com.example.yeoreumjava.major.domain.dto.MajorDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,28 +14,28 @@ import java.util.List;
 public class MajorController {
     private final MajorService majorService;
     @GetMapping("")
-    public ResponseEntity<List<MajorDTO>> findAll() {
-        List<MajorDTO> majorDTOList = majorService.findAll();
+    public ResponseEntity<List<MajorDto>> findAll() {
+        List<MajorDto> majorDtoList = majorService.findAll();
 
-        return ResponseEntity.ok(majorDTOList);
+        return ResponseEntity.ok(majorDtoList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MajorDTO> findMajorById(@PathVariable("id") Long id) {
-        MajorDTO majorDTO = majorService.findMajorById(id);
+    public ResponseEntity<MajorDto> findMajorById(@PathVariable("id") Long id) {
+        MajorDto majorDTO = majorService.findMajorById(id);
 
         return ResponseEntity.ok(majorDTO);
     }
 
     @PostMapping("")
-    public ResponseEntity<MajorDTO> createMajor(@RequestBody MajorDTO majorDTO) {
+    public ResponseEntity<MajorDto> createMajor(@RequestBody MajorDto majorDTO) {
         majorService.createMajor(majorDTO);
 
         return ResponseEntity.ok(majorDTO);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<MajorDTO> updateMajor(@PathVariable("id") Long id, @RequestBody MajorDTO majorDTO) {
+    public ResponseEntity<MajorDto> updateMajor(@PathVariable("id") Long id, @RequestBody MajorDto majorDTO) {
         majorService.updateMajor(id, majorDTO.getName());
 
         return ResponseEntity.ok(majorDTO);

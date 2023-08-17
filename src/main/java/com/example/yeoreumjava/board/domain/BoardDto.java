@@ -10,7 +10,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 @Builder
-public class BoardDTO {
+public class BoardDto {
     private long id;
 
     @NotBlank(message = "제목을 입력해 주세요.")

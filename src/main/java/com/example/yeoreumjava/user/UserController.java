@@ -1,6 +1,6 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.user.domain.UserDTO;
+import com.example.yeoreumjava.user.domain.dto.UserDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,21 +16,21 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<List<UserDTO>> findAll() {
-        List<UserDTO> userDTOList = userService.findAll();
+    public ResponseEntity<List<UserDto>> findAll() {
+        List<UserDto> userDtoList = userService.findAll();
 
-        return ResponseEntity.ok(userDTOList);
+        return ResponseEntity.ok(userDtoList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> findUserById(@PathVariable("id") Long id) {
-        UserDTO userDTO = userService.findUserById(id);
+    public ResponseEntity<UserDto> findUserById(@PathVariable("id") Long id) {
+        UserDto userDTO = userService.findUserById(id);
 
         return ResponseEntity.ok(userDTO);
     }
 
     @PostMapping("")
-    public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserDto userDTO) {
         System.out.println("1111111");
         userService.createUser(userDTO);
 
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UserDto userDTO) {
         userService.updateUser(id, userDTO);
 
         return ResponseEntity.ok(userDTO);
