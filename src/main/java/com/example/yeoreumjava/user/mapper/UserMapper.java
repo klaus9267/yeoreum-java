@@ -11,7 +11,9 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE)
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = MajorRepository.class
+)
 public interface UserMapper extends BaseMapper<UserDto, User> {
     UserMapper instance = Mappers.getMapper(UserMapper.class);
 
@@ -34,9 +36,4 @@ public interface UserMapper extends BaseMapper<UserDto, User> {
 
     @IterableMapping(qualifiedByName = "D2E")
     List<User> toEntityList(List<UserDto> dtoList, @Context MajorRepository majorRepository);
-
-    @Named("findMajorById")
-    default Major findMajorById(Long id, @Context MajorRepository majorRepository) {
-        return majorRepository.findMajorById(id);
-    }
 }

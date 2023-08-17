@@ -29,12 +29,12 @@ class UserRepositoryTest {
 
         UserDto userDTO = UserDto.builder().name("맞나").majorId(3L).build();
 
-        User user = UserMapper.instance.toEntity(userDTO, majorRepository);
+//        User user = UserMapper.instance.toEntity(userDTO, majorRepository);
 
 
-        System.out.println(user.toString());
-
-        userRepository.save(user);
+//        System.out.println(user.toString());
+//
+//        userRepository.save(user);
         userRepository.findAll().forEach(System.out::println);
     }
 
@@ -43,5 +43,13 @@ class UserRepositoryTest {
         List<User> userList = userRepository.findAll();
 
         System.out.println(UserMapper.instance.toDtoList(userList));
+    }
+
+    @Test
+    void mapstructTest() {
+        UserDto userDto = UserDto.builder().name("이거되냐").majorId(1L).build();
+        System.out.println("dto : "+userDto.toString());
+
+        System.out.println("entity : " + UserMapper.instance.toEntity(userDto));
     }
 }
