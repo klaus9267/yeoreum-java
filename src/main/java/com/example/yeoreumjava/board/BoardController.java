@@ -23,16 +23,16 @@ public class BoardController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BoardDto> findBoardById(@PathVariable("id") Long id) {
-        BoardDto boardDTO = boardService.findBoardById(id);
+        BoardDto board = boardService.findBoardById(id);
 
-        return ResponseEntity.ok(boardDTO);
+        return ResponseEntity.ok(board);
     }
 
     @PostMapping("")
-    public ResponseEntity<String> createBoard(@RequestBody BoardDto boardDTO) {
+    public ResponseEntity<BoardDto> createBoard(@RequestBody BoardDto boardDTO) {
         boardService.createBoard(boardDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("게시글 생성 성공");
+        return ResponseEntity.ok(boardDTO);
     }
 
     @PatchMapping("/{id}")

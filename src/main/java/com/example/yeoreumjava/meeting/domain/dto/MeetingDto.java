@@ -5,18 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
 @AllArgsConstructor
+@Data
 @Builder
 public class MeetingDto {
-    private Long id;
+    private long id;
 
-    @NotNull(message = "예상 만남 장소를 입력해 주세요.")
+    @NotNull(message = "만남장소를 입력해 주세요.")
     private String place;
 
-    @NotNull(message = "예상 만남 시간을 입력해 주세요.")
+    @NotNull(message = "이름을 입력해 주세요.")
     private String time;
 
-    @NotNull(message = "게시글 id를 입력해 주세요.")
+    @NotNull(message = "boardId를 입력해 주세요.")
     private Long boardId;
 }

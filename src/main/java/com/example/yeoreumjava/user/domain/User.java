@@ -2,10 +2,7 @@ package com.example.yeoreumjava.user.domain;
 
 import com.example.yeoreumjava.major.domain.Major;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor

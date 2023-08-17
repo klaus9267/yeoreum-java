@@ -15,8 +15,8 @@ public class Guest {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Meeting meeting;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Meeting meeting;
+    private User user;
 }

@@ -1,22 +1,58 @@
 package com.example.yeoreumjava.board.mapper;
 
 
-import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.domain.BoardDto;
 import com.example.yeoreumjava.common.mapper.BaseMapper;
+import com.example.yeoreumjava.meeting.domain.Meeting;
+import com.example.yeoreumjava.meeting.repository.MeetingRepository;
+import com.example.yeoreumjava.user.domain.User;
+import com.example.yeoreumjava.user.repository.UserRepository;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        uses = BoardMapper.class)
+import java.util.List;
+
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BoardMapper extends BaseMapper<BoardDto, Board> {
     BoardMapper INSTANCE = Mappers.getMapper(BoardMapper.class);
 
-    @Named("findBoardById")
-    default Board findBoardById(Long id, @Context BoardRepository boardRepository) {
-        return boardRepository.findBoardById(id);
+    @Override
+    @Named("E2D")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "title", source = "title")
+    @Mapping(target = "content", source = "content")
+    @Mapping(target = "writerId", expression = "java(entity.getWriter().getId())")
+    @Mapping(target = "meetingId", expression = "java(entity.getMeeting().getId())")
+    BoardDto toDto(Board entity);
+
+    @Named("D2E")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "title", source = "title")
+    @Mapping(target = "content", source = "content")
+    @Mapping(target = "writer", source = "writerId", qualifiedByName = "findUserById")
+    @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "findMeetingById")
+    Board toEntity(BoardDto dto,
+                   @Context UserRepository userRepository,
+                   @Context MeetingRepository meetingRepository);
+
+    @Override
+    @IterableMapping(qualifiedByName = "E2D")
+    List<BoardDto> toDtoList(List<Board> entityList);
+
+    @IterableMapping(qualifiedByName = "D2E")
+    List<Board> toEntityList(List<BoardDto> dtoList,
+                             @Context UserRepository userRepository,
+                             @Context MeetingRepository meetingRepository);
+
+    @Named("findUserById")
+    default User findUserById(Long id, @Context UserRepository userRepository) {
+        return userRepository.findUserById(id);
+    }
+
+    @Named("findMeetingById")
+    default Meeting findMeetingById(Long id, @Context MeetingRepository meetingRepository) {
+        return meetingRepository.findMeetingById(id);
     }
 }

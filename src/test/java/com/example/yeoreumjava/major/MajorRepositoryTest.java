@@ -1,8 +1,9 @@
 package com.example.yeoreumjava.major;
 
 import com.example.yeoreumjava.major.domain.Major;
-import com.example.yeoreumjava.major.domain.dto.MajorDto;
+import com.example.yeoreumjava.major.domain.MajorDto;
 import com.example.yeoreumjava.major.mapper.MajorMapper;
+import com.example.yeoreumjava.major.repository.MajorRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

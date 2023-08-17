@@ -1,6 +1,6 @@
 package com.example.yeoreumjava.major;
 
-import com.example.yeoreumjava.major.domain.dto.MajorDto;
+import com.example.yeoreumjava.major.domain.MajorDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

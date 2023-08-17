@@ -1,9 +1,8 @@
 package com.example.yeoreumjava.meeting.mapper;
 
+import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.repository.BoardRepository;
-import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.common.mapper.BaseMapper;
-import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingDto;
 import org.mapstruct.*;
@@ -11,10 +10,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        uses = BoardMapper.class)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MeetingMapper extends BaseMapper<MeetingDto, Meeting> {
     MeetingMapper instance = Mappers.getMapper(MeetingMapper.class);
 
@@ -26,7 +23,7 @@ public interface MeetingMapper extends BaseMapper<MeetingDto, Meeting> {
     @Mapping(target = "boardId", expression = "java(entity.getBoard().getId())")
     MeetingDto toDto(Meeting entity);
 
-    @Named("D2EWI")
+    @Named("D2E")
     @Mapping(target = "id", source = "id")
     @Mapping(target = "place", source = "place")
     @Mapping(target = "time", source = "time")
@@ -37,11 +34,11 @@ public interface MeetingMapper extends BaseMapper<MeetingDto, Meeting> {
     @IterableMapping(qualifiedByName = "E2D")
     List<MeetingDto> toDtoList(List<Meeting> entityList);
 
-    @IterableMapping(qualifiedByName = "D2EWI")
+    @IterableMapping(qualifiedByName = "D2E")
     List<Meeting> toEntityList(List<MeetingDto> dtoList, @Context BoardRepository boardRepository);
 
-    @Named("findMeetingById")
-    default Meeting findMeetingById(Long id, @Context MeetingRepository meetingRepository) {
-        return meetingRepository.findMeetingById(id);
+    @Named("findBoardById")
+    default Board findBoardById(Long id, @Context BoardRepository boardRepository) {
+        return boardRepository.findBoardById(id);
     }
 }

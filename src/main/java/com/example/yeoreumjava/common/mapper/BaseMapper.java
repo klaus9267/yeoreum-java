@@ -1,8 +1,5 @@
 package com.example.yeoreumjava.common.mapper;
 
-import com.example.yeoreumjava.major.MajorRepository;
-import org.mapstruct.Context;
-
 import java.util.List;
 
 public interface BaseMapper<D,E> {

@@ -1,8 +1,8 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.major.MajorRepository;
+import com.example.yeoreumjava.major.repository.MajorRepository;
 import com.example.yeoreumjava.user.domain.User;
-import com.example.yeoreumjava.user.domain.dto.UserDto;
+import com.example.yeoreumjava.user.domain.UserDto;
 import com.example.yeoreumjava.user.mapper.UserMapper;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
