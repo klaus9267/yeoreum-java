@@ -1,47 +1,50 @@
 package com.example.yeoreumjava.meeting.mapper;
 
-import com.example.yeoreumjava.board.repository.BoardRepository;
-import com.example.yeoreumjava.board.domain.Board;
-import com.example.yeoreumjava.board.domain.BoardDto;
-import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.common.mapper.BaseMapper;
 import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.dto.HostDto;
-import org.mapstruct.Context;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import com.example.yeoreumjava.meeting.repository.HostRepository;
+import com.example.yeoreumjava.meeting.repository.MeetingRepository;
+import com.example.yeoreumjava.user.mapper.UserMapper;
+import com.example.yeoreumjava.user.repository.UserRepository;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = {UserMapper.class, MeetingMapper.class})
 public interface HostMapper extends BaseMapper<HostDto, Host> {
-    BoardMapper instance = Mappers.getMapper(BoardMapper.class);
+    HostMapper instance = Mappers.getMapper(HostMapper.class);
 
     @Override
     @Named("E2D")
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "place", source = "place")
-    @Mapping(target = "time", source = "time")
-    @Mapping(target = "boardId", expression = "java(entity.getBoard().getId())")
+    @Mapping(target = "userId", expression = "java(entity.getUser().getId())")
+    @Mapping(target = "meetingId", expression = "java(entity.getMeeting().getId())")
     HostDto toDto(Host entity);
 
     @Named("D2EWI")
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "place", source = "place")
-    @Mapping(target = "time", source = "time")
-    @Mapping(target = "board", source = "boardId", qualifiedByName = "findBoardById")
-    Host toEntity(HostDto dto, @Context BoardRepository boardRepository);
+    @Mapping(target = "user", source = "userId", qualifiedByName = "findUserById")
+    @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "findMeetingById")
+    Host toEntity(HostDto dto,
+                  @Context UserRepository userRepository,
+                  @Context MeetingRepository meetingRepository);
 
     @Override
     @IterableMapping(qualifiedByName = "E2D")
     List<HostDto> toDtoList(List<Host> entityList);
 
     @IterableMapping(qualifiedByName = "D2EWI")
-    List<Board> toEntityList(List<BoardDto> dtoList, @Context BoardRepository boardRepository);
+    List<Host> toEntityList(List<HostDto> dtoList,
+                            @Context UserRepository userRepository,
+                            @Context MeetingRepository meetingRepository);
 
     @Named("findHostById")
-    default Board findHostById(Long id, @Context BoardRepository boardRepository) {
-        return boardRepository.findBoardById(id);
+    default Host findHostById(Long id, @Context HostRepository hostRepository) {
+        return hostRepository.findHostById(id);
     }
 }
