@@ -2,10 +2,8 @@ package com.example.yeoreumjava.meeting.mapper;
 
 import com.example.yeoreumjava.common.mapper.BaseMapper;
 import com.example.yeoreumjava.meeting.domain.Host;
-import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.HostDto;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
-import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
