@@ -1,7 +1,8 @@
 package com.example.yeoreumjava.major;
 
 import com.example.yeoreumjava.major.domain.Major;
-import com.example.yeoreumjava.major.domain.MajorDto;
+import com.example.yeoreumjava.major.domain.dto.MajorRequest;
+import com.example.yeoreumjava.major.domain.dto.MajorResponse;
 import com.example.yeoreumjava.major.mapper.MajorMapper;
 import com.example.yeoreumjava.major.repository.MajorRepository;
 import org.junit.jupiter.api.Test;
@@ -17,14 +18,30 @@ class MajorRepositoryTest {
 
     @Test
     void findMajorById() {
-        MajorDto majorDTO = MajorDto.builder()
-                                    .name("aaaaa")
-                                    .build();
+        MajorRequest majorRequest = MajorRequest.builder()
+                                                .name("aaaaa")
+                                                .build();
 
-        Major major = MajorMapper.INSTANCE.toEntity(majorDTO);
+        Major major = MajorMapper.instance.toEntity(majorRequest);
 
         majorRepository.save(major);
         majorRepository.findAll()
                        .forEach(System.out::println);
+    }
+
+    @Test
+    void createMajor() {
+        MajorRequest majorRequest = MajorRequest.builder().name("컴퓨타타타타").build();
+        System.out.println("req : " + majorRequest);
+
+        Major major = MajorMapper.instance.toEntity(majorRequest);
+        System.out.println("entity : " + major);
+
+        MajorResponse majorResponse = MajorMapper.instance.toDto(major);
+
+//        majorRepository.save(major);
+//        majorRepository.findAll().forEach(System.out::println);
+
+//        System.out.println("entity : " + MajorMapper.instance.toEntity(majorRequest));
     }
 }

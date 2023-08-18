@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.major;
 
-import com.example.yeoreumjava.major.domain.MajorDto;
+import com.example.yeoreumjava.major.domain.dto.MajorRequest;
+import com.example.yeoreumjava.major.domain.dto.MajorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,31 +15,32 @@ import java.util.List;
 public class MajorController {
     private final MajorService majorService;
     @GetMapping("")
-    public ResponseEntity<List<MajorDto>> findAll() {
-        List<MajorDto> majorDtoList = majorService.findAll();
+    public ResponseEntity<List<MajorResponse>> findAll() {
+        List<MajorResponse> majorRequestList = majorService.findAll();
 
-        return ResponseEntity.ok(majorDtoList);
+        return ResponseEntity.ok(majorRequestList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MajorDto> findMajorById(@PathVariable("id") Long id) {
-        MajorDto majorDTO = majorService.findMajorById(id);
+    public ResponseEntity<MajorResponse> findMajorById(@PathVariable("id") Long id) {
+        MajorResponse majorRequest = majorService.findMajorById(id);
 
-        return ResponseEntity.ok(majorDTO);
+        return ResponseEntity.ok(majorRequest);
     }
 
     @PostMapping("")
-    public ResponseEntity<MajorDto> createMajor(@RequestBody MajorDto majorDTO) {
-        majorService.createMajor(majorDTO);
+    public ResponseEntity<String> createMajor(@RequestBody MajorRequest majorRequest) {
+        majorService.createMajor(majorRequest);
 
-        return ResponseEntity.ok(majorDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("생성 완료");
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<MajorDto> updateMajor(@PathVariable("id") Long id, @RequestBody MajorDto majorDTO) {
-        majorService.updateMajor(id, majorDTO.getName());
+    public ResponseEntity<MajorRequest> updateMajor(@PathVariable("id") Long id, @RequestBody
+    MajorRequest majorRequest) {
+        majorService.updateMajor(id, majorRequest.getName());
 
-        return ResponseEntity.ok(majorDTO);
+        return ResponseEntity.ok(majorRequest);
     }
 
     @DeleteMapping("/{id}")

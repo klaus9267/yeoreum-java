@@ -1,4 +1,4 @@
-package com.example.yeoreumjava.major.domain;
+package com.example.yeoreumjava.major.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MajorDto {
-    private Long id;
-
+public class MajorRequest {
     @NotBlank(message = "학과를 입력해 주세요.")
     private String name;
 }

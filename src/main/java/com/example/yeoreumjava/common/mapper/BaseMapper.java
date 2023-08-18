@@ -2,10 +2,12 @@ package com.example.yeoreumjava.common.mapper;
 
 import java.util.List;
 
-public interface BaseMapper<D,E> {
-    D toDto(E entity);
-    E toEntity(D dto);
+public interface BaseMapper<REQ, RES, E> {
+    RES toDto(E entity);
 
-    List<D> toDtoList(List<E> entityList);
-    List<E> toEntityList(List<D> dtoList);
+    E toEntity(REQ dto);
+
+    List<RES> toDtoList(List<E> entityList);
+
+    List<E> toEntityList(List<REQ> dtoList);
 }

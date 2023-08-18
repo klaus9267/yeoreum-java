@@ -1,4 +1,4 @@
-package com.example.yeoreumjava.board.domain;
+package com.example.yeoreumjava.board.domain.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 @Builder
-public class BoardDto {
+public class BoardResponse {
     private long id;
 
     @NotNull(message = "제목을 입력해 주세요.")

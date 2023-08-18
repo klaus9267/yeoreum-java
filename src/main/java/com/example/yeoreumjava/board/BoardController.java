@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.board;
 
-import com.example.yeoreumjava.board.domain.BoardDto;
+import com.example.yeoreumjava.board.domain.dto.BoardRequest;
+import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,37 +16,38 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("")
-    public ResponseEntity<List<BoardDto>> findBoardById() {
-        List<BoardDto> boardDtoList = boardService.findAll();
+    public ResponseEntity<List<BoardResponse>> findBoardById() {
+        List<BoardResponse> boardResponseList = boardService.findAll();
 
-        return ResponseEntity.ok(boardDtoList);
+        return ResponseEntity.ok(boardResponseList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BoardDto> findBoardById(@PathVariable("id") Long id) {
-        BoardDto board = boardService.findBoardById(id);
+    public ResponseEntity<BoardResponse> findBoardById(@PathVariable("id") Long id) {
+        BoardResponse board = boardService.findBoardById(id);
 
         return ResponseEntity.ok(board);
     }
 
     @PostMapping("")
-    public ResponseEntity<BoardDto> createBoard(@RequestBody BoardDto boardDTO) {
-        boardService.createBoard(boardDTO);
+    public ResponseEntity<String> createBoard(@RequestBody BoardRequest boardRequest) {
+        boardService.createBoard(boardRequest);
 
-        return ResponseEntity.ok(boardDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("작성 완료");
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<BoardDto> updateBoard(@PathVariable("id") Long id, @RequestBody BoardDto boardDTO) {
-        boardService.updateBoard(id,boardDTO);
+    public ResponseEntity<String> updateBoard(@PathVariable("id") Long id, @RequestBody
+    BoardRequest boardRequest) {
+        boardService.updateBoard(id, boardRequest);
 
-        return ResponseEntity.ok(boardDTO);
+        return ResponseEntity.ok("수정 완료");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMajor(@PathVariable("id") Long id) {
         boardService.deleteBoard(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body("삭제 성공");
+        return ResponseEntity.ok("삭제 성공");
     }
 }

@@ -1,4 +1,4 @@
-package com.example.yeoreumjava.user.domain;
+package com.example.yeoreumjava.user.domain.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
+public class UserResponse {
     private Long id;
 
     @NotNull(message = "이름을 입력해 주세요.")

@@ -2,7 +2,8 @@ package com.example.yeoreumjava.meeting.mapper;
 
 import com.example.yeoreumjava.common.mapper.BaseMapper;
 import com.example.yeoreumjava.meeting.domain.Host;
-import com.example.yeoreumjava.meeting.domain.dto.HostDto;
+import com.example.yeoreumjava.meeting.domain.dto.HostRequest;
+import com.example.yeoreumjava.meeting.domain.dto.HostResponse;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import org.mapstruct.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         uses = {MeetingRepository.class, UserRepository.class})
-public interface HostMapper extends BaseMapper<HostDto, Host> {
+public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> {
     HostMapper instance = Mappers.getMapper(HostMapper.class);
 
     @Override
@@ -21,22 +22,21 @@ public interface HostMapper extends BaseMapper<HostDto, Host> {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "meetingId", expression = "java(entity.getMeeting().getId())")
     @Mapping(target = "userId", expression = "java(entity.getUser().getId())")
-    HostDto toDto(Host entity);
+    HostResponse toDto(Host entity);
 
     @Named("D2E")
-    @Mapping(target = "id", source = "id")
     @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "findMeetingById")
     @Mapping(target = "user", source = "userId", qualifiedByName = "findUserById")
-    Host toEntity(HostDto dto,
+    Host toEntity(HostRequest dto,
                   @Context UserRepository userRepository,
                   @Context MeetingRepository meetingRepository);
 
     @Override
     @IterableMapping(qualifiedByName = "E2D")
-    List<HostDto> toDtoList(List<Host> entityList);
+    List<HostResponse> toDtoList(List<Host> entityList);
 
     @IterableMapping(qualifiedByName = "D2E")
-    List<Host> toEntityList(List<HostDto> dtoList,
+    List<Host> toEntityList(List<HostRequest> dtoList,
                             @Context UserRepository userRepository,
                             @Context MeetingRepository meetingRepository);
 }

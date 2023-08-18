@@ -2,12 +2,16 @@ package com.example.yeoreumjava.meeting.domain;
 
 import com.example.yeoreumjava.board.domain.Board;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Builder
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +20,6 @@ public class Meeting {
     private String place;
     private String time;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "board_id")
+    @OneToOne(mappedBy = "meeting")
     private Board board;
 }

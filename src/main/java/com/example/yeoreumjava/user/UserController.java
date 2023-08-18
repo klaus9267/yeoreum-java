@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.user.domain.UserDto;
+import com.example.yeoreumjava.user.domain.dto.UserRequest;
+import com.example.yeoreumjava.user.domain.dto.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,32 +17,32 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<List<UserDto>> findAll() {
-        List<UserDto> userDtoList = userService.findAll();
+    public ResponseEntity<List<UserResponse>> findAll() {
+        List<UserResponse> userResponseList = userService.findAll();
 
-        return ResponseEntity.ok(userDtoList);
+        return ResponseEntity.ok(userResponseList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> findUserById(@PathVariable("id") Long id) {
-        UserDto userDTO = userService.findUserById(id);
+    public ResponseEntity<UserResponse> findUserById(@PathVariable("id") Long id) {
+        UserResponse userResponse = userService.findUserById(id);
 
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.ok(userResponse);
     }
 
     @PostMapping("")
-    public ResponseEntity<String> createUser(@Valid @RequestBody UserDto userDTO) {
-        System.out.println("1111111");
-        userService.createUser(userDTO);
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
+        userService.createUser(userRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UserDto userDTO) {
-        userService.updateUser(id, userDTO);
+    public ResponseEntity<String> updateUser(@PathVariable("id") Long id, @RequestBody
+    UserRequest userRequest) {
+        userService.updateUser(id, userRequest);
 
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.ok("수정 완료");
     }
 
     @DeleteMapping("/{id}")

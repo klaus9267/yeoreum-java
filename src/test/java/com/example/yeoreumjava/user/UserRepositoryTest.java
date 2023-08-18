@@ -3,7 +3,7 @@ package com.example.yeoreumjava.user;
 import com.example.yeoreumjava.major.repository.MajorRepository;
 import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.user.domain.User;
-import com.example.yeoreumjava.user.domain.UserDto;
+import com.example.yeoreumjava.user.domain.dto.UserResponse;
 import com.example.yeoreumjava.user.mapper.UserMapper;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -27,9 +27,9 @@ class UserRepositoryTest {
         Major major = majorRepository.findMajorById(3L);
         System.out.println(major.toString());
 
-        UserDto userDTO = UserDto.builder().name("맞나").majorId(3L).build();
+        UserResponse userResponse = UserResponse.builder().name("맞나").majorId(3L).build();
 
-//        User user = UserMapper.instance.toEntity(userDTO, majorRepository);
+//        User user = UserMapper.instance.toEntity(userResponse, majorRepository);
 
 
 //        System.out.println(user.toString());
@@ -47,9 +47,9 @@ class UserRepositoryTest {
 
     @Test
     void mapstructTest() {
-        UserDto userDto = UserDto.builder().name("이거되냐").majorId(1L).build();
-        System.out.println("dto : "+userDto.toString());
+        UserResponse userResponse = UserResponse.builder().name("이거되냐").majorId(1L).build();
+        System.out.println("dto : " + userResponse.toString());
 
-        System.out.println("entity : " + UserMapper.instance.toEntity(userDto));
+        System.out.println("entity : " + UserMapper.instance.toEntity(userResponse));
     }
 }

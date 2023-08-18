@@ -13,25 +13,27 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(AutoCloseable.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-@NamedEntityGraph(name = "BoardWithMeetong",attributeNodes = @NamedAttributeNode(("meeting")))
+@NamedEntityGraph(name = "BoardWithMeeting",attributeNodes = @NamedAttributeNode(("meeting")))
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User writer;
 
-    @OneToOne(mappedBy = "board")
-    @JoinColumn(name = "meeting_id")
+    @OneToOne(fetch = FetchType.LAZY)
     private Meeting meeting;
 
     @CreatedDate
