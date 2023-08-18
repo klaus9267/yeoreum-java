@@ -3,6 +3,7 @@ package com.example.yeoreumjava.user;
 import com.example.yeoreumjava.major.repository.MajorRepository;
 import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.user.domain.User;
+import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.domain.dto.UserResponse;
 import com.example.yeoreumjava.user.mapper.UserMapper;
 import com.example.yeoreumjava.user.repository.UserRepository;
@@ -47,9 +48,9 @@ class UserRepositoryTest {
 
     @Test
     void mapstructTest() {
-        UserResponse userResponse = UserResponse.builder().name("이거되냐").majorId(1L).build();
-        System.out.println("dto : " + userResponse.toString());
+        UserRequest userRequest = UserRequest.builder().name("이거되냐").majorId(1L).build();
+        System.out.println("dto : " + userRequest.toString());
 
-        System.out.println("entity : " + UserMapper.instance.toEntity(userResponse));
+        System.out.println("entity : " + UserMapper.instance.toEntity(userRequest));
     }
 }

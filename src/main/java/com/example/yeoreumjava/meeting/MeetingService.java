@@ -1,7 +1,6 @@
 package com.example.yeoreumjava.meeting;
 
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
-import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
@@ -10,10 +9,12 @@ import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MeetingService {
     private final BoardRepository boardRepository;
@@ -31,9 +32,9 @@ public class MeetingService {
         return MeetingMapper.instance.toDto(meeting);
     }
     public void createMeetingFromBoard(BoardRequest boardRequest) {
-//        Meeting meeting = MeetingMapper.instance.toEntity(meetingDto);
+        Meeting meeting = MeetingMapper.instance.extractMeeting(boardRequest);
 
-//        meetingRepository.save(meeting);
+        meetingRepository.save(meeting);
     }
 
     public void updateMeeting(Long id, MeetingRequest meetingRequest) {

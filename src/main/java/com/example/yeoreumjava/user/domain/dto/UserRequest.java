@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.user.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserRequest {
-    @NotBlank(message = "이름을 입력해 주세요.")
+    @NotBlank(message = "name을 입력해 주세요.")
     private String name;
 
-    @NotBlank(message = "majorId를 입력해 주세요.")
+    @NotNull(message = "majorId를 입력해 주세요.")
     private Long majorId;
 }

@@ -8,9 +8,10 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UserResponse {
+    @NotNull(message = "id를 입력해 주세요.")
     private Long id;
 
-    @NotNull(message = "이름을 입력해 주세요.")
+    @NotNull(message = "name을 입력해 주세요.")
     private String name;
 
     @NotNull(message = "majorId를 입력해 주세요.")

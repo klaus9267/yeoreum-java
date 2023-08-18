@@ -1,31 +1,38 @@
 package com.example.yeoreumjava.board.domain.dto;
 
+import com.example.yeoreumjava.meeting.domain.Host;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @Data
 @Builder
 public class BoardRequest {
     // board entity
-    @NotBlank(message = "제목을 입력해 주세요.")
+    @NotBlank(message = "title을 입력해 주세요.")
     private String title;
 
-    @NotBlank(message = "내용을 입력해 주세요.")
+    @NotBlank(message = "content을 입력해 주세요.")
     private String content;
 
-    @NotBlank(message = "writerId를 입력해 주세요.")
+    @NotNull(message = "writerId를 입력해 주세요.")
     private Long writerId;
 
-    @NotBlank(message = "meetingId를 입력해 주세요.")
-    private Long meetingId;
-
     // meeting entity
-    @NotBlank(message = "만남장소를 입력해 주세요.")
+    @NotBlank(message = "place를 입력해 주세요.")
     private String place;
 
-    @NotBlank(message = "만남시간을를 입력해 주세요.")
+    @NotBlank(message = "time를 입력해 주세요.")
     private String time;
+
+    // host entity
+    @NotBlank(message = "hostList을 입력해 주세요.")
+    List<Host> hostList = new ArrayList<>();
+
 }

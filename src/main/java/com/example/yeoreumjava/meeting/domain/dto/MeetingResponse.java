@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.meeting.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +10,12 @@ import lombok.Data;
 @Data
 @Builder
 public class MeetingResponse {
+    @NotNull(message = "id를 입력해 주세요.")
     private long id;
 
-    @NotBlank(message = "만남장소를 입력해 주세요.")
+    @NotBlank(message = "place를 입력해 주세요.")
     private String place;
 
-    @NotBlank(message = "이름을 입력해 주세요.")
+    @NotBlank(message = "time을 입력해 주세요.")
     private String time;
 }

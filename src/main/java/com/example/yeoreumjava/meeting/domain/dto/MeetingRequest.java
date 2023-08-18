@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 @Builder
 public class MeetingRequest {
-    @NotBlank(message = "만남장소를 입력해 주세요.")
+    @NotBlank(message = "place를 입력해 주세요.")
     private String place;
 
-    @NotBlank(message = "이름을 입력해 주세요.")
+    @NotBlank(message = "time을 입력해 주세요.")
     private String time;
 }
