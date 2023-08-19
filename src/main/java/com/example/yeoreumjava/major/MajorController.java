@@ -23,7 +23,7 @@ public class MajorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MajorResponse> findMajorById(@PathVariable("id") Long id) {
-        MajorResponse majorRequest = majorService.findMajorById(id);
+        MajorResponse majorRequest = majorService.findMajorResponseById(id);
 
         return ResponseEntity.ok(majorRequest);
     }

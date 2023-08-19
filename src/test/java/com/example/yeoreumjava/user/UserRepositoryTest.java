@@ -1,7 +1,7 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.major.repository.MajorRepository;
 import com.example.yeoreumjava.major.domain.Major;
+import com.example.yeoreumjava.major.repository.MajorRepository;
 import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.domain.dto.UserResponse;
@@ -11,32 +11,31 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.util.List;
 
 @SpringBootTest
 @Transactional
 class UserRepositoryTest {
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private UserRepository userRepository;
 
-    @Autowired
-    private MajorRepository majorRepository;
+    @Autowired private MajorRepository majorRepository;
 
     @Test
     void createUser() {
-        Major major = majorRepository.findMajorById(3L);
-        System.out.println(major.toString());
+//        Major major = majorRepository.findMajorById(3L);
+//        System.out.println(major.toString());
+        throw new RuntimeException("이거 맞나?");
+//        UserResponse userResponse = UserResponse.builder().name("맞나").majorId(3L).build();
 
-        UserResponse userResponse = UserResponse.builder().name("맞나").majorId(3L).build();
-
-//        User user = UserMapper.instance.toEntity(userResponse, majorRepository);
+        //        User user = UserMapper.instance.toEntity(userResponse, majorRepository);
 
 
-//        System.out.println(user.toString());
-//
-//        userRepository.save(user);
-        userRepository.findAll().forEach(System.out::println);
+        //        System.out.println(user.toString());
+        //
+        //        userRepository.save(user);
+//        userRepository.findAll().forEach(System.out::println);
     }
 
     @Test

@@ -23,10 +23,15 @@ public class MajorService {
         return MajorMapper.instance.toDtoList(majorList);
     }
 
-    public MajorResponse findMajorById(Long id) {
+    public MajorResponse findMajorResponseById(Long id) {
         Major major = majorRepository.findMajorById(id);
 
         return MajorMapper.instance.toDto(major);
+    }
+
+    @org.mapstruct.Named("findMajorById")
+    public Major findMajorById(Long id) {
+        return majorRepository.findMajorById(id);
     }
 
     public void createMajor(MajorRequest majorRequest) {
