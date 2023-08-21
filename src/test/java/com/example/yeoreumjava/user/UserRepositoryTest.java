@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @SpringBootTest
 @Transactional
@@ -24,9 +25,8 @@ class UserRepositoryTest {
 
     @Test
     void createUser() {
-//        Major major = majorRepository.findMajorById(3L);
-//        System.out.println(major.toString());
-        throw new RuntimeException("이거 맞나?");
+        Major major = majorRepository.getById(5L);
+        System.out.println(major.toString());
 //        UserResponse userResponse = UserResponse.builder().name("맞나").majorId(3L).build();
 
         //        User user = UserMapper.instance.toEntity(userResponse, majorRepository);

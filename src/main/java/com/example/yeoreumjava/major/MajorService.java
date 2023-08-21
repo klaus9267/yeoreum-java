@@ -6,12 +6,15 @@ import com.example.yeoreumjava.major.domain.dto.MajorResponse;
 import com.example.yeoreumjava.major.mapper.MajorMapper;
 import com.example.yeoreumjava.major.repository.MajorRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 public class MajorService {
@@ -24,14 +27,14 @@ public class MajorService {
     }
 
     public MajorResponse findMajorResponseById(Long id) {
-        Major major = majorRepository.findMajorById(id);
+        Major major = majorRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 전공이 없습니다."));
 
         return MajorMapper.instance.toDto(major);
     }
 
     @org.mapstruct.Named("findMajorById")
     public Major findMajorById(Long id) {
-        return majorRepository.findMajorById(id);
+        return majorRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 전공이 없습니다."));
     }
 
     public void createMajor(MajorRequest majorRequest) {
@@ -41,7 +44,15 @@ public class MajorService {
     }
 
     public void updateMajor(Long id, String name) {
-        Major major = majorRepository.findMajorById(id);
+        Major major = null;
+        //        try {
+        //            major = majorRepository.findMajorById(id)
+        //                                   .orElseThrow(ChangeSetPersister.NotFoundException::new);
+        //        } catch (ChangeSetPersister.NotFoundException e) {
+        //            log.error(e.getMessage());
+        //
+        //            throw new RuntimeException(e);
+        //        }
         major.setName(name);
 
         majorRepository.save(major);

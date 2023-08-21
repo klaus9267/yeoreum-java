@@ -6,6 +6,7 @@ import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.common.mapper.BaseMapper;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
+import com.example.yeoreumjava.user.UserService;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {UserRepository.class, MeetingRepository.class})
+        uses = {UserService.class, MeetingRepository.class})
 public interface BoardMapper extends BaseMapper<BoardRequest, BoardResponse, Board> {
     BoardMapper INSTANCE = Mappers.getMapper(BoardMapper.class);
 

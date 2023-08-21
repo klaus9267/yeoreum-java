@@ -5,17 +5,16 @@ import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.board.repository.BoardRepository;
-import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
 public class BoardService {
     private final BoardRepository boardRepository;
-    private final MeetingRepository meetingRepository;
 
     public List<BoardResponse> findAll() {
         List<Board> boardList = boardRepository.findAll();
@@ -23,10 +22,15 @@ public class BoardService {
         return BoardMapper.INSTANCE.toDtoList(boardList);
     }
 
-    public BoardResponse findBoardById(Long id) {
-        Board board = boardRepository.findBoardById(id);
+    public BoardResponse findBoardResponseById(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(()->new NoSuchElementException(id+"번 게시글이 없습니다."));
 
         return BoardMapper.INSTANCE.toDto(board);
+    }
+
+    @org.mapstruct.Named("findBoardById")
+    public Board findBoardById(Long id) {
+        return boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 게시글이 없습니다."));
     }
 
     public void createBoard(BoardRequest boardRequest) {
@@ -36,6 +40,7 @@ public class BoardService {
     }
 
     public void updateBoard(Long id, BoardRequest boardRequest) {
+        boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 게시글이 없습니다."));
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
         board.setId(id);
 

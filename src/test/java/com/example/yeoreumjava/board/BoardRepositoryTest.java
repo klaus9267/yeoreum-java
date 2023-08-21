@@ -15,7 +15,7 @@ class BoardRepositoryTest {
     private BoardRepository boardRepository;
     @Test
     void findBoardById() {
-        Board board = boardRepository.findBoardById(1L);
+        Board board = boardRepository.getReferenceById(1L);
 
         System.out.println(board.toString());
     }

@@ -5,6 +5,7 @@ import com.example.yeoreumjava.meeting.domain.Guest;
 import com.example.yeoreumjava.meeting.domain.dto.GuestRequest;
 import com.example.yeoreumjava.meeting.domain.dto.GuestResponse;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
+import com.example.yeoreumjava.user.UserService;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {MeetingRepository.class, UserRepository.class})
+        uses = {MeetingRepository.class, UserService.class})
 public interface GuestMapper extends BaseMapper<GuestRequest, GuestResponse, Guest> {
     GuestMapper instance = Mappers.getMapper(GuestMapper.class);
 

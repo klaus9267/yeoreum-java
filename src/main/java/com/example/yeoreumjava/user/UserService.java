@@ -1,19 +1,17 @@
 package com.example.yeoreumjava.user;
 
 import com.example.yeoreumjava.major.MajorService;
-import com.example.yeoreumjava.major.repository.MajorRepository;
 import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.domain.dto.UserResponse;
 import com.example.yeoreumjava.user.mapper.UserMapper;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -28,15 +26,19 @@ public class UserService {
         return UserMapper.instance.toDtoList(userList);
     }
 
-    public UserResponse findUserById(Long id) {
-        User user = userRepository.findUserById(id);
+    public UserResponse findUserResponseById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 사용자가 없습니다"));
 
         return UserMapper.instance.toDto(user);
     }
 
+    @org.mapstruct.Named("findUserById")
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 사용자가 없습니다."));
+    }
+
     public void createUser(UserRequest userRequest) {
         User user = UserMapper.instance.toEntity(userRequest);
-//        User user = UserMapper.instance.toEntity(userRequest,majorService);
 
         userRepository.save(user);
     }
