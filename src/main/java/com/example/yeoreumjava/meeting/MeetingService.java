@@ -31,10 +31,11 @@ public class MeetingService {
 
         return MeetingMapper.instance.toDto(meeting);
     }
-    public void createMeetingFromBoard(BoardRequest boardRequest) {
+    public Meeting createMeetingFromBoard(BoardRequest boardRequest) {
         Meeting meeting = MeetingMapper.instance.extractMeeting(boardRequest);
+        Meeting newMeeting = meetingRepository.save(meeting);
 
-        meetingRepository.save(meeting);
+        return newMeeting;
     }
 
     public void updateMeeting(Long id, MeetingRequest meetingRequest) {

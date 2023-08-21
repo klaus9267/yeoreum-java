@@ -1,11 +1,9 @@
 package com.example.yeoreumjava.meeting.domain;
 
 import com.example.yeoreumjava.board.domain.Board;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor
@@ -21,5 +19,7 @@ public class Meeting {
     private String time;
 
     @OneToOne(mappedBy = "meeting")
+    @ToString.Exclude
+    @JsonIgnore
     private Board board;
 }

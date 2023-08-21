@@ -5,6 +5,8 @@ import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.board.repository.BoardRepository;
+import com.example.yeoreumjava.meeting.MeetingService;
+import com.example.yeoreumjava.meeting.domain.Meeting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.NoSuchElementException;
 @Service
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final MeetingService meetingService;
 
     public List<BoardResponse> findAll() {
         List<Board> boardList = boardRepository.findAll();
@@ -34,9 +37,12 @@ public class BoardService {
     }
 
     public void createBoard(BoardRequest boardRequest) {
+        Meeting meeting = meetingService.createMeetingFromBoard(boardRequest);
+
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
-        System.out.println(board);
-//        boardRepository.save(board);
+        board.setMeeting(meeting);
+
+        boardRepository.save(board);
     }
 
     public void updateBoard(Long id, BoardRequest boardRequest) {
