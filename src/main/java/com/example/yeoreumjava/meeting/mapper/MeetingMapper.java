@@ -17,4 +17,8 @@ public interface MeetingMapper extends BaseMapper<MeetingRequest, MeetingRespons
     @Mapping(target = "place", source = "place")
     @Mapping(target = "time", source = "time")
     Meeting extractMeeting(BoardRequest boardRequest);
+
+    @Mapping(target = "place", source = "place")
+    @Mapping(target = "time", source = "time")
+    MeetingRequest extractMeetingDto(BoardRequest boardRequest);
 }

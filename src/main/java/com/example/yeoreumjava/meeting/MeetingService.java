@@ -1,6 +1,5 @@
 package com.example.yeoreumjava.meeting;
 
-import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -26,16 +26,21 @@ public class MeetingService {
         return MeetingMapper.instance.toDtoList(meetingList);
     }
 
-    public MeetingResponse findMeetingById(Long id) {
-        Meeting meeting = meetingRepository.findMeetingById(id);
+    public MeetingResponse findMeetingResponseById(Long id) {
+        Meeting meeting = meetingRepository.findById(id)
+                                           .orElseThrow(() -> new NoSuchElementException(id + "번 만남이 없습니다."));
 
         return MeetingMapper.instance.toDto(meeting);
     }
-    public Meeting createMeetingFromBoard(BoardRequest boardRequest) {
-        Meeting meeting = MeetingMapper.instance.extractMeeting(boardRequest);
-        Meeting newMeeting = meetingRepository.save(meeting);
 
-        return newMeeting;
+    @org.mapstruct.Named("findMeetingById")
+    public Meeting findMeetingById(Long id) {
+        return meetingRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 만남이 없습니다."));
+    }
+    public Meeting createMeeting(MeetingRequest meetingRequest) {
+        Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
+
+        return meetingRepository.save(meeting);
     }
 
     public void updateMeeting(Long id, MeetingRequest meetingRequest) {

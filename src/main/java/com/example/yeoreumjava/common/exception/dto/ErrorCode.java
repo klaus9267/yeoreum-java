@@ -1,4 +1,4 @@
-package com.example.yeoreumjava.common.exception;
+package com.example.yeoreumjava.common.exception.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

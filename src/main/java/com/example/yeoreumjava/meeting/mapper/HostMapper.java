@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.meeting.mapper;
 
 import com.example.yeoreumjava.common.mapper.BaseMapper;
+import com.example.yeoreumjava.meeting.MeetingService;
 import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.dto.HostRequest;
 import com.example.yeoreumjava.meeting.domain.dto.HostResponse;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {MeetingRepository.class, UserService.class})
+        uses = {MeetingService.class, UserService.class})
 public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> {
     HostMapper instance = Mappers.getMapper(HostMapper.class);
 
@@ -29,8 +30,8 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
     @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "findMeetingById")
     @Mapping(target = "user", source = "userId", qualifiedByName = "findUserById")
     Host toEntity(HostRequest dto,
-                  @Context UserRepository userRepository,
-                  @Context MeetingRepository meetingRepository);
+                  @Context UserService userService,
+                  @Context MeetingService meetingService);
 
     @Override
     @IterableMapping(qualifiedByName = "E2D")
@@ -38,6 +39,6 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
 
     @IterableMapping(qualifiedByName = "D2E")
     List<Host> toEntityList(List<HostRequest> dtoList,
-                            @Context UserRepository userRepository,
-                            @Context MeetingRepository meetingRepository);
+                            @Context UserService userService,
+                            @Context MeetingService meetingService);
 }

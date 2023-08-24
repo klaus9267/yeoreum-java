@@ -7,6 +7,8 @@ import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.meeting.MeetingService;
 import com.example.yeoreumjava.meeting.domain.Meeting;
+import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
+import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,8 @@ public class BoardService {
     }
 
     public void createBoard(BoardRequest boardRequest) {
-        Meeting meeting = meetingService.createMeetingFromBoard(boardRequest);
+        MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
+        Meeting meeting = meetingService.createMeeting(meetingRequest);
 
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
         board.setMeeting(meeting);
