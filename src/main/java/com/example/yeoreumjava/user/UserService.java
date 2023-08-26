@@ -27,10 +27,14 @@ public class UserService {
     }
 
     public UserResponse findUserResponseById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 사용자가 없습니다"));
+        User user = findUserById(id);
 
         return UserMapper.instance.toDto(user);
     }
+
+//    public List<User> findUsersByIds(List<Long> idList) {
+//        return userRepository.findAllById(idList.iterator());
+//    }
 
     @org.mapstruct.Named("findUserById")
     public User findUserById(Long id) {
@@ -38,7 +42,7 @@ public class UserService {
     }
 
     public void createUser(UserRequest userRequest) {
-        User user = UserMapper.instance.toEntity(userRequest);
+        User user = UserMapper.instance.toEntity(userRequest, majorService);
 
         userRepository.save(user);
     }
@@ -51,6 +55,9 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
+        findUserById(id);
+
         userRepository.deleteById(id);
+
     }
 }

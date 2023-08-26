@@ -44,15 +44,7 @@ public class MajorService {
     }
 
     public void updateMajor(Long id, String name) {
-        Major major = null;
-        //        try {
-        //            major = majorRepository.findMajorById(id)
-        //                                   .orElseThrow(ChangeSetPersister.NotFoundException::new);
-        //        } catch (ChangeSetPersister.NotFoundException e) {
-        //            log.error(e.getMessage());
-        //
-        //            throw new RuntimeException(e);
-        //        }
+        Major major = majorRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 전공이 없습니다."));
         major.setName(name);
 
         majorRepository.save(major);
