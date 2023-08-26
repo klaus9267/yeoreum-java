@@ -39,11 +39,8 @@ public class BoardService {
     }
 
     public void createBoard(BoardRequest boardRequest) {
-        MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
-        Meeting meeting = meetingService.createMeeting(meetingRequest);
-
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
-        board.setMeeting(meeting);
+//        board.setMeeting(meeting);
 
         boardRepository.save(board);
     }

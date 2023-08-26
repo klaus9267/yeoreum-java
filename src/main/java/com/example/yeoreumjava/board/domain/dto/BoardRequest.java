@@ -33,6 +33,6 @@ public class BoardRequest {
 
     // host entity
     @NotBlank(message = "hostList을 입력해 주세요.")
-    List<Integer> hostList = new ArrayList<>();
+    List<Long> hostList = new ArrayList<>();
 
 }

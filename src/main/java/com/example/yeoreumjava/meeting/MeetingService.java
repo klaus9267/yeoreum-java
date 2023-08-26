@@ -5,6 +5,7 @@ import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingResponse;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
+import com.example.yeoreumjava.meeting.repository.HostRepository;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ import java.util.NoSuchElementException;
 @Transactional
 @RequiredArgsConstructor
 public class MeetingService {
-    private final BoardRepository boardRepository;
     private final MeetingRepository meetingRepository;
+    private final HostRepository hostRepository;
 
     public List<MeetingResponse> findAll() {
         List<Meeting> meetingList = meetingRepository.findAll();
@@ -50,5 +51,7 @@ public class MeetingService {
         meetingRepository.save(meeting);
     }
 
+    public void sethost(List<Integer> hostIdList) {
 
+    }
 }
