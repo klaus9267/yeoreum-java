@@ -3,6 +3,7 @@ package com.example.yeoreumjava.meeting.mapper;
 import com.example.yeoreumjava.common.mapper.BaseMapper;
 import com.example.yeoreumjava.meeting.MeetingService;
 import com.example.yeoreumjava.meeting.domain.Host;
+import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.HostRequest;
 import com.example.yeoreumjava.meeting.domain.dto.HostResponse;
 import com.example.yeoreumjava.user.UserService;
@@ -16,6 +17,7 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         uses = {MeetingService.class, UserService.class})
+
 public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> {
     HostMapper instance = Mappers.getMapper(HostMapper.class);
 
@@ -37,16 +39,20 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
 
     @IterableMapping(qualifiedByName = "D2E")
     List<Host> toEntityList(List<HostRequest> dtoList,
-                            @Context UserService userService, @Context MeetingService meetingService);
+                            @Context UserService userService,
+                            @Context MeetingService meetingService);
 
-    default List<Host> setEntityList(List<Long> hostIdList,Long meetingId,@Context UserService userService) {
-        List<Host> list = new ArrayList<>();
+    default List<Host> setEntityList(List<Long> hostIdList, Meeting meeting, @Context UserService userService) {
+        List<Host> hostList = new ArrayList<>();
 
-        hostIdList.forEach(hostId->{
-            userService.findUserById(hostId);
+        hostIdList.forEach(hostId -> {
+            User user = userService.findUserById(hostId);
+            System.out.println(user.toString());
+            Host host = Host.builder().meeting(meeting).user(user).build();
 
+            hostList.add(host);
         });
 
-        return list;
+        return hostList;
     }
 }

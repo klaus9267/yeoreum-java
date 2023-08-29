@@ -11,12 +11,14 @@ import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MeetingService meetingService;
@@ -28,7 +30,7 @@ public class BoardService {
     }
 
     public BoardResponse findBoardResponseById(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(()->new NoSuchElementException(id+"번 게시글이 없습니다."));
+        Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 게시글이 없습니다."));
 
         return BoardMapper.INSTANCE.toDto(board);
     }
@@ -39,9 +41,10 @@ public class BoardService {
     }
 
     public void createBoard(BoardRequest boardRequest) {
-        Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
-//        board.setMeeting(meeting);
+        MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
+        Meeting meeting = meetingService.createMeeting(meetingRequest);
 
+        Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
         boardRepository.save(board);
     }
 

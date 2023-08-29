@@ -1,12 +1,14 @@
 package com.example.yeoreumjava.meeting;
 
-import com.example.yeoreumjava.board.repository.BoardRepository;
+import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingResponse;
+import com.example.yeoreumjava.meeting.mapper.HostMapper;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import com.example.yeoreumjava.meeting.repository.HostRepository;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
+import com.example.yeoreumjava.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ import java.util.NoSuchElementException;
 public class MeetingService {
     private final MeetingRepository meetingRepository;
     private final HostRepository hostRepository;
+    private final UserService userService;
 
     public List<MeetingResponse> findAll() {
         List<Meeting> meetingList = meetingRepository.findAll();
@@ -41,6 +44,11 @@ public class MeetingService {
     public Meeting createMeeting(MeetingRequest meetingRequest) {
         Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
 
+        List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, userService);
+        hostRepository.saveAll(hostList);
+
+        sethost(2);
+
         return meetingRepository.save(meeting);
     }
 
@@ -51,7 +59,7 @@ public class MeetingService {
         meetingRepository.save(meeting);
     }
 
-    public void sethost(List<Integer> hostIdList) {
-
+    public void sethost(int i) {
+        System.out.println(11);
     }
 }

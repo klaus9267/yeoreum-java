@@ -32,9 +32,9 @@ public class UserService {
         return UserMapper.instance.toDto(user);
     }
 
-//    public List<User> findUsersByIds(List<Long> idList) {
-//        return userRepository.findAllById(idList.iterator());
-//    }
+    public List<User> findUsersByIds(List<Long> idList) {
+        return userRepository.findAllById(idList);
+    }
 
     @org.mapstruct.Named("findUserById")
     public User findUserById(Long id) {

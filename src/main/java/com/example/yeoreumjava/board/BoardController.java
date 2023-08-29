@@ -3,9 +3,6 @@ package com.example.yeoreumjava.board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.meeting.MeetingService;
-import com.example.yeoreumjava.meeting.domain.Meeting;
-import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
-import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,18 +33,13 @@ public class BoardController {
 
     @PostMapping("")
     public ResponseEntity<String> createBoard(@RequestBody BoardRequest boardRequest) {
-        MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
-        Meeting meeting = meetingService.createMeeting(meetingRequest);
-
-
         boardService.createBoard(boardRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("작성 완료");
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updateBoard(@PathVariable("id") Long id, @RequestBody
-    BoardRequest boardRequest) {
+    public ResponseEntity<String> updateBoard(@PathVariable("id") Long id, @RequestBody BoardRequest boardRequest) {
         boardService.updateBoard(id, boardRequest);
 
         return ResponseEntity.ok("수정 완료");

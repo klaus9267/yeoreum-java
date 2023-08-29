@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -51,5 +52,16 @@ class UserRepositoryTest {
         System.out.println("dto : " + userRequest.toString());
 
         System.out.println("entity : " + UserMapper.instance.toEntity(userRequest));
+    }
+
+    @Test
+    void findUserByIds() {
+        List<Long> list = new ArrayList<>();
+        list.add(4L);
+        list.add(5L);
+        list.add(6L);
+
+        userRepository.findAllById(list).forEach(System.out::println);
+
     }
 }

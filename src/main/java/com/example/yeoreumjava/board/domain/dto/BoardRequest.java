@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @Builder
 public class BoardRequest {
-    // board entity
+    // board
     @NotBlank(message = "title을 입력해 주세요.")
     private String title;
 
@@ -24,14 +24,14 @@ public class BoardRequest {
     @NotNull(message = "writerId를 입력해 주세요.")
     private Long writerId;
 
-    // meeting entity
+    // meeting
     @NotBlank(message = "place를 입력해 주세요.")
     private String place;
 
     @NotBlank(message = "time를 입력해 주세요.")
     private String time;
 
-    // host entity
+    // host
     @NotBlank(message = "hostList을 입력해 주세요.")
     List<Long> hostList = new ArrayList<>();
 
