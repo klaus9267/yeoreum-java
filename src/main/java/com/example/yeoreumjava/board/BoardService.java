@@ -49,11 +49,15 @@ public class BoardService {
     }
 
     public void updateBoard(Long id, BoardRequest boardRequest) {
-        boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 게시글이 없습니다."));
+        findBoardById(id);
+
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
         board.setId(id);
 
         boardRepository.save(board);
+
+        MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
+        meetingService.updateMeeting(id, meetingRequest);
     }
 
     public void deleteBoard(Long id) {

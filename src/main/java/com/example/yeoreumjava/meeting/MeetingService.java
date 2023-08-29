@@ -41,25 +41,26 @@ public class MeetingService {
     public Meeting findMeetingById(Long id) {
         return meetingRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 만남이 없습니다."));
     }
+
     public Meeting createMeeting(MeetingRequest meetingRequest) {
         Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
 
         List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, userService);
         hostRepository.saveAll(hostList);
 
-        sethost(2);
-
         return meetingRepository.save(meeting);
     }
 
     public void updateMeeting(Long id, MeetingRequest meetingRequest) {
+        findMeetingById(id);
+
         Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
         meeting.setId(id);
 
         meetingRepository.save(meeting);
     }
 
-    public void sethost(int i) {
-        System.out.println(11);
-    }
+//    public List<Host> findAllHostsByMeeting(Long id) {
+//        return meetingRepository.
+//    }
 }
