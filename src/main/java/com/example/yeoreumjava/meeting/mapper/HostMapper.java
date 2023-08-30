@@ -47,7 +47,6 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
 
         hostIdList.forEach(hostId -> {
             User user = userService.findUserById(hostId);
-            System.out.println(user.toString());
             Host host = Host.builder().meeting(meeting).user(user).build();
 
             hostList.add(host);

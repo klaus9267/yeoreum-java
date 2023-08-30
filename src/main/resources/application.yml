@@ -8,7 +8,7 @@ spring:
 # Table 수정 시 ddl-auto 활성화
     hibernate:
       ddl-auto: validate
-    show-sql: true
+    show-sql: false
 server:
   error:
     include-message: always

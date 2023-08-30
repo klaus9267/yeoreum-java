@@ -32,7 +32,7 @@ public class BoardRequest {
     private String time;
 
     // host
-    @NotBlank(message = "hostList을 입력해 주세요.")
+    @NotNull(message = "hostList을 입력해 주세요.")
     List<Long> hostList = new ArrayList<>();
 
 }

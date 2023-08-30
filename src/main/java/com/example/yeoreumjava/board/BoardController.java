@@ -3,6 +3,7 @@ package com.example.yeoreumjava.board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.meeting.MeetingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class BoardController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> createBoard(@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<String> createBoard(@Valid @RequestBody BoardRequest boardRequest) {
         boardService.createBoard(boardRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("작성 완료");

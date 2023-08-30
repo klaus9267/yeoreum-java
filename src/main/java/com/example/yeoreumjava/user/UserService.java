@@ -58,6 +58,5 @@ public class UserService {
         findUserById(id);
 
         userRepository.deleteById(id);
-
     }
 }

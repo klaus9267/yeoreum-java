@@ -58,9 +58,17 @@ public class MeetingService {
         meeting.setId(id);
 
         meetingRepository.save(meeting);
+
+        List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, userService);
+        updateHostList(id, hostList);
     }
 
-//    public List<Host> findAllHostsByMeeting(Long id) {
-//        return meetingRepository.
-//    }
+    //    public List<Host> findAllHostsByMeeting(Long id) {
+    //        return meetingRepository.
+    //    }
+
+    public void updateHostList(Long meetingId, List<Host> hostList) {
+        hostRepository.deleteAllByMeetingId(meetingId);
+        hostRepository.saveAll(hostList);
+    }
 }

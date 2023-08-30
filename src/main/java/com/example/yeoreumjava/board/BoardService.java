@@ -9,7 +9,9 @@ import com.example.yeoreumjava.meeting.MeetingService;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
+import com.example.yeoreumjava.user.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +21,11 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @Service
 @Transactional
+@Slf4j
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MeetingService meetingService;
+    private final UserService userService;
 
     public List<BoardResponse> findAll() {
         List<Board> boardList = boardRepository.findAll();
@@ -42,16 +46,19 @@ public class BoardService {
 
     public void createBoard(BoardRequest boardRequest) {
         MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
-        Meeting meeting = meetingService.createMeeting(meetingRequest);
+//        Meeting meeting = meetingService.createMeeting(meetingRequest);
 
-        Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
-        boardRepository.save(board);
+        Board board = BoardMapper.INSTANCE.toEntity(boardRequest, userService);
+//        System.out.println(board);
+        System.out.println(board.toString());
+//        board.setMeeting(meeting);
+//        boardRepository.save(board);
     }
 
     public void updateBoard(Long id, BoardRequest boardRequest) {
         findBoardById(id);
 
-        Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
+        Board board = BoardMapper.INSTANCE.toEntity(boardRequest, userService);
         board.setId(id);
 
         boardRepository.save(board);
