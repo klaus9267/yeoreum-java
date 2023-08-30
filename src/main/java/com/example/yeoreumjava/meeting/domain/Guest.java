@@ -19,4 +19,7 @@ public class Guest {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private MeetingRequest team;
 }
