@@ -46,13 +46,11 @@ public class BoardService {
 
     public void createBoard(BoardRequest boardRequest) {
         MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
-//        Meeting meeting = meetingService.createMeeting(meetingRequest);
+        Meeting meeting = meetingService.createMeeting(meetingRequest);
 
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest, userService);
-//        System.out.println(board);
-        System.out.println(board.toString());
-//        board.setMeeting(meeting);
-//        boardRepository.save(board);
+        board.setMeeting(meeting);
+        boardRepository.save(board);
     }
 
     public void updateBoard(Long id, BoardRequest boardRequest) {

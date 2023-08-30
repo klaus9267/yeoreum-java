@@ -1,5 +1,6 @@
 package com.example.yeoreumjava.board;
 
+import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

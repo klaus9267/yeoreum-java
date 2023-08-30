@@ -5,10 +5,8 @@ import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-//@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
