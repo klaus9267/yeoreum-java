@@ -21,5 +21,5 @@ public class Guest {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private MeetingRequest team;
+    private Apply team;
 }

@@ -1,11 +1,14 @@
 package com.example.yeoreumjava.meeting;
 
+import com.example.yeoreumjava.meeting.domain.Apply;
 import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.Meeting;
+import com.example.yeoreumjava.meeting.domain.dto.ApplyResponse;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingResponse;
 import com.example.yeoreumjava.meeting.mapper.HostMapper;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
+import com.example.yeoreumjava.meeting.repository.ApplyRepository;
 import com.example.yeoreumjava.meeting.repository.HostRepository;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.UserService;
@@ -21,6 +24,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class MeetingService {
     private final MeetingRepository meetingRepository;
+    private final ApplyRepository applyRepository;
     private final HostRepository hostRepository;
     private final UserService userService;
 
@@ -40,6 +44,12 @@ public class MeetingService {
     @org.mapstruct.Named("findMeetingById")
     public Meeting findMeetingById(Long id) {
         return meetingRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 만남이 없습니다."));
+    }
+
+    public List<ApplyResponse> findAllAppliesByMeetingId(Long meetingId) {
+        List<Apply> applyList = applyRepository.findAppliesByMeetingId(meetingId);
+
+        return
     }
 
     public Meeting createMeeting(MeetingRequest meetingRequest) {
