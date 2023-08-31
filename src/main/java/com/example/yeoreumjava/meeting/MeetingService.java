@@ -6,6 +6,7 @@ import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyResponse;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingResponse;
+import com.example.yeoreumjava.meeting.mapper.ApplyMapper;
 import com.example.yeoreumjava.meeting.mapper.HostMapper;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import com.example.yeoreumjava.meeting.repository.ApplyRepository;
@@ -49,7 +50,7 @@ public class MeetingService {
     public List<ApplyResponse> findAllAppliesByMeetingId(Long meetingId) {
         List<Apply> applyList = applyRepository.findAppliesByMeetingId(meetingId);
 
-        return
+        return ApplyMapper.instance.toDtoList(applyList);
     }
 
     public Meeting createMeeting(MeetingRequest meetingRequest) {

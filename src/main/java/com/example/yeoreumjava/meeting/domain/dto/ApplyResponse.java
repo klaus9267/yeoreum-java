@@ -15,6 +15,7 @@ public class ApplyResponse {
     private Long id;
     private String title;
     private Long content;
+    private Long meetingId;
 
-    private List<Guest> guestList = new ArrayList<>();
+    private List<Long> guestList = new ArrayList<>();
 }
