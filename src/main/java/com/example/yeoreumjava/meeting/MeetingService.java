@@ -75,7 +75,9 @@ public class MeetingService {
         Apply apply = ApplyMapper.instance.toEntity(applyRequest);
         apply.setMeeting(meeting);
 
+        applyRepository.save(apply);
 
+        setGuestList(meeting, apply, applyRequest.getGuestList());
     }
 
     public void setGuestList(Meeting meeting, Apply apply, List<Long> guestIdList) {
