@@ -20,7 +20,7 @@ public class Meeting {
 
     private String place;
     private String time;
-    private boolean isDone;
+    private boolean done;
 
     @OneToOne(mappedBy = "meeting")
     @ToString.Exclude
