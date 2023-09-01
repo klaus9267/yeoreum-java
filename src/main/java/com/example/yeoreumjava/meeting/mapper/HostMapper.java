@@ -23,7 +23,6 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
 
     @Override
     @Named("E2D")
-    @Mapping(target = "id", source = "id")
     @Mapping(target = "meetingId", expression = "java(entity.getMeeting().getId())")
     @Mapping(target = "userId", expression = "java(entity.getUser().getId())")
     HostResponse toDto(Host entity);

@@ -14,8 +14,8 @@ import java.util.List;
 public class ApplyResponse {
     private Long id;
     private String title;
-    private Long content;
+    private String content;
     private Long meetingId;
 
-    private List<Long> guestList = new ArrayList<>();
+    private List<Guest> guestList = new ArrayList<>();
 }

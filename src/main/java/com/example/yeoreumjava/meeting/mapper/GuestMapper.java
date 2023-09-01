@@ -19,7 +19,6 @@ public interface GuestMapper extends BaseMapper<GuestRequest, GuestResponse, Gue
 
     @Override
     @Named("E2D")
-    @Mapping(target = "id", source = "id")
     @Mapping(target = "meetingId", expression = "java(entity.getMeeting().getId())")
     @Mapping(target = "userId", expression = "java(entity.getUser().getId())")
     GuestResponse toDto(Guest entity);

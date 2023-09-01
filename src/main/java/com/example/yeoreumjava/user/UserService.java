@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,7 +34,16 @@ public class UserService {
     }
 
     public List<User> findUsersByIds(List<Long> idList) {
-        return userRepository.findAllById(idList);
+        List<User> userList = new ArrayList<>();
+
+        idList.forEach(
+                id -> {
+                    User user = userRepository.findById(id)
+                                              .orElseThrow(() -> new NoSuchElementException(id + "번 사용자가 없습니다."));
+                    userList.add(user);
+                });
+
+        return userList;
     }
 
     @org.mapstruct.Named("findUserById")

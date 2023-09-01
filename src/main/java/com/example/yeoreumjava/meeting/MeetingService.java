@@ -1,8 +1,10 @@
 package com.example.yeoreumjava.meeting;
 
 import com.example.yeoreumjava.meeting.domain.Apply;
+import com.example.yeoreumjava.meeting.domain.Guest;
 import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.Meeting;
+import com.example.yeoreumjava.meeting.domain.dto.ApplyRequest;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyResponse;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingResponse;
@@ -10,13 +12,17 @@ import com.example.yeoreumjava.meeting.mapper.ApplyMapper;
 import com.example.yeoreumjava.meeting.mapper.HostMapper;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import com.example.yeoreumjava.meeting.repository.ApplyRepository;
+import com.example.yeoreumjava.meeting.repository.GuestRepository;
 import com.example.yeoreumjava.meeting.repository.HostRepository;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.UserService;
+import com.example.yeoreumjava.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,6 +31,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class MeetingService {
     private final MeetingRepository meetingRepository;
+    private final GuestRepository guestRepository;
     private final ApplyRepository applyRepository;
     private final HostRepository hostRepository;
     private final UserService userService;
@@ -48,7 +55,7 @@ public class MeetingService {
     }
 
     public List<ApplyResponse> findAllAppliesByMeetingId(Long meetingId) {
-        List<Apply> applyList = applyRepository.findAppliesByMeetingId(meetingId);
+        List<Apply> applyList = applyRepository.findAllByMeetingId(meetingId);
 
         return ApplyMapper.instance.toDtoList(applyList);
     }
@@ -62,6 +69,24 @@ public class MeetingService {
         return meetingRepository.save(meeting);
     }
 
+    public void applyMeeting(Long meetingId, ApplyRequest applyRequest) {
+        Meeting meeting = findMeetingById(meetingId);
+
+        Apply apply = ApplyMapper.instance.toEntity(applyRequest);
+        apply.setMeeting(meeting);
+
+
+    }
+
+    public void setGuestList(Meeting meeting, Apply apply, List<Long> guestIdList) {
+        List<Guest> guestList = userService.findUsersByIds(guestIdList)
+                                         .stream()
+                                         .map(user -> Guest.builder().meeting(meeting).team(apply).user(user).build())
+                                         .toList();
+
+        guestRepository.saveAll(guestList);
+    }
+
     public void updateMeeting(Long id, MeetingRequest meetingRequest) {
         findMeetingById(id);
 
@@ -73,10 +98,6 @@ public class MeetingService {
         List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, userService);
         updateHostList(id, hostList);
     }
-
-    //    public List<Host> findAllHostsByMeeting(Long id) {
-    //        return meetingRepository.
-    //    }
 
     public void updateHostList(Long meetingId, List<Host> hostList) {
         hostRepository.deleteAllByMeetingId(meetingId);

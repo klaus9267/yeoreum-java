@@ -57,9 +57,11 @@ class UserRepositoryTest {
     @Test
     void findUserByIds() {
         List<Long> list = new ArrayList<>();
-        list.add(4L);
-        list.add(5L);
+        list.add(1L);
+        list.add(2L);
         list.add(6L);
+        list.add(7L);
+        System.out.println(list.toString());
 
         userRepository.findAllById(list).forEach(System.out::println);
 
