@@ -26,9 +26,6 @@ public class Apply extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = true)
-    private boolean isAccepted;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Meeting meeting;
 

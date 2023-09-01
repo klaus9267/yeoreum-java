@@ -1,6 +1,5 @@
 package com.example.yeoreumjava.meeting;
 
-import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyRequest;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyResponse;
 import jakarta.validation.Valid;
@@ -16,9 +15,9 @@ import java.util.List;
 public class MeetingController {
     private final MeetingService meetingService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<List<ApplyResponse>> findAllAppliesById(@PathVariable("id") Long id) {
-        List<ApplyResponse> applyResponseList = meetingService.findAllAppliesByMeetingId(id);
+    @GetMapping("{meegingId}")
+    public ResponseEntity<List<ApplyResponse>> findAllAppliesByMeetingId(@PathVariable("meegingId") Long meegingId) {
+        List<ApplyResponse> applyResponseList = meetingService.findAllAppliesByMeetingId(meegingId);
 
         return ResponseEntity.ok(applyResponseList);
     }
@@ -29,5 +28,12 @@ public class MeetingController {
         meetingService.applyMeeting(id, applyRequest);
 
         return ResponseEntity.ok("신청 완료");
+    }
+
+    @PatchMapping("{id}")
+    public ResponseEntity<String> acceptApply(@PathVariable("id") Long id) {
+
+
+        return ResponseEntity.ok("만남 성사");
     }
 }

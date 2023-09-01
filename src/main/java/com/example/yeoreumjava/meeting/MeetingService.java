@@ -60,6 +60,10 @@ public class MeetingService {
         return ApplyMapper.instance.toDtoList(applyList);
     }
 
+    public Apply findApplyById(Long id) {
+        return applyRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 신청이 없습니다."));
+    }
+
     public Meeting createMeeting(MeetingRequest meetingRequest) {
         Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
 
@@ -71,6 +75,10 @@ public class MeetingService {
 
     public void applyMeeting(Long meetingId, ApplyRequest applyRequest) {
         Meeting meeting = findMeetingById(meetingId);
+
+        if (meeting.isDone()) {
+            throw new RuntimeException("만나 성사된 게시글 입니다.");
+        }
 
         Apply apply = ApplyMapper.instance.toEntity(applyRequest);
         apply.setMeeting(meeting);
@@ -104,5 +112,13 @@ public class MeetingService {
     public void updateHostList(Long meetingId, List<Host> hostList) {
         hostRepository.deleteAllByMeetingId(meetingId);
         hostRepository.saveAll(hostList);
+    }
+
+    public void acceptApply(Long id) {
+        Apply apply = findApplyById(id);
+        Meeting meeting = findMeetingById(apply.getMeeting().getId());
+        meeting.setDone(true);
+
+        //채팅 시작되는 api
     }
 }

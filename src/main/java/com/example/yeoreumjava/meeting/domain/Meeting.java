@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +20,7 @@ public class Meeting {
 
     private String place;
     private String time;
+    private boolean isDone;
 
     @OneToOne(mappedBy = "meeting")
     @ToString.Exclude
