@@ -2,7 +2,6 @@ package com.example.yeoreumjava.user.mapper;
 
 import com.example.yeoreumjava.common.mapper.BaseMapper;
 import com.example.yeoreumjava.major.MajorService;
-import com.example.yeoreumjava.major.repository.MajorRepository;
 import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.domain.dto.UserResponse;
@@ -27,12 +26,13 @@ public interface UserMapper extends BaseMapper<UserRequest, UserResponse, User> 
     @Named("D2E")
     @Mapping(target = "name", source = "name")
     @Mapping(target = "major", source = "majorId", qualifiedByName = "findMajorById")
-    User toEntity(UserRequest dto,@Context MajorService majorService);
+    @Mapping(target = "boardList", ignore = true)
+    User toEntity(UserRequest dto, @Context MajorService majorService);
 
     @Override
     @IterableMapping(qualifiedByName = "E2D")
     List<UserResponse> toDtoList(List<User> entityList);
 
     @IterableMapping(qualifiedByName = "D2E")
-    List<User> toEntityList(List<UserRequest> dtoList,@Context MajorService majorService);
+    List<User> toEntityList(List<UserRequest> dtoList, @Context MajorService majorService);
 }

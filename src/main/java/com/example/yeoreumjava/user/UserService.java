@@ -1,6 +1,10 @@
 package com.example.yeoreumjava.user;
 
+import com.example.yeoreumjava.board.domain.Board;
+import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.major.MajorService;
+import com.example.yeoreumjava.meeting.domain.Meeting;
+import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.domain.dto.UserResponse;
@@ -20,6 +24,8 @@ import java.util.NoSuchElementException;
 public class UserService {
     private final UserRepository userRepository;
     private final MajorService majorService;
+    private final MeetingRepository meetingRepository;
+    private final BoardRepository boardRepository;
 
     public List<UserResponse> findAll() {
         List<User> userList = userRepository.findAll();
@@ -66,6 +72,11 @@ public class UserService {
 
     public void deleteUser(Long id) {
         findUserById(id);
+
+        List<Board> boardList = boardRepository.findAllByWriterId(id);
+        if (!boardList.isEmpty()) {
+            boardList.forEach(board -> meetingRepository.deleteById(board.getMeeting().getId()));
+        }
 
         userRepository.deleteById(id);
     }
