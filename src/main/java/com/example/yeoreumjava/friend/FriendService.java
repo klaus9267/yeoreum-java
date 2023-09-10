@@ -20,4 +20,8 @@ public class FriendService {
         Friend friend = Friend.builder().sender(sender).receiver(receiver).build();
         friendRepository.save(friend);
     }
+
+    public void deleteFriend(Long receiverId) {
+
+    }
 }
