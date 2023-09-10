@@ -10,12 +10,19 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface MeetingMapper extends BaseMapper<MeetingRequest, MeetingResponse, Meeting> {
     MeetingMapper instance = Mappers.getMapper(MeetingMapper.class);
 
+    @Override
+    @Mapping(target = "hostList",ignore = true)
+    Meeting toEntity(MeetingRequest dto);
+
     @Mapping(target = "place", source = "place")
     @Mapping(target = "time", source = "time")
+    @Mapping(target = "hostList", ignore = true)
     Meeting extractMeeting(BoardRequest boardRequest);
 
     @Mapping(target = "place", source = "place")

@@ -22,8 +22,13 @@ public class Meeting {
     private String time;
     private boolean done;
 
-    @OneToOne(mappedBy = "meeting")
+    @OneToOne(mappedBy = "meeting",cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonIgnore
     private Board board;
+
+    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Host> hostList = new ArrayList<>();
 }

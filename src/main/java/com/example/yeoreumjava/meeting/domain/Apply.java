@@ -29,6 +29,6 @@ public class Apply extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Meeting meeting;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team",cascade = CascadeType.ALL)
     private List<Guest> guestList = new ArrayList<>();
 }

@@ -64,6 +64,12 @@ public class MeetingService {
         return applyRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 신청이 없습니다."));
     }
 
+    public ApplyResponse findApplyResponseById(Long id) {
+        Apply apply = findApplyById(id);
+
+        return ApplyMapper.instance.toDto(apply);
+    }
+
     public Meeting createMeeting(MeetingRequest meetingRequest) {
         Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
 
