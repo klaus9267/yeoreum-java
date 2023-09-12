@@ -10,12 +10,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
-public class FriendRepositoryImpl implements FriendRepositoryCustom{
+public class FriendRepositoryCustomImpl implements FriendRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
     public List<Friend> findAllById(Long id) {
         QFriend qFriend = QFriend.friend;
-        return jpaQueryFactory.selectFrom(qFriend).select()
+        return jpaQueryFactory.selectFrom(qFriend);
     }
 }
