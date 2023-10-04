@@ -24,4 +24,6 @@ public class FriendService {
     public void deleteFriend(Long receiverId) {
 
     }
+
+//    public void
 }
