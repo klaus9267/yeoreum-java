@@ -1,10 +1,11 @@
 package com.example.yeoreumjava.user;
 
+import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.domain.dto.UserResponse;
+import com.example.yeoreumjava.user.mapper.UserMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,39 +18,26 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("")
-    public ResponseEntity<List<UserResponse>> findAll() {
-        List<UserResponse> userResponseList = userService.findAll();
-
-        return ResponseEntity.ok(userResponseList);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> findUserById(@PathVariable("id") Long id) {
-        UserResponse userResponse = userService.findUserResponseById(id);
-
-        return ResponseEntity.ok(userResponse);
+        return ResponseEntity.ok(UserMapper.instance.toDto(userService.loadUser(id)));
     }
 
     @PostMapping("")
     public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
-        userService.createUser(userRequest);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
+        return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료" + userService.createUser(userRequest));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable("id") Long id, @RequestBody
-    UserRequest userRequest) {
-        userService.updateUser(id, userRequest);
-
-        return ResponseEntity.ok("수정 완료");
+    public ResponseEntity<String> updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {
+        return ResponseEntity.ok("수정 완료" + userService.updateUser(id, userRequest));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body("삭제 성공");
+        return ResponseEntity.ok("삭제 성공");
     }
+
 }

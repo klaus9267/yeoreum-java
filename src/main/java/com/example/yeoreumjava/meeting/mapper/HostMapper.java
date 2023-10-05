@@ -29,7 +29,7 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
 
     @Named("D2E")
     @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "findMeetingById")
-    @Mapping(target = "user", source = "userId", qualifiedByName = "findUserById")
+    @Mapping(target = "user", source = "userId", qualifiedByName = "loadUser")
     Host toEntity(HostRequest dto, @Context UserService userService, @Context MeetingService meetingService);
 
     @Override
@@ -45,7 +45,7 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
         List<Host> hostList = new ArrayList<>();
 
         hostIdList.forEach(hostId -> {
-            User user = userService.findUserById(hostId);
+            User user = userService.loadUser(hostId);
             Host host = Host.builder().meeting(meeting).user(user).build();
 
             hostList.add(host);

@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -20,34 +20,24 @@ import java.util.NoSuchElementException;
 public class MajorService {
     private final MajorRepository majorRepository;
 
-    public List<MajorResponse> findAll() {
-        List<Major> majorList = majorRepository.findAll();
-
-        return MajorMapper.instance.toDtoList(majorList);
+    public Optional< Major> findMajor(Long id) {
+        return majorRepository.findById(id);
     }
 
-    public MajorResponse findMajorResponseById(Long id) {
-        Major major = majorRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 전공이 없습니다."));
-
-        return MajorMapper.instance.toDto(major);
+    @org.mapstruct.Named("loadMajor")
+    public Major loadMajor(Long id) {
+        return findMajor(id).orElseThrow(() -> new NoSuchElementException(id + "번 전공이 없습니다."));
     }
 
-    @org.mapstruct.Named("findMajorById")
-    public Major findMajorById(Long id) {
-        return majorRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 전공이 없습니다."));
+    public Major createMajor(MajorRequest majorRequest) {
+        return majorRepository.save(MajorMapper.instance.toEntity(majorRequest));
     }
 
-    public void createMajor(MajorRequest majorRequest) {
-        Major major = MajorMapper.instance.toEntity(majorRequest);
-
-        majorRepository.save(major);
-    }
-
-    public void updateMajor(Long id, String name) {
-        Major major = majorRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 전공이 없습니다."));
+    public Major updateMajor(Long id, String name) {
+        Major major = loadMajor(id);
         major.setName(name);
 
-        majorRepository.save(major);
+        return majorRepository.save(major);
     }
 
     public void deleteMajor(Long id) {

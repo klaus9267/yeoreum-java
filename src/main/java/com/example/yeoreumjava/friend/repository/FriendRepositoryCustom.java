@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface FriendRepositoryCustom {
     List<Friend> findAllByUser(User user);
+
+    List<Friend> isFriend(User loginUser, User targetUser);
 }

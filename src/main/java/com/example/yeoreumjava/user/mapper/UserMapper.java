@@ -25,7 +25,7 @@ public interface UserMapper extends BaseMapper<UserRequest, UserResponse, User> 
 
     @Named("D2E")
     @Mapping(target = "name", source = "name")
-    @Mapping(target = "major", source = "majorId", qualifiedByName = "findMajorById")
+    @Mapping(target = "major", source = "majorId", qualifiedByName = "loadMajor")
     @Mapping(target = "boardList", ignore = true)
     User toEntity(UserRequest dto, @Context MajorService majorService);
 

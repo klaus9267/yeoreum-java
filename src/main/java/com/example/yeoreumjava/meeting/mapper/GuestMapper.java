@@ -25,7 +25,7 @@ public interface GuestMapper extends BaseMapper<GuestRequest, GuestResponse, Gue
 
     @Named("D2E")
     @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "findMeetingById")
-    @Mapping(target = "user", source = "userId", qualifiedByName = "findUserById")
+    @Mapping(target = "user", source = "userId", qualifiedByName = "loadUser")
     Guest toEntity(GuestRequest dto,
                    @Context UserService userService,
                    @Context MeetingService meetingService);

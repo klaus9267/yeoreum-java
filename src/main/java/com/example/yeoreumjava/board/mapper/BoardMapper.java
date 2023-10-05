@@ -28,7 +28,7 @@ public interface BoardMapper extends BaseMapper<BoardRequest, BoardResponse, Boa
     @Named("D2E")
     @Mapping(target = "title", source = "title")
     @Mapping(target = "content", source = "content")
-    @Mapping(target = "writer", source = "writerId", qualifiedByName = "findUserById")
+    @Mapping(target = "writer", source = "writerId", qualifiedByName = "loadUser")
     Board toEntity(BoardRequest dto, @Context UserService userService);
 
     @Override

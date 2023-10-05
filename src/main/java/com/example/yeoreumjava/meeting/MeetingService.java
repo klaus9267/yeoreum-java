@@ -92,7 +92,7 @@ public class MeetingService {
     }
 
     public void setGuestList(Meeting meeting, Apply apply, List<Long> guestIdList) {
-        List<Guest> guestList = userService.findUsersByIds(guestIdList)
+        List<Guest> guestList = userService.loadUserList(guestIdList)
                                          .stream()
                                          .map(user -> Guest.builder().meeting(meeting).team(apply).user(user).build())
                                          .toList();

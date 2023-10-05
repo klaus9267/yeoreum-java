@@ -16,8 +16,8 @@ public class FriendService {
     private final UserService userService;
 
     public void applyFriend(Long senderId, Long receiverId) {
-        User sender = userService.findUserById(senderId);
-        User receiver = userService.findUserById(receiverId);
+        User sender = userService.loadUser(senderId);
+        User receiver = userService.loadUser(receiverId);
 
         Friend friend = Friend.builder().sender(sender).receiver(receiver).build();
         friendRepository.save(friend);
@@ -28,8 +28,8 @@ public class FriendService {
     }
 
     public void findOne(Long senderId, Long receiverId) {
-        User sender = userService.findUserById(senderId);
-        User receiver = userService.findUserById(receiverId);
+        User sender = userService.loadUser(senderId);
+        User receiver = userService.loadUser(receiverId);
 
         Friend friend = friendRepository.findBySenderAndReceiver(sender, receiver)
                                         .orElseThrow(() -> new NoSuchElementException("친구 "));
