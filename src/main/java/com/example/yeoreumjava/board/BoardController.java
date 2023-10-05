@@ -22,7 +22,6 @@ public class BoardController {
     @GetMapping("")
     public ResponseEntity<List<BoardResponse>> findBoardById() {
         List<BoardResponse> boardResponseList = boardService.findAll();
-
         return ResponseEntity.ok(boardResponseList);
     }
 
@@ -33,6 +32,7 @@ public class BoardController {
 
     @PostMapping("")
     public ResponseEntity<BoardResponse> createBoard(@Valid @RequestBody BoardRequest boardRequest) {
+        // boardReq에 작성자 번호 삽입
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(BoardMapper.INSTANCE.toDto(boardService.createBoard(boardRequest)));
     }
@@ -46,7 +46,6 @@ public class BoardController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMajor(@PathVariable("id") Long id) {
         boardService.deleteBoard(id);
-
         return ResponseEntity.ok("삭제 성공");
     }
 }

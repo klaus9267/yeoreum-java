@@ -35,7 +35,6 @@ public class MajorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMajor(@PathVariable("id") Long id) {
         majorService.deleteMajor(id);
-
         return ResponseEntity.ok("삭제 성공");
     }
 }

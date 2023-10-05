@@ -28,13 +28,6 @@ public interface BoardMapper extends BaseMapper<BoardRequest, BoardResponse, Boa
     @Named("D2E")
     @Mapping(target = "title", source = "title")
     @Mapping(target = "content", source = "content")
-    @Mapping(target = "writer", source = "writerId", qualifiedByName = "loadUser")
-    Board toEntity(BoardRequest dto, @Context UserService userService);
-
-    @Override
-    @IterableMapping(qualifiedByName = "E2D")
-    List<BoardResponse> toDtoList(List<Board> entityList);
-
-    @IterableMapping(qualifiedByName = "D2E")
-    List<Board> toEntityList(List<BoardRequest> dtoList, @Context UserService userService);
+    @Mapping(target = "writer", ignore = true)
+    Board toEntity(BoardRequest dto);
 }
