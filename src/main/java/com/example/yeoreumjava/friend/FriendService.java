@@ -7,6 +7,8 @@ import com.example.yeoreumjava.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 public class FriendService {
@@ -21,9 +23,15 @@ public class FriendService {
         friendRepository.save(friend);
     }
 
-    public void deleteFriend(Long receiverId) {
+    public void deleteFriend(Long receiverId, Long senderId) {
 
     }
 
-//    public void
+    public void findOne(Long senderId, Long receiverId) {
+        User sender = userService.findUserById(senderId);
+        User receiver = userService.findUserById(receiverId);
+
+        Friend friend = friendRepository.findBySenderAndReceiver(sender, receiver)
+                                        .orElseThrow(() -> new NoSuchElementException("친구 "));
+    }
 }

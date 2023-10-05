@@ -6,5 +6,5 @@ import com.example.yeoreumjava.user.domain.User;
 import java.util.List;
 
 public interface FriendRepositoryCustom {
-    List<Friend> findAllById(User user);
+    List<Friend> findAllByUser(User user);
 }

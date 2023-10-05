@@ -49,7 +49,7 @@ public class BoardService {
         Meeting meeting = meetingService.createMeeting(meetingRequest);
 
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest, userService);
-        board.setMeeting(meeting);ㅌ
+        board.setMeeting(meeting);
         boardRepository.save(board);
     }
 

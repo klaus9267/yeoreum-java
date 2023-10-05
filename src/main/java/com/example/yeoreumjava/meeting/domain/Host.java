@@ -7,11 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @NoArgsConstructor
-@Data
 @AllArgsConstructor
+@Data
 @Builder
 public class Host {
     @Id
@@ -24,3 +23,8 @@ public class Host {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 }
+
+
+
+
+
