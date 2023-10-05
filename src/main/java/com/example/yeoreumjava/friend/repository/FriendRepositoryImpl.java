@@ -17,7 +17,7 @@ public class FriendRepositoryImpl implements FriendRepositoryCustom{
     private final UserRepository userRepository;
 
         @Override
-    public List<Friend> findAllById(User user) {
+    public List<Friend> findAllByUser(User user) {
         QFriend qFriend = QFriend.friend;
             return jpaQueryFactory.selectFrom(qFriend)
                                   .where(qFriend.sender.eq(user).or(qFriend.receiver.eq(user)))
