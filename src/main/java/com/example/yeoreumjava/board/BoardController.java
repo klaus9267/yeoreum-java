@@ -2,6 +2,7 @@ package com.example.yeoreumjava.board;
 
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
+import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.meeting.MeetingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,23 +27,19 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BoardResponse> findBoardById(@PathVariable("id") Long id) {
-        BoardResponse board = boardService.findBoardResponseById(id);
-
-        return ResponseEntity.ok(board);
+    public ResponseEntity<BoardResponse> loadBoard(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(BoardMapper.INSTANCE.toDto(boardService.loadBoard(id)));
     }
 
     @PostMapping("")
-    public ResponseEntity<String> createBoard(@Valid @RequestBody BoardRequest boardRequest) {
-        boardService.createBoard(boardRequest);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("작성 완료");
+    public ResponseEntity<BoardResponse> createBoard(@Valid @RequestBody BoardRequest boardRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                             .body(BoardMapper.INSTANCE.toDto(boardService.createBoard(boardRequest)));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<String> updateBoard(@PathVariable("id") Long id, @RequestBody BoardRequest boardRequest) {
         boardService.updateBoard(id, boardRequest);
-
         return ResponseEntity.ok("수정 완료");
     }
 

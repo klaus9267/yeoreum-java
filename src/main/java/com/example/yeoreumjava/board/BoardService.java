@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +25,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class BoardService {
     private final BoardRepository boardRepository;
+
     private final MeetingService meetingService;
     private final UserService userService;
 
@@ -33,28 +35,27 @@ public class BoardService {
         return BoardMapper.INSTANCE.toDtoList(boardList);
     }
 
-    public BoardResponse findBoardResponseById(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 게시글이 없습니다."));
-
-        return BoardMapper.INSTANCE.toDto(board);
+    public Optional<Board> findBoard(Long id) {
+        return boardRepository.findById(id);
     }
 
-    @org.mapstruct.Named("findBoardById")
-    public Board findBoardById(Long id) {
-        return boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 게시글이 없습니다."));
+    @org.mapstruct.Named("loadBoard")
+    public Board loadBoard(Long id) {
+        return findBoard(id).orElseThrow(() -> new NoSuchElementException(id + "번 게시글이 없습니다."));
     }
 
-    public void createBoard(BoardRequest boardRequest) {
+    public Board createBoard(BoardRequest boardRequest) {
         MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
         Meeting meeting = meetingService.createMeeting(meetingRequest);
 
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest, userService);
         board.setMeeting(meeting);
-        boardRepository.save(board);
+
+        return boardRepository.save(board);
     }
 
     public void updateBoard(Long id, BoardRequest boardRequest) {
-        findBoardById(id);
+        loadBoard(id);
 
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest, userService);
         board.setId(id);
