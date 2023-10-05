@@ -1,5 +1,6 @@
 package com.example.yeoreumjava.friend.domain.dto;
 
+import com.example.yeoreumjava.user.domain.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class FriendResponse {
-    @NotBlank(message = "학과를 입력해 주세요.")
-    private String name;
+    private Long id;
+    private User sender;
+    private User receiver;
+    private boolean accepted;
 }

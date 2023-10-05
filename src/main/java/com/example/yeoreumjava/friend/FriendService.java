@@ -2,19 +2,27 @@ package com.example.yeoreumjava.friend;
 
 import com.example.yeoreumjava.friend.domain.Friend;
 import com.example.yeoreumjava.friend.repository.FriendRepository;
+import com.example.yeoreumjava.friend.repository.FriendRepositoryCustom;
 import com.example.yeoreumjava.user.UserService;
 import com.example.yeoreumjava.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class FriendService {
     private final FriendRepository friendRepository;
+    private final FriendRepositoryCustom friendRepositoryCustom;
     private final UserService userService;
 
+    public List<Friend> loadFriendList(Long userId) {
+        User user = userService.loadUser(userId);
+
+        return friendRepositoryCustom.findAllByUser(user);
+    }
     public void applyFriend(Long senderId, Long receiverId) {
         User sender = userService.loadUser(senderId);
         User receiver = userService.loadUser(receiverId);

@@ -1,5 +1,6 @@
 package com.example.yeoreumjava.common;
 
+import com.example.yeoreumjava.friend.FriendService;
 import com.example.yeoreumjava.major.MajorService;
 import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.major.domain.dto.MajorRequest;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class DBInit implements InitializingBean {
     private final UserService userService;
     private final MajorService majorService;
+    private final FriendService friendService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -23,8 +25,13 @@ public class DBInit implements InitializingBean {
             Major major = majorService.createMajor(MajorRequest.builder()
                                                                .name("컴소")
                                                                .build());
-//            userService.addAuthority(user.getUserId(), "ROLE_USER");
         }
+        if (majorService.findMajor(2L).isEmpty()) {
+            Major major = majorService.createMajor(MajorRequest.builder()
+                                                               .name("기계")
+                                                               .build());
+        }
+
         if (userService.findUser(1L).isEmpty()) {
             User user = userService.createUser(UserRequest.builder()
                                                     .name("user1")
@@ -32,5 +39,27 @@ public class DBInit implements InitializingBean {
                                                     .build());
 //            userService.addAuthority(user.getUserId(), "ROLE_USER");
         }
+        if (userService.findUser(2L).isEmpty()) {
+            User user = userService.createUser(UserRequest.builder()
+                                                    .name("user2")
+                                                    .majorId(1L)
+                                                    .build());
+//            userService.addAuthority(user.getUserId(), "ROLE_USER");
+        }
+        if (userService.findUser(3L).isEmpty()) {
+            User user = userService.createUser(UserRequest.builder()
+                                                    .name("user3")
+                                                    .majorId(2L)
+                                                    .build());
+//            userService.addAuthority(user.getUserId(), "ROLE_USER");
+        }
+
+//        if (friendService.findUser(3L).isEmpty()) {
+//            User user = userService.createUser(UserRequest.builder()
+//                                                    .name("user3")
+//                                                    .majorId(2L)
+//                                                    .build());
+////            userService.addAuthority(user.getUserId(), "ROLE_USER");
+//        }
     }
 }
