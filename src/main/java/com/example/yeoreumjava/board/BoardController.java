@@ -19,10 +19,9 @@ public class BoardController {
     private final BoardService boardService;
     private final MeetingService meetingService;
 
-    @GetMapping("")
-    public ResponseEntity<List<BoardResponse>> findBoardById() {
-        List<BoardResponse> boardResponseList = boardService.findAll();
-        return ResponseEntity.ok(boardResponseList);
+    @GetMapping("/my/{id}")
+    public ResponseEntity<List<BoardResponse>> loadBoardList(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(BoardMapper.INSTANCE.toDtoList(boardService.loadBoardList(id)));
     }
 
     @GetMapping("/{id}")
@@ -44,7 +43,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteMajor(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteBoard(@PathVariable("id") Long id) {
         boardService.deleteBoard(id);
         return ResponseEntity.ok("삭제 성공");
     }

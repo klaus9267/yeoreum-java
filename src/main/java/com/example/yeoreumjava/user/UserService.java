@@ -1,8 +1,10 @@
 package com.example.yeoreumjava.user;
 
+import com.example.yeoreumjava.board.BoardService;
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.major.MajorService;
+import com.example.yeoreumjava.meeting.MeetingService;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
@@ -23,9 +25,10 @@ import java.util.Optional;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
+
+    private final MeetingService meetingService;
+    private final BoardService boardService;
     private final MajorService majorService;
-    private final MeetingRepository meetingRepository;
-    private final BoardRepository boardRepository;
 
     @org.mapstruct.Named("loadUser")
     public User loadUser(Long id) {
@@ -60,7 +63,7 @@ public class UserService {
     public void deleteUser(Long id) {
         loadUser(id);
 
-        List<Board> boardList = boardRepository.findAllByWriterId(id);
+        List<Board> boardList = boardService.fi
         if (!boardList.isEmpty()) {
             boardList.forEach(board -> meetingRepository.deleteById(board.getMeeting().getId()));
         }

@@ -2,7 +2,6 @@ package com.example.yeoreumjava.board;
 
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
-import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.meeting.MeetingService;
@@ -29,10 +28,8 @@ public class BoardService {
     private final MeetingService meetingService;
     private final UserService userService;
 
-    public List<BoardResponse> findAll() {
-        List<Board> boardList = boardRepository.findAll();
-
-        return BoardMapper.INSTANCE.toDtoList(boardList);
+    public List<Board> loadBoardList(Long writerId) {
+        return boardRepository.findAllByWriterId(writerId);
     }
 
     public Optional<Board> findBoard(Long id) {
@@ -61,7 +58,6 @@ public class BoardService {
         board.setId(id);
 
         boardRepository.save(board);
-ㅈ1
         MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
         meetingService.updateMeeting(id, meetingRequest);
     }
