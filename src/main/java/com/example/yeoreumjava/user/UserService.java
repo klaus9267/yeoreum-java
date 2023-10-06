@@ -25,9 +25,9 @@ import java.util.Optional;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
+    private final MeetingRepository meetingRepository;
+    private final BoardRepository boardRepository;
 
-    private final MeetingService meetingService;
-    private final BoardService boardService;
     private final MajorService majorService;
 
     @org.mapstruct.Named("loadUser")
@@ -63,7 +63,7 @@ public class UserService {
     public void deleteUser(Long id) {
         loadUser(id);
 
-        List<Board> boardList = boardService.fi
+        List<Board> boardList = boardRepository.findAllByWriterId(id);
         if (!boardList.isEmpty()) {
             boardList.forEach(board -> meetingRepository.deleteById(board.getMeeting().getId()));
         }

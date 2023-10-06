@@ -28,7 +28,7 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
     HostResponse toDto(Host entity);
 
     @Named("D2E")
-    @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "findMeetingById")
+    @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "loadMeeting")
     @Mapping(target = "user", source = "userId", qualifiedByName = "loadUser")
     Host toEntity(HostRequest dto, @Context UserService userService, @Context MeetingService meetingService);
 

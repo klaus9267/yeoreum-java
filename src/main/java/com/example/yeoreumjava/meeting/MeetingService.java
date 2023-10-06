@@ -5,9 +5,7 @@ import com.example.yeoreumjava.meeting.domain.Guest;
 import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyRequest;
-import com.example.yeoreumjava.meeting.domain.dto.ApplyResponse;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
-import com.example.yeoreumjava.meeting.domain.dto.MeetingResponse;
 import com.example.yeoreumjava.meeting.mapper.ApplyMapper;
 import com.example.yeoreumjava.meeting.mapper.HostMapper;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
@@ -22,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,40 +30,28 @@ public class MeetingService {
     private final GuestRepository guestRepository;
     private final ApplyRepository applyRepository;
     private final HostRepository hostRepository;
+
     private final UserService userService;
 
-    public List<MeetingResponse> findAll() {
-        List<Meeting> meetingList = meetingRepository.findAll();
-
-        return MeetingMapper.instance.toDtoList(meetingList);
+    public Optional<Meeting> findMeeting(Long meetingId) {
+        return meetingRepository.findById(meetingId);
     }
 
-    public MeetingResponse findMeetingResponseById(Long id) {
-        Meeting meeting = meetingRepository.findById(id)
-                                           .orElseThrow(() -> new NoSuchElementException(id + "번 만남이 없습니다."));
-
-        return MeetingMapper.instance.toDto(meeting);
+    @org.mapstruct.Named("loadMeeting")
+    public Meeting loadMeeting(Long id) {
+        return findMeeting(id).orElseThrow(() -> new NoSuchElementException(id + "번 만남이 없습니다."));
     }
 
-    @org.mapstruct.Named("findMeetingById")
-    public Meeting findMeetingById(Long id) {
-        return meetingRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 만남이 없습니다."));
+    public List<Apply> loadApplyList(Long meetingId) {
+        return applyRepository.findAllByMeetingId(meetingId);
     }
 
-    public List<ApplyResponse> findAllAppliesByMeetingId(Long meetingId) {
-        List<Apply> applyList = applyRepository.findAllByMeetingId(meetingId);
-
-        return ApplyMapper.instance.toDtoList(applyList);
+    public Apply loadApply(Long id) {
+        return findApply(id).orElseThrow(() -> new NoSuchElementException(id + "번 신청이 없습니다."));
     }
 
-    public Apply findApplyById(Long id) {
-        return applyRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id + "번 신청이 없습니다."));
-    }
-
-    public ApplyResponse findApplyResponseById(Long id) {
-        Apply apply = findApplyById(id);
-
-        return ApplyMapper.instance.toDto(apply);
+    public Optional<Apply> findApply(Long id) {
+        return applyRepository.findById(id);
     }
 
     public Meeting createMeeting(MeetingRequest meetingRequest) {
@@ -77,7 +64,7 @@ public class MeetingService {
     }
 
     public void applyMeeting(Long meetingId, ApplyRequest applyRequest) {
-        Meeting meeting = findMeetingById(meetingId);
+        Meeting meeting = loadMeeting(meetingId);
 
         if (meeting.isDone()) {
             throw new RuntimeException("만나 성사된 게시글 입니다.");
@@ -93,15 +80,15 @@ public class MeetingService {
 
     public void setGuestList(Meeting meeting, Apply apply, List<Long> guestIdList) {
         List<Guest> guestList = userService.loadUserList(guestIdList)
-                                         .stream()
-                                         .map(user -> Guest.builder().meeting(meeting).team(apply).user(user).build())
-                                         .toList();
+                                           .stream()
+                                           .map(user -> Guest.builder().meeting(meeting).team(apply).user(user).build())
+                                           .toList();
 
         guestRepository.saveAll(guestList);
     }
 
     public void updateMeeting(Long id, MeetingRequest meetingRequest) {
-        findMeetingById(id);
+        loadMeeting(id);
 
         Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
         meeting.setId(id);
@@ -118,8 +105,8 @@ public class MeetingService {
     }
 
     public void acceptApply(Long id) {
-        Apply apply = findApplyById(id);
-        Meeting meeting = findMeetingById(apply.getMeeting().getId());
+        Apply apply = loadApply(id);
+        Meeting meeting = loadMeeting(apply.getMeeting().getId());
         meeting.setDone(true);
 
         //채팅 시작되는 api

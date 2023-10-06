@@ -2,6 +2,7 @@ package com.example.yeoreumjava.meeting;
 
 import com.example.yeoreumjava.meeting.domain.dto.ApplyRequest;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyResponse;
+import com.example.yeoreumjava.meeting.mapper.ApplyMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,30 +18,24 @@ public class MeetingController {
 
     @GetMapping("{meetingId}")
     public ResponseEntity<List<ApplyResponse>> findAllAppliesByMeetingId(@PathVariable("meetingId") Long meetingId) {
-        List<ApplyResponse> applyResponseList = meetingService.findAllAppliesByMeetingId(meetingId);
-
-        return ResponseEntity.ok(applyResponseList);
+        return ResponseEntity.ok(ApplyMapper.instance.toDtoList(meetingService.loadApplyList(meetingId)));
     }
 
-    @GetMapping("{applyId}")
-    public ResponseEntity<ApplyResponse> findApplyResponseById(@PathVariable("applyId") Long applyId) {
-        ApplyResponse applyResponse = meetingService.findApplyResponseById(applyId);
-
-        return ResponseEntity.ok(applyResponse);
+    @GetMapping("{id}")
+    public ResponseEntity<ApplyResponse> loadApply(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(ApplyMapper.instance.toDto(meetingService.loadApply(id)));
     }
 
     @PostMapping("{meetingId}")
     public ResponseEntity<String> applyMeeting(@PathVariable("meetingId") Long meetingId,
                                                @Valid @RequestBody ApplyRequest applyRequest) {
         meetingService.applyMeeting(meetingId, applyRequest);
-
         return ResponseEntity.ok("신청 완료");
     }
 
     @PatchMapping("{applyId}")
     public ResponseEntity<String> acceptApply(@PathVariable("applyId") Long applyId) {
         meetingService.acceptApply(applyId);
-
         return ResponseEntity.ok("만남 성사");
     }
 }
