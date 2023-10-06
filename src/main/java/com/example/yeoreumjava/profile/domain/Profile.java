@@ -29,4 +29,7 @@ public class Profile {
 
     @OneToMany(mappedBy = "writer")
     private List<Board> boardList = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "writer")
+//    private List<Board> boardList = new ArrayList<>();
 }

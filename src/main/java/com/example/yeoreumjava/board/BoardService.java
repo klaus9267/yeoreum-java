@@ -41,14 +41,13 @@ public class BoardService {
         return findBoard(id).orElseThrow(() -> new NoSuchElementException(id + "번 게시글이 없습니다."));
     }
 
-    public Board createBoard(BoardRequest boardRequest) {
+    public void createBoard(BoardRequest boardRequest) {
         MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
         Meeting meeting = meetingService.createMeeting(meetingRequest);
-
         Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
-        board.setMeeting(meeting);
 
-        return boardRepository.save(board);
+        board.setMeeting(meeting);
+        boardRepository.save(board);
     }
 
     public void updateBoard(Long id, BoardRequest boardRequest) {
@@ -58,6 +57,7 @@ public class BoardService {
         board.setId(id);
 
         boardRepository.save(board);
+
         MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
         meetingService.updateMeeting(id, meetingRequest);
     }

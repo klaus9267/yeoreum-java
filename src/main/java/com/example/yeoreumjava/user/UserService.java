@@ -44,14 +44,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User createUser(UserRequest userRequest) {
-        User user = UserMapper.instance.toEntity(userRequest, majorService);
-
-        return userRepository.save(user);
-    }
+    public User createUser(User user) {return userRepository.save(user);}
 
     public User updateUser(Long id, UserRequest userRequest) {
-        User user = UserMapper.instance.toEntity(userRequest, majorService);
+        User user = UserMapper.instance.toEntity(userRequest);
         user.setId(id);
 
         return userRepository.save(user);

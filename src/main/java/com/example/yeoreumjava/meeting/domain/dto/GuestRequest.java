@@ -14,5 +14,5 @@ public class GuestRequest {
     private Long meetingId;
 
     @NotNull(message = "guestId를 입력해 주세요.")
-    private Long userId;
+    private Long profileId;
 }

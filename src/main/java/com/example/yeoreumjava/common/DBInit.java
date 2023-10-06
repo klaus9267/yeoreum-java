@@ -33,24 +33,15 @@ public class DBInit implements InitializingBean {
         }
 
         if (userService.findUser(1L).isEmpty()) {
-            User user = userService.createUser(UserRequest.builder()
-                                                    .name("user1")
-                                                    .majorId(1L)
-                                                    .build());
+            User user = userService.createUser(User.builder().password("111").username("user1").build());
 //            userService.addAuthority(user.getUserId(), "ROLE_USER");
         }
         if (userService.findUser(2L).isEmpty()) {
-            User user = userService.createUser(UserRequest.builder()
-                                                    .name("user2")
-                                                    .majorId(1L)
-                                                    .build());
+            User user = userService.createUser(User.builder().password("111").username("user2").build());
 //            userService.addAuthority(user.getUserId(), "ROLE_USER");
         }
         if (userService.findUser(3L).isEmpty()) {
-            User user = userService.createUser(UserRequest.builder()
-                                                    .name("user3")
-                                                    .majorId(2L)
-                                                    .build());
+            User user = userService.createUser(User.builder().password("111").username("user3").build());
 //            userService.addAuthority(user.getUserId(), "ROLE_USER");
         }
 

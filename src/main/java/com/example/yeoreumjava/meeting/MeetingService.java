@@ -13,6 +13,7 @@ import com.example.yeoreumjava.meeting.repository.ApplyRepository;
 import com.example.yeoreumjava.meeting.repository.GuestRepository;
 import com.example.yeoreumjava.meeting.repository.HostRepository;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
+import com.example.yeoreumjava.profile.ProfileService;
 import com.example.yeoreumjava.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class MeetingService {
     private final ApplyRepository applyRepository;
     private final HostRepository hostRepository;
 
-    private final UserService userService;
+    private final ProfileService profileService;
 
     public Optional<Meeting> findMeeting(Long meetingId) {
         return meetingRepository.findById(meetingId);
@@ -57,7 +58,7 @@ public class MeetingService {
     public Meeting createMeeting(MeetingRequest meetingRequest) {
         Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
 
-        List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, userService);
+        List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, profileService);
         hostRepository.saveAll(hostList);
 
         return meetingRepository.save(meeting);
@@ -79,9 +80,9 @@ public class MeetingService {
     }
 
     public void setGuestList(Meeting meeting, Apply apply, List<Long> guestIdList) {
-        List<Guest> guestList = userService.loadUserList(guestIdList)
+        List<Guest> guestList = profileService.loadProfileList(guestIdList)
                                            .stream()
-                                           .map(user -> Guest.builder().meeting(meeting).team(apply).user(user).build())
+                                           .map(profile -> Guest.builder().meeting(meeting).team(apply).profile(profile).build())
                                            .toList();
 
         guestRepository.saveAll(guestList);
@@ -95,7 +96,7 @@ public class MeetingService {
 
         meetingRepository.save(meeting);
 
-        List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, userService);
+        List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, profileService);
         updateHostList(id, hostList);
     }
 

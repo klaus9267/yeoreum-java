@@ -1,5 +1,6 @@
 package com.example.yeoreumjava.board;
 
+import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.mapper.BoardMapper;
@@ -30,10 +31,9 @@ public class BoardController {
     }
 
     @PostMapping("")
-    public ResponseEntity<BoardResponse> createBoard(@Valid @RequestBody BoardRequest boardRequest) {
-        // boardReq에 작성자 번호 삽입
-        return ResponseEntity.status(HttpStatus.CREATED)
-                             .body(BoardMapper.INSTANCE.toDto(boardService.createBoard(boardRequest)));
+    public ResponseEntity<String> createBoard(@Valid @RequestBody BoardRequest boardRequest) {
+        boardService.createBoard(boardRequest);
+        return ResponseEntity.ok("작성 완료");
     }
 
     @PatchMapping("/{id}")
@@ -45,6 +45,6 @@ public class BoardController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBoard(@PathVariable("id") Long id) {
         boardService.deleteBoard(id);
-        return ResponseEntity.ok("삭제 성공");
+        return ResponseEntity.ok("삭제 완료");
     }
 }

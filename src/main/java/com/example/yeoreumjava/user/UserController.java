@@ -25,7 +25,8 @@ public class UserController {
 
     @PostMapping("")
     public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료" + userService.createUser(userRequest));
+        userService.createUser(UserMapper.instance.toEntity(userRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
     }
 
     @PatchMapping("/{id}")

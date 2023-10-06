@@ -9,7 +9,6 @@ import lombok.Data;
 @Builder
 public class HostResponse {
     private Long id;
-
     private Long meetingId;
-    private Long userId;
+    private Long profileId;
 }

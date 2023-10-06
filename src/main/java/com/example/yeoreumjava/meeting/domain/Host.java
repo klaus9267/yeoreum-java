@@ -1,5 +1,6 @@
 package com.example.yeoreumjava.meeting.domain;
 
+import com.example.yeoreumjava.profile.domain.Profile;
 import com.example.yeoreumjava.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class Host {
     private Meeting meeting;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Profile profile;
 }
 
 
