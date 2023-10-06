@@ -5,7 +5,6 @@ import com.example.yeoreumjava.major.MajorService;
 import com.example.yeoreumjava.profile.domain.Profile;
 import com.example.yeoreumjava.profile.domain.dto.ProfileRequest;
 import com.example.yeoreumjava.profile.domain.dto.ProfileResponse;
-import com.example.yeoreumjava.user.mapper.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
