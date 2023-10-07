@@ -6,7 +6,6 @@ import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.major.domain.dto.MajorRequest;
 import com.example.yeoreumjava.user.UserService;
 import com.example.yeoreumjava.user.domain.User;
-import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
@@ -22,35 +21,31 @@ public class DBInit implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
 
         if (majorService.findMajor(1L).isEmpty()) {
-            Major major = majorService.createMajor(MajorRequest.builder()
-                                                               .name("컴소")
-                                                               .build());
+            Major major = majorService.createMajor(MajorRequest.builder().name("컴소").build());
         }
         if (majorService.findMajor(2L).isEmpty()) {
-            Major major = majorService.createMajor(MajorRequest.builder()
-                                                               .name("기계")
-                                                               .build());
+            Major major = majorService.createMajor(MajorRequest.builder().name("기계").build());
         }
 
         if (userService.findUser(1L).isEmpty()) {
-            User user = userService.createUser(User.builder().password("111").username("user1").build());
-//            userService.addAuthority(user.getUserId(), "ROLE_USER");
+            User user = userService.createUser(User.builder().password("111").email("1@1.com").build());
+            //            userService.addAuthority(user.getUserId(), "ROLE_USER");
         }
         if (userService.findUser(2L).isEmpty()) {
-            User user = userService.createUser(User.builder().password("111").username("user2").build());
-//            userService.addAuthority(user.getUserId(), "ROLE_USER");
+            User user = userService.createUser(User.builder().password("111").email("2@1.com").build());
+            //            userService.addAuthority(user.getUserId(), "ROLE_USER");
         }
         if (userService.findUser(3L).isEmpty()) {
-            User user = userService.createUser(User.builder().password("111").username("user3").build());
-//            userService.addAuthority(user.getUserId(), "ROLE_USER");
+            User user = userService.createUser(User.builder().password("111").email("3@1.com").build());
+            //            userService.addAuthority(user.getUserId(), "ROLE_USER");
         }
 
-//        if (friendService.findUser(3L).isEmpty()) {
-//            User user = userService.createUser(UserRequest.builder()
-//                                                    .name("user3")
-//                                                    .majorId(2L)
-//                                                    .build());
-////            userService.addAuthority(user.getUserId(), "ROLE_USER");
-//        }
+        //        if (friendService.findUser(3L).isEmpty()) {
+        //            User user = userService.createUser(UserRequest.builder()
+        //                                                    .name("user3")
+        //                                                    .majorId(2L)
+        //                                                    .build());
+        ////            userService.addAuthority(user.getUserId(), "ROLE_USER");
+        //        }
     }
 }

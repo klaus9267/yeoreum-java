@@ -29,6 +29,11 @@ public class Board extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Meeting meeting;
+
+    public void updateBoard(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
 
 

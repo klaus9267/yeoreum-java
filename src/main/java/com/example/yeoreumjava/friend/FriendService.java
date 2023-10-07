@@ -16,6 +16,7 @@ import java.util.NoSuchElementException;
 public class FriendService {
     private final FriendRepository friendRepository;
     private final FriendRepositoryCustom friendRepositoryCustom;
+
     private final UserService userService;
 
     public List<Friend> loadFriendList(Long userId) {

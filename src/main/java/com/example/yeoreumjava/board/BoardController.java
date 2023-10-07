@@ -1,13 +1,10 @@
 package com.example.yeoreumjava.board;
 
-import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.mapper.BoardMapper;
-import com.example.yeoreumjava.meeting.MeetingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
-    private final MeetingService meetingService;
 
     @GetMapping("/my/{id}")
     public ResponseEntity<List<BoardResponse>> loadBoardList(@PathVariable("id") Long id) {

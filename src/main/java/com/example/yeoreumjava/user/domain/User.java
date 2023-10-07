@@ -2,6 +2,8 @@ package com.example.yeoreumjava.user.domain;
 
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.major.domain.Major;
+import com.example.yeoreumjava.profile.domain.Profile;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -21,8 +23,17 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String username;
+    private String email;
 
     @Column(nullable = false)
     private String password;
+
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JsonIgnore
+    private Profile profile;
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }

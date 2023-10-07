@@ -6,7 +6,6 @@ import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.meeting.MeetingService;
 import com.example.yeoreumjava.meeting.domain.Meeting;
-import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import com.example.yeoreumjava.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -42,24 +41,19 @@ public class BoardService {
     }
 
     public void createBoard(BoardRequest boardRequest) {
-        MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
-        Meeting meeting = meetingService.createMeeting(meetingRequest);
-        Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
+        Meeting meeting = meetingService.createMeeting(boardRequest);
 
+        Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
         board.setMeeting(meeting);
         boardRepository.save(board);
     }
 
     public void updateBoard(Long id, BoardRequest boardRequest) {
-        loadBoard(id);
-
-        Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
-        board.setId(id);
-
+        Board board = loadBoard(id);
+        board.updateBoard(boardRequest.getTitle(), boardRequest.getContent());
         boardRepository.save(board);
 
-        MeetingRequest meetingRequest = MeetingMapper.instance.extractMeetingDto(boardRequest);
-        meetingService.updateMeeting(id, meetingRequest);
+        meetingService.updateMeeting(board.getMeeting().getId(), boardRequest);
     }
 
     public void deleteBoard(Long id) {

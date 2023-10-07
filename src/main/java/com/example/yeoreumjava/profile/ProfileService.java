@@ -33,11 +33,7 @@ public class ProfileService {
     }
 
     public List<Profile> loadProfileList(List<Long> idList) {
-        List<Profile> profileList = new ArrayList<>();
-
-        idList.forEach(id -> profileList.add(loadProfile(id)));
-
-        return profileList;
+        return idList.stream().map(this::loadProfile).toList();
     }
 
     public Optional<Profile> findProfile(Long id) {

@@ -13,9 +13,4 @@ import java.util.List;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper extends BaseMapper<UserRequest, UserResponse, User> {
     UserMapper instance = Mappers.getMapper(UserMapper.class);
-
-    @Override
-    @Named("E2D")
-    @Mapping(target = "id", ignore = true)
-    UserResponse toDto(User entity);
 }

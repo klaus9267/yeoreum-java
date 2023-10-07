@@ -8,12 +8,9 @@ import com.example.yeoreumjava.meeting.domain.dto.HostRequest;
 import com.example.yeoreumjava.meeting.domain.dto.HostResponse;
 import com.example.yeoreumjava.profile.ProfileService;
 import com.example.yeoreumjava.profile.domain.Profile;
-import com.example.yeoreumjava.user.UserService;
-import com.example.yeoreumjava.user.domain.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
@@ -39,16 +36,7 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
                             @Context ProfileService profileService,
                             @Context MeetingService meetingService);
 
-    default List<Host> setEntityList(List<Long> hostIdList, Meeting meeting, @Context ProfileService profileService) {
-        List<Host> hostList = new ArrayList<>();
-
-        hostIdList.forEach(hostId -> {
-            Profile profile = profileService.loadProfile(hostId);
-            Host host = Host.builder().meeting(meeting).profile(profile).build();
-
-            hostList.add(host);
-        });
-
-        return hostList;
+    default List<Host> setHostList(List<Profile> profileList, Meeting meeting) {
+        return profileList.stream().map(profile -> Host.builder().meeting(meeting).profile(profile).build()).toList();
     }
 }

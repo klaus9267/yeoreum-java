@@ -1,11 +1,11 @@
 package com.example.yeoreumjava.meeting;
 
+import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.meeting.domain.Apply;
 import com.example.yeoreumjava.meeting.domain.Guest;
 import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyRequest;
-import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.mapper.ApplyMapper;
 import com.example.yeoreumjava.meeting.mapper.HostMapper;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
@@ -14,7 +14,7 @@ import com.example.yeoreumjava.meeting.repository.GuestRepository;
 import com.example.yeoreumjava.meeting.repository.HostRepository;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.profile.ProfileService;
-import com.example.yeoreumjava.user.UserService;
+import com.example.yeoreumjava.profile.domain.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,60 +55,62 @@ public class MeetingService {
         return applyRepository.findById(id);
     }
 
-    public Meeting createMeeting(MeetingRequest meetingRequest) {
-        Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
+    public Meeting createMeeting(BoardRequest boardRequest) {
+        List<Profile> profileList = profileService.loadProfileList(boardRequest.getHostList());
 
-        List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, profileService);
+        Meeting extractedMeeting = MeetingMapper.instance.extractMeeting(boardRequest);
+        Meeting meeting = meetingRepository.save(extractedMeeting);
+
+        List<Host> hostList = HostMapper.instance.setHostList(profileList, meeting);
         hostRepository.saveAll(hostList);
 
-        return meetingRepository.save(meeting);
+        return meeting;
+    }
+
+    public void updateMeeting(Long id, BoardRequest boardRequest) {
+        Meeting meeting = loadMeeting(id);
+        Meeting request = MeetingMapper.instance.extractMeeting(boardRequest);
+        meeting.updateMeeting(request.getPlace(), request.getTime());
+        meetingRepository.save(meeting);
+
+        updateHostList(meeting, boardRequest.getHostList());
     }
 
     public void applyMeeting(Long meetingId, ApplyRequest applyRequest) {
         Meeting meeting = loadMeeting(meetingId);
-
         if (meeting.isDone()) {
             throw new RuntimeException("만나 성사된 게시글 입니다.");
         }
 
         Apply apply = ApplyMapper.instance.toEntity(applyRequest);
         apply.setMeeting(meeting);
-
         applyRepository.save(apply);
 
-        setGuestList(meeting, apply, applyRequest.getGuestList());
-    }
-
-    public void setGuestList(Meeting meeting, Apply apply, List<Long> guestIdList) {
-        List<Guest> guestList = profileService.loadProfileList(guestIdList)
-                                           .stream()
-                                           .map(profile -> Guest.builder().meeting(meeting).team(apply).profile(profile).build())
-                                           .toList();
+        List<Guest> guestList = profileService.loadProfileList(applyRequest.getGuestList())
+                                              .stream()
+                                              .map(profile -> Guest.builder()
+                                                                   .meeting(meeting)
+                                                                   .team(apply)
+                                                                   .profile(profile)
+                                                                   .build())
+                                              .toList();
 
         guestRepository.saveAll(guestList);
     }
 
-    public void updateMeeting(Long id, MeetingRequest meetingRequest) {
-        loadMeeting(id);
+    public void updateHostList(Meeting meeting, List<Long> idList) {
+        List<Profile> profileList = profileService.loadProfileList(idList);
+        List<Host> hostList = HostMapper.instance.setHostList(profileList, meeting);
 
-        Meeting meeting = MeetingMapper.instance.toEntity(meetingRequest);
-        meeting.setId(id);
-
-        meetingRepository.save(meeting);
-
-        List<Host> hostList = HostMapper.instance.setEntityList(meetingRequest.getHostList(), meeting, profileService);
-        updateHostList(id, hostList);
-    }
-
-    public void updateHostList(Long meetingId, List<Host> hostList) {
-        hostRepository.deleteAllByMeetingId(meetingId);
+        hostRepository.deleteAllByMeetingId(meeting.getId());
         hostRepository.saveAll(hostList);
     }
 
-    public void acceptApply(Long id) {
-        Apply apply = loadApply(id);
+    public void acceptApply(Long applyId) {
+        Apply apply = loadApply(applyId);
         Meeting meeting = loadMeeting(apply.getMeeting().getId());
         meeting.setDone(true);
+        meetingRepository.save(meeting);
 
         //채팅 시작되는 api
     }

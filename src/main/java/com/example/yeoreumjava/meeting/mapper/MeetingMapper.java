@@ -2,9 +2,11 @@ package com.example.yeoreumjava.meeting.mapper;
 
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.common.mapper.BaseMapper;
+import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingRequest;
 import com.example.yeoreumjava.meeting.domain.dto.MeetingResponse;
+import com.example.yeoreumjava.profile.ProfileService;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -34,5 +36,6 @@ public interface MeetingMapper extends BaseMapper<MeetingRequest, MeetingRespons
     @Mapping(target = "place", source = "place")
     @Mapping(target = "time", source = "time")
     @Mapping(target = "hostList", ignore = true)
-    MeetingRequest extractMeetingDto(BoardRequest boardRequest);
+    Meeting extractMeeting(BoardRequest boardRequest);
+
 }

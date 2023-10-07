@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.user.domain.dto;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserRequest {
     @NotNull
-    @Size(min = 3,max = 20)
-    private String username;
+    @Email
+    private String email;
 
     @NotNull
     @Size(min = 3,max = 100)
