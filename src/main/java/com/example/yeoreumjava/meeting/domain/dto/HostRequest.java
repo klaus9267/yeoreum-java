@@ -13,6 +13,6 @@ public class HostRequest {
     @NotNull(message = "meetingId를 입력해 주세요.")
     private Long meetingId;
 
-    @NotBlank(message = "profileId를 입력해 주세요.")
-    private Long profileId;
+    @NotBlank(message = "userId를 입력해 주세요.")
+    private Long userId;
 }

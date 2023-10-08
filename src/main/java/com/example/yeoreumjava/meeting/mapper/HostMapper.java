@@ -6,8 +6,8 @@ import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.HostRequest;
 import com.example.yeoreumjava.meeting.domain.dto.HostResponse;
-import com.example.yeoreumjava.profile.ProfileService;
-import com.example.yeoreumjava.profile.domain.Profile;
+import com.example.yeoreumjava.user.UserService;
+import com.example.yeoreumjava.user.domain.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {MeetingService.class, ProfileService.class})
+        uses = {MeetingService.class, UserService.class})
 
 public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> {
     HostMapper instance = Mappers.getMapper(HostMapper.class);
@@ -23,20 +23,20 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
     @Override
     @Named("E2D")
     @Mapping(target = "meetingId", expression = "java(entity.getMeeting().getId())")
-    @Mapping(target = "profileId", expression = "java(entity.getProfile().getId())")
+    @Mapping(target = "userId", expression = "java(entity.getUser().getId())")
     HostResponse toDto(Host entity);
 
     @Named("D2E")
     @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "loadMeeting")
-    @Mapping(target = "profile", source = "profileId", qualifiedByName = "loadProfile")
-    Host toEntity(HostRequest dto, @Context ProfileService profileService, @Context MeetingService meetingService);
+    @Mapping(target = "user", source = "userId", qualifiedByName = "loadUser")
+    Host toEntity(HostRequest dto, @Context UserService userService, @Context MeetingService meetingService);
 
     @IterableMapping(qualifiedByName = "D2E")
     List<Host> toEntityList(List<HostRequest> dtoList,
-                            @Context ProfileService profileService,
+                            @Context UserService userService,
                             @Context MeetingService meetingService);
 
-    default List<Host> setHostList(List<Profile> profileList, Meeting meeting) {
-        return profileList.stream().map(profile -> Host.builder().meeting(meeting).profile(profile).build()).toList();
+    default List<Host> setHostList(List<User> userList, Meeting meeting) {
+        return userList.stream().map(user -> Host.builder().meeting(meeting).user(user).build()).toList();
     }
 }

@@ -11,5 +11,5 @@ public class GuestResponse {
     private Long id;
 
     private Long meetingId;
-    private Long profileId;
+    private Long userId;
 }

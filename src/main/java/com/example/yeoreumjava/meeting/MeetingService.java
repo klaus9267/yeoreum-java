@@ -13,8 +13,8 @@ import com.example.yeoreumjava.meeting.repository.ApplyRepository;
 import com.example.yeoreumjava.meeting.repository.GuestRepository;
 import com.example.yeoreumjava.meeting.repository.HostRepository;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
-import com.example.yeoreumjava.profile.ProfileService;
-import com.example.yeoreumjava.profile.domain.Profile;
+import com.example.yeoreumjava.user.UserService;
+import com.example.yeoreumjava.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ public class MeetingService {
     private final ApplyRepository applyRepository;
     private final HostRepository hostRepository;
 
-    private final ProfileService profileService;
+    private final UserService userService;
 
     public Optional<Meeting> findMeeting(Long meetingId) {
         return meetingRepository.findById(meetingId);
@@ -56,12 +56,12 @@ public class MeetingService {
     }
 
     public Meeting createMeeting(BoardRequest boardRequest) {
-        List<Profile> profileList = profileService.loadProfileList(boardRequest.getHostList());
+        List<User> userList = userService.loadUserList(boardRequest.getHostList());
 
         Meeting extractedMeeting = MeetingMapper.instance.extractMeeting(boardRequest);
         Meeting meeting = meetingRepository.save(extractedMeeting);
 
-        List<Host> hostList = HostMapper.instance.setHostList(profileList, meeting);
+        List<Host> hostList = HostMapper.instance.setHostList(userList, meeting);
         hostRepository.saveAll(hostList);
 
         return meeting;
@@ -86,12 +86,12 @@ public class MeetingService {
         apply.setMeeting(meeting);
         applyRepository.save(apply);
 
-        List<Guest> guestList = profileService.loadProfileList(applyRequest.getGuestList())
+        List<Guest> guestList = userService.loadUserList(applyRequest.getGuestList())
                                               .stream()
-                                              .map(profile -> Guest.builder()
+                                              .map(user -> Guest.builder()
                                                                    .meeting(meeting)
                                                                    .team(apply)
-                                                                   .profile(profile)
+                                                                   .user(user)
                                                                    .build())
                                               .toList();
 
@@ -99,8 +99,8 @@ public class MeetingService {
     }
 
     public void updateHostList(Meeting meeting, List<Long> idList) {
-        List<Profile> profileList = profileService.loadProfileList(idList);
-        List<Host> hostList = HostMapper.instance.setHostList(profileList, meeting);
+        List<User> userList = userService.loadUserList(idList);
+        List<Host> hostList = HostMapper.instance.setHostList(userList, meeting);
 
         hostRepository.deleteAllByMeetingId(meeting.getId());
         hostRepository.saveAll(hostList);

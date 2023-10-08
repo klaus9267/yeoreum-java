@@ -2,7 +2,7 @@ package com.example.yeoreumjava.board.domain;
 
 import com.example.yeoreumjava.common.BaseEntity;
 import com.example.yeoreumjava.meeting.domain.Meeting;
-import com.example.yeoreumjava.profile.domain.Profile;
+import com.example.yeoreumjava.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +25,7 @@ public class Board extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Profile writer;
+    private User writer;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Meeting meeting;
