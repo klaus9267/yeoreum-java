@@ -4,6 +4,10 @@ import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.xml.crypto.Data;
+import java.time.LocalDate;
+import java.util.Date;
+
 @SpringBootTest
 class BoardServiceTest {
 
