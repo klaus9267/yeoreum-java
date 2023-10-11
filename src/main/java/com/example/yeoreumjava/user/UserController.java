@@ -29,10 +29,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {
-        return ResponseEntity.ok("수정 완료" + userService.updateUser(id, userRequest));
-    }
+//    @PatchMapping("/{id}")
+//    public ResponseEntity<String> updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {
+//        return ResponseEntity.ok("수정 완료" + userService.updateUser(id, userRequest));
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {

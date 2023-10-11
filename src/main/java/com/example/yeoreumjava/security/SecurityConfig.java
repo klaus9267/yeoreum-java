@@ -14,12 +14,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf().disable()
+                           .formLogin().disable()
                            .cors()
-                           //                           .formLogin().disable()
+
                            .and()
-                           .authorizeHttpRequests()
+                           .authorizeHttpRequests() // 요청 관리
                            .requestMatchers("/api/auth/login","/api/auth/join").permitAll()
-                           //                           .requestMatchers(HttpMethod.GET, "/api/auth").authenticated()
+                           //.requestMatchers(HttpMethod.GET, "/api/auth").authenticated()
 
                            .and()
                            .sessionManagement()

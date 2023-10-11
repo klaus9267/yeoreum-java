@@ -1,5 +1,7 @@
 package com.example.yeoreumjava.user.domain;
 
+import com.example.yeoreumjava.major.domain.Major;
+import com.example.yeoreumjava.meeting.domain.Meeting;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,12 +19,8 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String email;
+    private String nickname;
 
-    @Column(nullable = false)
-    private String password;
-
-    public void updatePassword(String password) {
-        this.password = password;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Major major;
 }

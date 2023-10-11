@@ -26,4 +26,5 @@ public class AuthController {
     public ResponseEntity<String> join() {
         return ResponseEntity.ok("give token!!");
     }
+
 }

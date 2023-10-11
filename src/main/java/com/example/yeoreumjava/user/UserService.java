@@ -46,12 +46,12 @@ public class UserService {
 
     public User createUser(User user) {return userRepository.save(user);}
 
-    public User updateUser(Long id, UserRequest userRequest) {
-        User user = UserMapper.instance.toEntity(userRequest);
-        user.setId(id);
-
-        return userRepository.save(user);
-    }
+//    public User updateUser(Long id, UserRequest userRequest) {
+//        User user = UserMapper.instance.toEntity(userRequest);
+//        user.setId(id);
+//
+//        return userRepository.save(user);
+//    }
 
     public void deleteUser(Long id) {
         loadUser(id);
