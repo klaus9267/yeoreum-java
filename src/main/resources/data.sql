@@ -6,3 +6,4 @@ insert into authentication(email, password) values ('1@1.com', '1111');
 insert into authentication(email, password) values ('2@1.com', '1111');
 insert into authentication(email, password) values ('3@1.com', '1111');
 
+-- insert into USERS

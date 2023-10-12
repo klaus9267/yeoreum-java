@@ -10,7 +10,7 @@ spring:
       path: /h2-console
 
   datasource:
-    url: jdbc:h2:mem:testdb;NON_KEYWORDS=USER
+    url: jdbc:h2:mem:manage;NON_KEYWORDS=USER
     driver-class-name: org.h2.Driver
     username: sa
     password:
