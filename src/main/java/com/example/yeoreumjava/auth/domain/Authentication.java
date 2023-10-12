@@ -21,7 +21,7 @@ public class Authentication {
     private String email;
 
     @Column(nullable = false)
-    private String password;
+    private String hashedPassword;
 
     @OneToOne(mappedBy = "authentication")
     private User user;

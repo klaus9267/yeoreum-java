@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface AuthRepository extends JpaRepository<Authentication,Long> {
-    Optional<Authentication> findByEmailAndPassword(String email, String password);
+    Optional<Authentication> findByEmailAndHashedPassword(String email, String password);
+
+    Optional<Authentication> findByEmail(String email);
 }

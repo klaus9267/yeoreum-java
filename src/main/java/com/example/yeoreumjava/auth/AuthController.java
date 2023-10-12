@@ -1,6 +1,6 @@
 package com.example.yeoreumjava.auth;
 
-import com.example.yeoreumjava.auth.domain.dto.LoginDto;
+import com.example.yeoreumjava.auth.domain.dto.AuthRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginDto loginDto) {
-        authService.login(loginDto);
+    public ResponseEntity<String> login(@Valid @RequestBody AuthRequest authRequest) {
+        authService.login(authRequest);
         return ResponseEntity.ok("give token!!");
     }
     @PostMapping("/join")
-    public ResponseEntity<String> join() {
+    public ResponseEntity<String> join(@Valid @RequestBody AuthRequest authRequest) {
+        authService.join(authRequest);
+
         return ResponseEntity.ok("give token!!");
     }
 
