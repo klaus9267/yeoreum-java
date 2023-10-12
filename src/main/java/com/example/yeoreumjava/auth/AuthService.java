@@ -3,6 +3,7 @@ package com.example.yeoreumjava.auth;
 import com.example.yeoreumjava.auth.domain.Authentication;
 import com.example.yeoreumjava.auth.domain.dto.AuthRequest;
 import com.example.yeoreumjava.auth.repository.AuthRepository;
+import com.example.yeoreumjava.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,29 @@ import java.util.Optional;
 public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthRepository authRepository;
-    public void login(AuthRequest authRequest) {
 
+    private final UserService userService;
+    public void login(AuthRequest authRequest) {
+        String hashedPassword = passwordEncoder.encode(authRequest.getPassword());
+        Authentication authentication = loadAuthentication(authRequest.getEmail());
+        if (!authentication.getHashedPassword().equals(hashedPassword)) {
+            throw new IllegalStateException("비밀번호가 틀렸습니다.");
+        }
+        // jwt toek return
     }
 
     public void join(AuthRequest authRequest) {
-        if (loadAuthentication(authRequest.getEmail()) != null) {
+        if (findByEmail(authRequest.getEmail()).isPresent()) {
             throw new IllegalStateException("이미 가입된 사용자입니다.");
         }
+
+        String hashedPassword = passwordEncoder.encode(authRequest.getPassword());
+        Authentication authentication = Authentication.builder()
+                                                      .email(authRequest.getEmail())
+                                                      .hashedPassword(hashedPassword)
+                                                      .build();
+        Authentication auth = authRepository.save(authentication);
+
     }
 
     public Authentication loadAuthentication(String email) {
