@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +24,7 @@ public class User {
     private String nickname;
 
     @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private boolean gender;
+    private boolean gender; // 1 : male, 2 : female
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Major major;

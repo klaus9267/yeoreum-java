@@ -21,10 +21,10 @@ public class AuthService {
     public void login(AuthRequest authRequest) {
         String hashedPassword = passwordEncoder.encode(authRequest.getPassword());
         Authentication authentication = loadAuthentication(authRequest.getEmail());
+
         if (!authentication.getHashedPassword().equals(hashedPassword)) {
             throw new IllegalStateException("비밀번호가 틀렸습니다.");
         }
-        // jwt toek return
     }
 
     public void join(AuthRequest authRequest) {
