@@ -13,12 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Authority {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(length = 50)
     private String authority;
-
-    @Column(nullable = false)
-    private String email;
 }

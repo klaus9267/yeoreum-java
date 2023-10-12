@@ -1,5 +1,6 @@
 package com.example.yeoreumjava.user.domain;
 
+import com.example.yeoreumjava.auth.domain.Authentication;
 import com.example.yeoreumjava.major.domain.Major;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import jakarta.persistence.*;
@@ -21,6 +22,15 @@ public class User {
     @Column(nullable = false)
     private String nickname;
 
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private boolean gender;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Major major;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Authentication authentication;
 }
