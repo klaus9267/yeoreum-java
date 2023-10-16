@@ -9,7 +9,7 @@ insert into users(nickname, gender, major_id, authentication_id) values ('nickna
 insert into authentication(email, hashed_password) values ('3@1.com', '1111');
 insert into users(nickname, gender, major_id, authentication_id) values ('nickname3', 0, 2L, 3L);
 
-insert into Authority(authority) values ('ROLE_USER');
-insert into Authority(authority) values ('ROLE_ADMIN');
+insert into Authority(authority_name) values ('ROLE_USER');
+insert into Authority(authority_name) values ('ROLE_ADMIN');
 
 -- insert into USERS
