@@ -20,7 +20,7 @@ public class AuthService {
     private final UserService userService;
     public void login(AuthRequest authRequest) {
         String hashedPassword = passwordEncoder.encode(authRequest.getPassword());
-        Authentication authentication = loadAuthentication(authRequest.getEmail());
+        Authentication authentication = loadAuthentication(authRequest.getUsername());
 
         if (!authentication.getHashedPassword().equals(hashedPassword)) {
             throw new IllegalStateException("비밀번호가 틀렸습니다.");
@@ -28,13 +28,13 @@ public class AuthService {
     }
 
     public void join(AuthRequest authRequest) {
-        if (findByEmail(authRequest.getEmail()).isPresent()) {
+        if (findByEmail(authRequest.getUsername()).isPresent()) {
             throw new IllegalStateException("이미 가입된 사용자입니다.");
         }
 
         String hashedPassword = passwordEncoder.encode(authRequest.getPassword());
         Authentication authentication = Authentication.builder()
-                                                      .email(authRequest.getEmail())
+                                                      .username(authRequest.getUsername())
                                                       .hashedPassword(hashedPassword)
                                                       .build();
         Authentication auth = authRepository.save(authentication);
@@ -46,6 +46,6 @@ public class AuthService {
     }
 
     public Optional<Authentication> findByEmail(String email) {
-        return authRepository.findByEmail(email);
+        return authRepository.findByUsername(email);
     }
 }
