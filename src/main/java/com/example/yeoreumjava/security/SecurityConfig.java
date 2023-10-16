@@ -1,5 +1,6 @@
 package com.example.yeoreumjava.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,13 +16,18 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class SecurityConfig {
+
     @Bean
     public PasswordEncoder getpasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        log.info("security start!!");
+
         return httpSecurity.csrf().disable()
                            .formLogin().disable()
                            .cors()
