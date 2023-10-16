@@ -28,5 +28,4 @@ public class AuthController {
         authService.join(authRequest);
         return ResponseEntity.ok("give token!!");
     }
-
 }
