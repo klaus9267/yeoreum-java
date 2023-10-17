@@ -45,8 +45,13 @@ public class UserService {
     }
 
     public void join(UserRequest userRequest) {
+        if (userRepository.findByUsername(userRequest.getUsername()).isPresent()) {
+            throw new RuntimeException("이미 가입된 사용자입니다.");
+        }
 
-//        userRepository.save(user);
+        User user = User.builder().build();
+
+        userRepository.save(user);
     }
 
 //    public User updateUser(Long id, UserRequest userRequest) {

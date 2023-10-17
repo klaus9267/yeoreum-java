@@ -18,11 +18,11 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-//    @PostMapping("/join")
-//    public ResponseEntity<String> join(@Valid @RequestBody UserRequest userRequest) {
-//        userService.createUser(UserMapper.instance.toEntity(userRequest));
-//        return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
-//    }
+    @PostMapping("/join")
+    public ResponseEntity<String> join(@Valid @RequestBody UserRequest userRequest) {
+        userService.join(userRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> findUserById(@PathVariable("id") Long id) {

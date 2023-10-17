@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserResponse {
-    private String nickname;
-    private String email;
+    private String username;
     private boolean gender;
 }
