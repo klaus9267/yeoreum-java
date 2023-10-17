@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AuthRequest {
     @NotNull
-    @Email
-    private String email;
+    @Size(min = 3, max = 100)
+    private String username;
 
     @NotNull
     @Size(min = 3, max = 100)

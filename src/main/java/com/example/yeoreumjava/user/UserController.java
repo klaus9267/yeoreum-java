@@ -18,6 +18,12 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+    @PostMapping("/join")
+    public ResponseEntity<String> join(@Valid @RequestBody UserRequest userRequest) {
+        userService.createUser(UserMapper.instance.toEntity(userRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> findUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(UserMapper.instance.toDto(userService.loadUser(id)));
@@ -28,6 +34,7 @@ public class UserController {
         userService.createUser(UserMapper.instance.toEntity(userRequest));
         return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
     }
+
 
 //    @PatchMapping("/{id}")
 //    public ResponseEntity<String> updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {

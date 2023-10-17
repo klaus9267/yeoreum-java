@@ -42,7 +42,7 @@ private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
                            .and()
                            .authorizeHttpRequests() // 요청 관리
-                           .requestMatchers("/api/auth/login", "/api/auth/join").permitAll()
+                           .requestMatchers("/api/auth/**").permitAll()
                            .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
 
                            .and()
