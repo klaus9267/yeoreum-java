@@ -27,9 +27,9 @@ public class AuthService {
         }
     }
 
-    public void join(AuthRequest authRequest) {
-        if (findByEmail(authRequest.getUsername()).isPresent()) {
-            throw new IllegalStateException("이미 가입된 사용자입니다.");
+    public String join(AuthRequest authRequest) {
+        if (findByAuth(authRequest.getUsername()).isPresent()) {
+            throw new RuntimeException("이미 가입된 사용자입니다.");
         }
 
         String hashedPassword = passwordEncoder.encode(authRequest.getPassword());
@@ -39,13 +39,14 @@ public class AuthService {
                                                       .build();
         Authentication auth = authRepository.save(authentication);
 
+        return "token";
     }
 
     public Authentication loadAuthentication(String email) {
-        return findByEmail(email).orElseThrow(() -> new NoSuchElementException("해당 이메일로 가입된 사용자가 없습니다."));
+        return findByAuth(email).orElseThrow(() -> new NoSuchElementException("해당 이메일로 가입된 사용자가 없습니다."));
     }
 
-    public Optional<Authentication> findByEmail(String email) {
+    public Optional<Authentication> findByAuth(String email) {
         return authRepository.findByUsername(email);
     }
 }
