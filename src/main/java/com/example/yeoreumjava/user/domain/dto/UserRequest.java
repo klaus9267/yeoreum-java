@@ -14,5 +14,9 @@ public class UserRequest {
     private String username;
 
     @NotNull
+    @Size(min = 3,max = 100)
+    private String password;
+
+    @NotNull
     private boolean gender;
 }
