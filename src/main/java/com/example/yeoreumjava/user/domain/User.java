@@ -1,8 +1,6 @@
 package com.example.yeoreumjava.user.domain;
 
-import com.example.yeoreumjava.auth.domain.Authentication;
 import com.example.yeoreumjava.major.domain.Major;
-import com.example.yeoreumjava.meeting.domain.Meeting;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,14 +19,14 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String nickname;
+    private String username;
+
+    @Column(nullable = false)
+    private String hashedPassword;
 
     @Column(nullable = false)
     private boolean gender; // 1 : male, 2 : female
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Major major;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    private Authentication authentication;
 }

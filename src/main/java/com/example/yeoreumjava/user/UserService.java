@@ -44,7 +44,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User join(User user) {return userRepository.save(user);}
+    public void join(UserRequest userRequest) {
+
+//        userRepository.save(user);
+    }
 
 //    public User updateUser(Long id, UserRequest userRequest) {
 //        User user = UserMapper.instance.toEntity(userRequest);

@@ -26,12 +26,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody AuthRequest authRequest) {
-        authService.login(authRequest);
+//        authService.login(authRequest);
         return ResponseEntity.ok("success");
-    }
-
-    @PostMapping("/join")
-    public ResponseEntity<String> join(@Valid @RequestBody AuthRequest authRequest) {
-        return ResponseEntity.ok(authService.join(authRequest));
     }
 }
