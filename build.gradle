@@ -55,6 +55,7 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.5.2.Final"
 }
 

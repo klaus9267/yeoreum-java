@@ -47,14 +47,6 @@ class UserRepositoryTest {
     }
 
     @Test
-    void mapstructTest() {
-        UserRequest userRequest = UserRequest.builder().name("이거되냐").majorId(1L).build();
-        System.out.println("dto : " + userRequest.toString());
-
-        System.out.println("entity : " + UserMapper.instance.toEntity(userRequest));
-    }
-
-    @Test
     void findUserByIds() {
         List<Long> list = new ArrayList<>();
         list.add(1L);

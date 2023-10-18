@@ -21,6 +21,10 @@ public class UserController {
     private final UserService userService;
     private final TokenProvider tokenProvider;
 
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("test success!!!");
+    }
     @PostMapping("/join")
     public ResponseEntity<String> join(@Valid @RequestBody UserRequest userRequest) {
         userService.join(userRequest);
@@ -30,14 +34,14 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
         User user = userService.login(loginRequest);
-        tokenProvider.createToken(user.)
-        return ResponseEntity.ok("ss");
+        return ResponseEntity.ok(tokenProvider.createToken(user.getUsername(), user.getHashedPassword()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> findUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(UserMapper.instance.toDto(userService.loadUser(id)));
     }
+
 
     @PostMapping("")
     public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
