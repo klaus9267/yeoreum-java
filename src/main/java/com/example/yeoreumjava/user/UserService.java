@@ -6,6 +6,7 @@ import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.major.MajorService;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.domain.User;
+import com.example.yeoreumjava.user.domain.dto.LoginRequest;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,12 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final MajorService majorService;
+
+    public User login(LoginRequest loginRequest) {
+        String hashedPassword = passwordEncoder.encode(loginRequest.getPassword());
+        return userRepository.findByEmailAndHashedPassword(loginRequest.getEmail(), hashedPassword)
+                             .orElseThrow(() -> new RuntimeException("로그인 실패"));
+    }
 
     @org.mapstruct.Named("loadUser")
     public User loadUser(Long id) {

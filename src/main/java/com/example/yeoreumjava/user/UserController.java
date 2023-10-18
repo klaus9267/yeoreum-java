@@ -1,6 +1,8 @@
 package com.example.yeoreumjava.user;
 
+import com.example.yeoreumjava.security.provider.TokenProvider;
 import com.example.yeoreumjava.user.domain.User;
+import com.example.yeoreumjava.user.domain.dto.LoginRequest;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.domain.dto.UserResponse;
 import com.example.yeoreumjava.user.mapper.UserMapper;
@@ -17,11 +19,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final TokenProvider tokenProvider;
 
     @PostMapping("/join")
     public ResponseEntity<String> join(@Valid @RequestBody UserRequest userRequest) {
         userService.join(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
+        User user = userService.login(loginRequest);
+        tokenProvider.createToken(user.)
+        return ResponseEntity.ok("ss");
     }
 
     @GetMapping("/{id}")
