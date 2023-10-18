@@ -36,7 +36,7 @@ public class UserService {
 
         idList.forEach(id -> userList.add(loadUser(id)));
 
-        return userList;
+        return idList.stream().map(id->);
     }
 
     public Optional<User> findUser(Long id) {
@@ -44,7 +44,7 @@ public class UserService {
     }
 
     public void join(UserRequest userRequest) {
-        if (userRepository.findByUsername(userRequest.getUsername()).isPresent()) {
+        if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
             throw new RuntimeException("이미 가입된 사용자입니다.");
         }
 
@@ -54,6 +54,7 @@ public class UserService {
 
         User user = User.builder()
                         .username(userRequest.getUsername())
+                        .email(userRequest.getEmail())
                         .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
                         .authorities(Collections.singleton(authority))
                         .build();

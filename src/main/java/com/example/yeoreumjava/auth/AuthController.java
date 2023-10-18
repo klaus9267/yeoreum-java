@@ -2,6 +2,7 @@ package com.example.yeoreumjava.auth;
 
 import com.example.yeoreumjava.auth.domain.dto.AuthRequest;
 import com.example.yeoreumjava.security.provider.TokenProvider;
+import com.example.yeoreumjava.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AuthController {
     private final AuthService authService;
+    private final UserService userService;
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody AuthRequest authRequest) {
-//        authService.login(authRequest);
+        authService.login(authRequest);
         return ResponseEntity.ok("success");
     }
 }

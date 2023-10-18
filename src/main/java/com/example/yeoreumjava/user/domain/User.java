@@ -25,6 +25,9 @@ public class User {
     private String username;
 
     @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     private String hashedPassword;
 
     @Column(nullable = false)
