@@ -1,6 +1,6 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.auth.domain.Authority;
+import com.example.yeoreumjava.user.domain.Authority;
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.major.MajorService;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +33,7 @@ public class UserService {
     }
 
     public List<User> loadUserList(List<Long> idList) {
-        List<User> userList = new ArrayList<>();
-
-        idList.forEach(id -> userList.add(loadUser(id)));
-
-        return idList.stream().map(id->);
+        return idList.stream().map(this::loadUser).collect(Collectors.toList());
     }
 
     public Optional<User> findUser(Long id) {

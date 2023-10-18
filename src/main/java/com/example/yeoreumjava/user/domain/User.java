@@ -1,6 +1,5 @@
 package com.example.yeoreumjava.user.domain;
 
-import com.example.yeoreumjava.auth.domain.Authority;
 import com.example.yeoreumjava.major.domain.Major;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

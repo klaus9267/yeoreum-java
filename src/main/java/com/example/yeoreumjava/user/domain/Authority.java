@@ -1,4 +1,4 @@
-package com.example.yeoreumjava.auth.domain;
+package com.example.yeoreumjava.user.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
