@@ -22,10 +22,10 @@ public class SecurityConfig {
 private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-//    @Bean
-//    public PasswordEncoder getpasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public PasswordEncoder getpasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

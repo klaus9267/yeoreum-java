@@ -17,9 +17,4 @@ public class AppConfig {
     public JPAQueryFactory queryFactory() {
         return new JPAQueryFactory(em);
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
 }
