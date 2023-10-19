@@ -1,7 +1,9 @@
 package com.example.yeoreumjava.security;
 
 import com.example.yeoreumjava.security.entrypoint.JwtAuthenticationEntryPoint;
+import com.example.yeoreumjava.security.filter.JwtFilter;
 import com.example.yeoreumjava.security.handler.JwtAccessDeniedHandler;
+import com.example.yeoreumjava.security.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -21,6 +24,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+private final TokenProvider tokenProvider;
 
     @Bean
     public PasswordEncoder getpasswordEncoder() {
@@ -54,6 +58,8 @@ private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
                            .headers().frameOptions().disable()
 
                            .and()
+                           .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+
                            .build();
     }
 }

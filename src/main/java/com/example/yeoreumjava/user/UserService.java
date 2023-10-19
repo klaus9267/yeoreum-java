@@ -71,7 +71,6 @@ public class UserService implements UserDetailsService {
                         .username(userRequest.getUsername())
                         .email(userRequest.getEmail())
                         .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
-                        //                        .hashedPassword(userRequest.getPassword())
                         .authorities(Collections.singleton(authority))
                         .major(majorService.loadMajor(userRequest.getMajorId()))
                         .build();

@@ -52,9 +52,7 @@ public class TokenProvider implements InitializingBean {
     public String createToken(String username, String password) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
-        log.info("1번");
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        log.info("2번");
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String authorities = authentication.getAuthorities().stream()
