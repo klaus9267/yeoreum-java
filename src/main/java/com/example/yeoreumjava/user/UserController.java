@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,17 +35,10 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<UserResponse> findUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(UserMapper.instance.toDto(userService.loadUser(id)));
     }
-
-
-    @PostMapping("")
-    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
-        userService.join(userRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
-    }
-
 
 //    @PatchMapping("/{id}")
 //    public ResponseEntity<String> updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {

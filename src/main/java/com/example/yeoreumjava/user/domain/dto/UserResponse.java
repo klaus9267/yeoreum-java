@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class UserResponse {
     private String username;
     private boolean gender;
+    private Long majorId;
 }

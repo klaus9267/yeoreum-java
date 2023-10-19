@@ -49,6 +49,7 @@ private final TokenProvider tokenProvider;
                            .requestMatchers("/api/users/login").permitAll()
                            .requestMatchers("/api/users/join").permitAll()
                            .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                           .anyRequest().authenticated()
 
                            .and()
                            .sessionManagement()
