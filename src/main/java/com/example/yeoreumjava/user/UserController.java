@@ -25,6 +25,7 @@ public class UserController {
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("test success!!!");
     }
+
     @PostMapping("/join")
     public ResponseEntity<String> join(@Valid @RequestBody UserRequest userRequest) {
         userService.join(userRequest);

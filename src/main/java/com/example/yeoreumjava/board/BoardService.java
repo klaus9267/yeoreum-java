@@ -17,8 +17,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+
 @Service
+@RequiredArgsConstructor
 @Transactional
 @Slf4j
 public class BoardService {
@@ -60,3 +61,5 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 }
+
+
