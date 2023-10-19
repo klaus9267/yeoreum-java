@@ -1,10 +1,10 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.user.domain.Authority;
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.major.MajorService;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
+import com.example.yeoreumjava.user.domain.Authority;
 import com.example.yeoreumjava.user.domain.User;
 import com.example.yeoreumjava.user.domain.dto.LoginRequest;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
@@ -15,7 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,13 +34,14 @@ public class UserService {
     private final MajorService majorService;
 
     public User login(LoginRequest loginRequest) {
-        String hashedPassword = passwordEncoder.encode(loginRequest.getPassword());
-        log.info(hashedPassword);
-        log.info(loginRequest.getEmail());
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                                  .orElseThrow(() -> new RuntimeException("email을 확인해 주세요."));
 
-        return userRepository.findByEmailAndHashedPassword(loginRequest.getEmail(), loginRequest.getPassword())
-//        return userRepository.findByEmailAndHashedPassword(loginRequest.getEmail(), hashedPassword)
-                             .orElseThrow(() -> new RuntimeException("ID / PW를 확인해 주세요."));
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getHashedPassword())) {
+            throw new RuntimeException("password를 확인해 주세요");
+        }
+
+        return user;
     }
 
     public void join(UserRequest userRequest) {
@@ -52,8 +56,8 @@ public class UserService {
         User user = User.builder()
                         .username(userRequest.getUsername())
                         .email(userRequest.getEmail())
-//                        .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
-                        .hashedPassword(userRequest.getPassword())
+                        .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
+                        //                        .hashedPassword(userRequest.getPassword())
                         .authorities(Collections.singleton(authority))
                         .major(majorService.loadMajor(userRequest.getMajorId()))
                         .build();
@@ -73,7 +77,6 @@ public class UserService {
     public Optional<User> findUser(Long id) {
         return userRepository.findById(id);
     }
-
 
 
     //    public User updateUser(Long id, UserRequest userRequest) {
