@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class User {
     @Column(nullable = false)
     private String hashedPassword;
 
-    @Column(nullable = false)
+    @ColumnDefault("true")
     private boolean gender; // 1 : male, 2 : female
 
     @ManyToOne(fetch = FetchType.LAZY)

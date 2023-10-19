@@ -42,7 +42,7 @@ class UserControllerTest {
                                              .username("test")
                                              .email("klaus9267@gmail.com")
                                              .password("asdasdadas")
-                                             .gender(TRUE)
+                                             .gender(true)
                                              .majorId(1L)
                                              .build();
         String body = objectMapper.writeValueAsString(userRequest);
