@@ -10,6 +10,7 @@ import com.example.yeoreumjava.user.domain.dto.LoginRequest;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class UserService {
     private final UserRepository userRepository;
     private final MeetingRepository meetingRepository;
@@ -30,8 +32,33 @@ public class UserService {
 
     public User login(LoginRequest loginRequest) {
         String hashedPassword = passwordEncoder.encode(loginRequest.getPassword());
-        return userRepository.findByEmailAndHashedPassword(loginRequest.getEmail(), hashedPassword)
-                             .orElseThrow(() -> new RuntimeException("로그인 실패"));
+        log.info(hashedPassword);
+        log.info(loginRequest.getEmail());
+
+        return userRepository.findByEmailAndHashedPassword(loginRequest.getEmail(), loginRequest.getPassword())
+//        return userRepository.findByEmailAndHashedPassword(loginRequest.getEmail(), hashedPassword)
+                             .orElseThrow(() -> new RuntimeException("ID / PW를 확인해 주세요."));
+    }
+
+    public void join(UserRequest userRequest) {
+        if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
+            throw new RuntimeException("이미 가입된 사용자입니다.");
+        }
+
+        Authority authority = Authority.builder()
+                                       .authorityName("ROLE_USER")
+                                       .build();
+
+        User user = User.builder()
+                        .username(userRequest.getUsername())
+                        .email(userRequest.getEmail())
+//                        .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
+                        .hashedPassword(userRequest.getPassword())
+                        .authorities(Collections.singleton(authority))
+                        .major(majorService.loadMajor(userRequest.getMajorId()))
+                        .build();
+
+        userRepository.save(user);
     }
 
     @org.mapstruct.Named("loadUser")
@@ -47,24 +74,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void join(UserRequest userRequest) {
-        if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
-            throw new RuntimeException("이미 가입된 사용자입니다.");
-        }
 
-        Authority authority = Authority.builder()
-                                       .authorityName("ROLE_USER")
-                                       .build();
-
-        User user = User.builder()
-                        .username(userRequest.getUsername())
-                        .email(userRequest.getEmail())
-                        .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
-                        .authorities(Collections.singleton(authority))
-                        .build();
-
-        userRepository.save(user);
-    }
 
     //    public User updateUser(Long id, UserRequest userRequest) {
     //        User user = UserMapper.instance.toEntity(userRequest);

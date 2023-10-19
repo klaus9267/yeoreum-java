@@ -1,7 +1,9 @@
 package com.example.yeoreumjava.user;
 
 import com.example.yeoreumjava.security.provider.TokenProvider;
+import com.example.yeoreumjava.user.domain.dto.LoginRequest;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,6 @@ class UserControllerTest {
     private TokenProvider tokenProvider;
 
     @Test
-//    @WithMockUser(username = "user1",roles = "USER")
     @WithAnonymousUser
     void join() throws Exception {
         UserRequest userRequest = UserRequest.builder()
@@ -55,18 +56,17 @@ class UserControllerTest {
     }
 
     @Test
-    void login() {
-    }
+    void login() throws Exception {
+        LoginRequest loginRequest = LoginRequest.builder()
+                                                .email("1@1.com")
+                                                .password("passworddddddd")
+                                                .build();
+        String body = objectMapper.writeValueAsString(loginRequest);
 
-    @Test
-    void findUserById() {
-    }
-
-    @Test
-    void createUser() {
-    }
-
-    @Test
-    void deleteUser() {
+        mvc.perform(MockMvcRequestBuilders.post("/api/users/login")
+                                          .content(body)
+                                          .contentType(MediaType.APPLICATION_JSON))
+           .andExpect(status().isOk())
+           .andDo(print());
     }
 }
