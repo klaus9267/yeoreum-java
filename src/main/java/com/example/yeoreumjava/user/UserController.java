@@ -1,8 +1,8 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.security.provider.TokenProvider;
+import com.example.yeoreumjava.security.utils.JwtUtil;
 import com.example.yeoreumjava.user.domain.User;
-import com.example.yeoreumjava.user.domain.dto.LoginRequest;
+import com.example.yeoreumjava.user.domain.dto.LoginDto;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.domain.dto.UserResponse;
 import com.example.yeoreumjava.user.mapper.UserMapper;
@@ -13,14 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final TokenProvider tokenProvider;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/join")
     public ResponseEntity<String> join(@Valid @RequestBody UserRequest userRequest) {
@@ -29,13 +27,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
-        User user = userService.login(loginRequest);
-        return ResponseEntity.ok(tokenProvider.createToken(user.getUsername(), loginRequest.getPassword()));
+    public ResponseEntity<String> login(@Valid @RequestBody LoginDto loginDto) {
+        User user = userService.login(loginDto);
+        return ResponseEntity.ok(jwtUtil.createToken(user.getUsername(), loginDto.getPassword()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<UserResponse> findUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(UserMapper.instance.toDto(userService.loadUser(id)));
     }
@@ -46,6 +44,7 @@ public class UserController {
 //    }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
 

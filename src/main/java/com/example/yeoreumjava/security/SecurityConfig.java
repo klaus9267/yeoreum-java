@@ -3,7 +3,7 @@ package com.example.yeoreumjava.security;
 import com.example.yeoreumjava.security.entrypoint.JwtAuthenticationEntryPoint;
 import com.example.yeoreumjava.security.filter.JwtFilter;
 import com.example.yeoreumjava.security.handler.JwtAccessDeniedHandler;
-import com.example.yeoreumjava.security.provider.TokenProvider;
+import com.example.yeoreumjava.security.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +24,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-private final TokenProvider tokenProvider;
+private final JwtUtil jwtUtil;
 
     @Bean
     public PasswordEncoder getpasswordEncoder() {
@@ -59,7 +59,7 @@ private final TokenProvider tokenProvider;
                            .headers().frameOptions().disable()
 
                            .and()
-                           .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                           .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
 
                            .build();
     }

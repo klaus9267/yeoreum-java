@@ -6,7 +6,7 @@ import com.example.yeoreumjava.major.MajorService;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.domain.Authority;
 import com.example.yeoreumjava.user.domain.User;
-import com.example.yeoreumjava.user.domain.dto.LoginRequest;
+import com.example.yeoreumjava.user.domain.dto.LoginDto;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.example.yeoreumjava.user.domain.QUser.user;
 
 @Service
 @RequiredArgsConstructor
@@ -47,11 +45,11 @@ public class UserService implements UserDetailsService {
                              .orElseThrow(() -> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다."));
     }
 
-    public User login(LoginRequest loginRequest) {
-        User user = userRepository.findByEmail(loginRequest.getEmail())
+    public User login(LoginDto loginDto) {
+        User user = userRepository.findByEmail(loginDto.getEmail())
                                   .orElseThrow(() -> new RuntimeException("email을 확인해 주세요."));
 
-        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getHashedPassword())) {
+        if (!passwordEncoder.matches(loginDto.getPassword(), user.getHashedPassword())) {
             throw new RuntimeException("password를 확인해 주세요");
         }
 

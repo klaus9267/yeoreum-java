@@ -1,9 +1,8 @@
 package com.example.yeoreumjava.user;
 
 import com.example.yeoreumjava.security.provider.TokenProvider;
-import com.example.yeoreumjava.user.domain.dto.LoginRequest;
+import com.example.yeoreumjava.user.domain.dto.LoginDto;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static java.lang.Boolean.TRUE;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,11 +53,11 @@ class UserControllerTest {
 
     @Test
     void login() throws Exception {
-        LoginRequest loginRequest = LoginRequest.builder()
-                                                .email("1@1.com")
-                                                .password("passworddddddd")
-                                                .build();
-        String body = objectMapper.writeValueAsString(loginRequest);
+        LoginDto loginDto = LoginDto.builder()
+                                    .email("1@1.com")
+                                    .password("passworddddddd")
+                                    .build();
+        String body = objectMapper.writeValueAsString(loginDto);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/users/login")
                                           .content(body)
