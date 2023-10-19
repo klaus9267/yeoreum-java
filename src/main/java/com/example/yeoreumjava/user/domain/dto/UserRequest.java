@@ -1,7 +1,6 @@
 package com.example.yeoreumjava.user.domain.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -23,7 +22,6 @@ public class UserRequest {
     @Size(min = 3,max = 100,message = "password의 글자수 제한을 맞춰주세요")
     private String password;
 
-    @NotEmpty(message = "gender를 입력해 주세요")
     private boolean gender;
 
     @NotNull(message = "majorId을 입력해 주세요")

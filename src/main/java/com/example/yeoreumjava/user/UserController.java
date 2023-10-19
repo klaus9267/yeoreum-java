@@ -29,6 +29,7 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<String> join(@Valid @RequestBody UserRequest userRequest) {
         userService.join(userRequest);
+        // jwt 발급
         return ResponseEntity.status(HttpStatus.CREATED).body("가입 완료");
     }
 
