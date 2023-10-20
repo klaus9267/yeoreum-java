@@ -54,4 +54,9 @@ public class User {
         this.id = Long.valueOf(claims.get("userId").toString());
         this.username = claims.get("username").toString();
     }
+
+    public void updateUser(String username, String major) {
+        this.username = username;
+        this.major = major;
+    }
 }

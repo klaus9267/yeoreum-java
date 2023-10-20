@@ -39,12 +39,19 @@ public class UserController {
         return ResponseEntity.ok(UserMapper.instance.toDto(userService.loadUser(id)));
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<String> updateUser(@PathVariable("id") Long id,
+    public ResponseEntity<String> updateUser(@AuthenticationPrincipal User user,
                                              @RequestBody UserRequest userRequest) {
-//        userService.updateUser(id, userRequest);
-        return ResponseEntity.ok("수정 완료");
+        userService.updateUser(user.getId(), userRequest);
+        return ResponseEntity.ok("사용자 정보 수정 완료");
+    }
+    @PatchMapping("/update-password")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<String> updatePassword(@AuthenticationPrincipal User user,
+                                             @RequestBody String password) {
+        userService.updatePassword(user.getId(), password);
+        return ResponseEntity.ok("사용자 비밀번호 수정 완료");
     }
 
     @DeleteMapping("")

@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username)  {
+    public UserDetails loadUserByUsername(String username) {
         return userRepository.findByUsername(username)
                              .map(this::createUser)
                              .orElseThrow(() -> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다."));
@@ -97,13 +97,17 @@ public class UserService implements UserDetailsService {
     }
 
 
-//        public User updateUser(Long id, UserRequest userRequest) {
-//            User user = User.builder()
-//                    .username(userRequest.getUsername())
-//
-//
-//            return userRepository.save(user);
-//        }
+    public void updateUser(Long id, UserRequest userRequest) {
+        User user = loadUser(id);
+        user.updateUser(userRequest.getUsername(), userRequest.getMajor());
+        userRepository.save(user);
+    }
+    public void updatePassword(Long id, String password) {
+        User user = loadUser(id);
+        String hashedPassword = passwordEncoder.encode(password);
+        user.setHashedPassword(hashedPassword);
+        userRepository.save(user);
+    }
 
     public void deleteUser(User user) {
         List<Board> boardList = boardRepository.findAllByWriterId(user.getId());
