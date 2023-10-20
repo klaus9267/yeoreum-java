@@ -1,13 +1,15 @@
 package com.example.yeoreumjava.user.domain;
 
+import com.example.yeoreumjava.board.domain.Board;
+import com.example.yeoreumjava.meeting.domain.Host;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.jsonwebtoken.Claims;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,6 +38,11 @@ public class User {
     @Column(nullable = false)
     private String major;
 
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Board> boardList = new ArrayList<>();
+
     @ManyToMany
     @JoinTable(
             name = "users_authority",
@@ -45,6 +52,6 @@ public class User {
 
     public User(Claims claims) {
         this.id = Long.valueOf(claims.get("userId").toString());
-        this.username = claims.get("name").toString();
+        this.username = claims.get("username").toString();
     }
 }

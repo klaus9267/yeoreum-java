@@ -1,7 +1,5 @@
 package com.example.yeoreumjava.user.domain.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,5 +16,5 @@ public class UpdateUserDto {
     @Size(min = 3, max = 100)
     private String password;
 
-    private Long majorId;
+    private String major;
 }

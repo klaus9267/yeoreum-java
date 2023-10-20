@@ -105,14 +105,12 @@ public class UserService implements UserDetailsService {
 //            return userRepository.save(user);
 //        }
 
-    public void deleteUser(Long id) {
-        loadUser(id);
-
-        List<Board> boardList = boardRepository.findAllByWriterId(id);
+    public void deleteUser(User user) {
+        List<Board> boardList = boardRepository.findAllByWriterId(user.getId());
         if (!boardList.isEmpty()) {
             boardList.forEach(board -> meetingRepository.deleteById(board.getMeeting().getId()));
         }
 
-        userRepository.deleteById(id);
+        userRepository.deleteById(user.getId());
     }
 }

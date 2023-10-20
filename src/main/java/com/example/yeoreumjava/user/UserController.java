@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,7 +30,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginDto loginDto) {
         User user = userService.login(loginDto);
-        return ResponseEntity.ok(jwtUtil.createToken(user.getUsername(), loginDto.getPassword()));
+        return ResponseEntity.ok(jwtUtil.createToken(user.getUsername(), loginDto.getPassword(),user.getId()));
     }
 
     @GetMapping("/{id}")
@@ -46,10 +47,10 @@ public class UserController {
         return ResponseEntity.ok("수정 완료");
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<String> deleteUser(@AuthenticationPrincipal User user) {
+        userService.deleteUser(user);
 
         return ResponseEntity.ok("삭제 성공");
     }

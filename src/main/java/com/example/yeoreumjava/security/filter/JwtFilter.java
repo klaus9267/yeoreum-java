@@ -66,7 +66,7 @@ public class JwtFilter extends GenericFilterBean {
         }
 
         String token = authorizationHeader.substring("Bearer ".length());
-
+        logger.info("sdsdsd");
         Claims claims;
         try {
             claims = jwtUtil.getClaims(token);
@@ -77,7 +77,7 @@ public class JwtFilter extends GenericFilterBean {
         Set<GrantedAuthority> roles = new HashSet<>();
         String role = (String) claims.get("role");
         roles.add(new SimpleGrantedAuthority("ROLE_" + role));
-
+        logger.info("claims : " + claims);
         return new UsernamePasswordAuthenticationToken(new User(claims), null, roles);
     }
 }

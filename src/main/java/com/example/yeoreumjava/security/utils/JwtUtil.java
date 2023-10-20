@@ -45,7 +45,7 @@ public class JwtUtil implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(String username, String password) {
+    public String createToken(String username, String password, Long userId) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -61,6 +61,8 @@ public class JwtUtil implements InitializingBean {
 
         return Jwts.builder()
                    .setSubject(authentication.getName())
+                   .claim("userId", userId)
+                   .claim("username", username)
                    .claim(AUTHORITIES_KEY, authorities)
                    .signWith(key, SignatureAlgorithm.HS512)
                    .setExpiration(validity)
@@ -73,16 +75,12 @@ public class JwtUtil implements InitializingBean {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-
             logger.info("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
-
             logger.info("만료된 JWT 토큰입니다.");
         } catch (UnsupportedJwtException e) {
-
             logger.info("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
-
             logger.info("JWT 토큰이 잘못되었습니다.");
         }
         return false;
