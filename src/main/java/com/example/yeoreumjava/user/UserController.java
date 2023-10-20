@@ -34,20 +34,20 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<UserResponse> findUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(UserMapper.instance.toDto(userService.loadUser(id)));
     }
 
     @PatchMapping("")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<String> updateUser(@AuthenticationPrincipal User user,
                                              @RequestBody UserRequest userRequest) {
         userService.updateUser(user.getId(), userRequest);
         return ResponseEntity.ok("사용자 정보 수정 완료");
     }
     @PatchMapping("/update-password")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<String> updatePassword(@AuthenticationPrincipal User user,
                                              @RequestBody String password) {
         userService.updatePassword(user.getId(), password);
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @DeleteMapping("")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<String> deleteUser(@AuthenticationPrincipal User user) {
         userService.deleteUser(user);
 

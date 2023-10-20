@@ -21,7 +21,6 @@ public class FriendService {
 
     public List<Friend> loadFriendList(Long userId) {
         User user = userService.loadUser(userId);
-
         return friendRepositoryCustom.findAllByUser(user);
     }
     public void applyFriend(Long senderId, Long receiverId) {
@@ -32,15 +31,21 @@ public class FriendService {
         friendRepository.save(friend);
     }
 
-    public void deleteFriend(Long receiverId, Long senderId) {
-
-    }
-
-    public void findOne(Long senderId, Long receiverId) {
+    private void acceptFriend(Long senderId, Long receiverId) {
         User sender = userService.loadUser(senderId);
         User receiver = userService.loadUser(receiverId);
 
-        Friend friend = friendRepository.findBySenderAndReceiver(sender, receiver)
-                                        .orElseThrow(() -> new NoSuchElementException("친구 "));
+        Friend friend =
+    }
+
+//    public void deleteFriend(Long receiverId, Long senderId) {
+//
+//    }
+
+    public void findOne(Long loginUserId, Long targetUserId) {
+        User loginUser = userService.loadUser(loginUserId);
+        User targetUser = userService.loadUser(targetUserId);
+
+        Friend friend = friendRepositoryCustom.isFriend(loginUser, targetUser);
     }
 }

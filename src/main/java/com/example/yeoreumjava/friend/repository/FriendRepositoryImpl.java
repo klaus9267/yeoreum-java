@@ -26,12 +26,12 @@ public class FriendRepositoryImpl implements FriendRepositoryCustom {
     }
 
     @Override
-    public List<Friend> isFriend(User loginUser, User targetUser) {
+    public Friend isFriend(User loginUser, User targetUser) {
         QFriend qFriend = QFriend.friend;
 
         return jpaQueryFactory.selectFrom(qFriend)
                               .where((qFriend.sender.eq(loginUser).and(qFriend.receiver.eq(targetUser)))
                                              .or(qFriend.sender.eq(loginUser).and(qFriend.receiver.eq(targetUser))))
-                              .fetch();
+                              .fetchOne();
     }
 }
