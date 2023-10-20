@@ -18,18 +18,6 @@ public interface UserMapper extends BaseMapper<UserRequest, UserResponse, User> 
     UserMapper instance = Mappers.getMapper(UserMapper.class);
 
     @Override
-    @Named("E2D")
     @Mapping(target = "majorId", expression = "java(entity.getMajor().getId())")
-//    @Mapping(target = "authorities", ignore = true)
-//    @Mapping(target = "hashedPassword", ignore = true)
     UserResponse toDto(User entity);
-
-    @Override
-    User toEntity(UserRequest dto);
-
-    @Override
-    List<UserResponse> toDtoList(List<User> entityList);
-
-    @Override
-    List<User> toEntityList(List<UserRequest> dtoList);
 }
