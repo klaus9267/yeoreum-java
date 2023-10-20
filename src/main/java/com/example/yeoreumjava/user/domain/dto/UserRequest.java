@@ -24,6 +24,6 @@ public class UserRequest {
 
     private boolean gender;
 
-    @NotNull(message = "majorId을 입력해 주세요")
-    private Long majorId;
+    @NotNull(message = "major를 입력해 주세요")
+    private String major;
 }

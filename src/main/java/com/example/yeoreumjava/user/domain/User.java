@@ -1,6 +1,5 @@
 package com.example.yeoreumjava.user.domain;
 
-import com.example.yeoreumjava.major.domain.Major;
 import io.jsonwebtoken.Claims;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,8 +33,8 @@ public class User {
     @ColumnDefault("true")
     private boolean gender; // 1 : male, 2 : female
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Major major;
+    @Column(nullable = false)
+    private String major;
 
     @ManyToMany
     @JoinTable(

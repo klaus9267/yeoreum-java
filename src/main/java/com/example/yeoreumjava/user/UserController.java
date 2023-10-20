@@ -38,10 +38,13 @@ public class UserController {
         return ResponseEntity.ok(UserMapper.instance.toDto(userService.loadUser(id)));
     }
 
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<String> updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {
-//        return ResponseEntity.ok("수정 완료" + userService.updateUser(id, userRequest));
-//    }
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<String> updateUser(@PathVariable("id") Long id,
+                                             @RequestBody UserRequest userRequest) {
+//        userService.updateUser(id, userRequest);
+        return ResponseEntity.ok("수정 완료");
+    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")

@@ -2,7 +2,6 @@ package com.example.yeoreumjava.user;
 
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.repository.BoardRepository;
-import com.example.yeoreumjava.major.MajorService;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.domain.Authority;
 import com.example.yeoreumjava.user.domain.User;
@@ -36,8 +35,6 @@ public class UserService implements UserDetailsService {
     private final BoardRepository boardRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private final MajorService majorService;
-
     @Override
     public UserDetails loadUserByUsername(String username)  {
         return userRepository.findByUsername(username)
@@ -70,7 +67,7 @@ public class UserService implements UserDetailsService {
                         .email(userRequest.getEmail())
                         .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
                         .authorities(Collections.singleton(authority))
-                        .major(majorService.loadMajor(userRequest.getMajorId()))
+                        .major(userRequest.getMajor())
                         .build();
 
         userRepository.save(user);
@@ -100,12 +97,13 @@ public class UserService implements UserDetailsService {
     }
 
 
-    //    public User updateUser(Long id, UserRequest userRequest) {
-    //        User user = UserMapper.instance.toEntity(userRequest);
-    //        user.setId(id);
-    //
-    //        return userRepository.save(user);
-    //    }
+//        public User updateUser(Long id, UserRequest userRequest) {
+//            User user = User.builder()
+//                    .username(userRequest.getUsername())
+//
+//
+//            return userRepository.save(user);
+//        }
 
     public void deleteUser(Long id) {
         loadUser(id);
