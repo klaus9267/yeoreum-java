@@ -31,21 +31,21 @@ public class FriendService {
         friendRepository.save(friend);
     }
 
-    private void acceptFriend(Long senderId, Long receiverId) {
-        User sender = userService.loadUser(senderId);
-        User receiver = userService.loadUser(receiverId);
-
-        Friend friend =
+    private void acceptFriend(Long loginUserId, Long targetUserId) {
+        Friend friend = findOne(loginUserId, targetUserId);
+        friend.setAccepted(true);
+        friendRepository.save(friend);
     }
 
 //    public void deleteFriend(Long receiverId, Long senderId) {
 //
 //    }
 
-    public void findOne(Long loginUserId, Long targetUserId) {
+    public Friend findOne(Long loginUserId, Long targetUserId) {
         User loginUser = userService.loadUser(loginUserId);
         User targetUser = userService.loadUser(targetUserId);
 
-        Friend friend = friendRepositoryCustom.isFriend(loginUser, targetUser);
+        return friendRepositoryCustom.isFriend(loginUser, targetUser)
+                                     .orElseThrow(()->new NoSuchElementException("친구 상태가 아닙니다."));
     }
 }

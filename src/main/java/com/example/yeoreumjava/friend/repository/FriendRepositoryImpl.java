@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -26,12 +27,12 @@ public class FriendRepositoryImpl implements FriendRepositoryCustom {
     }
 
     @Override
-    public Friend isFriend(User loginUser, User targetUser) {
+    public Optional<Friend> isFriend(User loginUser, User targetUser) {
         QFriend qFriend = QFriend.friend;
 
-        return jpaQueryFactory.selectFrom(qFriend)
-                              .where((qFriend.sender.eq(loginUser).and(qFriend.receiver.eq(targetUser)))
-                                             .or(qFriend.sender.eq(loginUser).and(qFriend.receiver.eq(targetUser))))
-                              .fetchOne();
+        return Optional.ofNullable(jpaQueryFactory.selectFrom(qFriend)
+                                                  .where((qFriend.sender.eq(loginUser).and(qFriend.receiver.eq(targetUser)))
+                                                                 .or(qFriend.sender.eq(loginUser).and(qFriend.receiver.eq(targetUser))))
+                                                  .fetchOne());
     }
 }
