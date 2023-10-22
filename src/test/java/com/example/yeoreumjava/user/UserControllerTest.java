@@ -1,6 +1,5 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.security.provider.TokenProvider;
 import com.example.yeoreumjava.user.domain.dto.LoginDto;
 import com.example.yeoreumjava.user.domain.dto.UserRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,8 +28,6 @@ class UserControllerTest {
 
     @MockBean
     private UserService userService;
-    @MockBean
-    private TokenProvider tokenProvider;
 
     @Test
     @WithAnonymousUser
@@ -40,7 +37,6 @@ class UserControllerTest {
                                              .email("klaus9267@gmail.com")
                                              .password("asdasdadas")
                                              .gender(true)
-                                             .majorId(1L)
                                              .build();
         String body = objectMapper.writeValueAsString(userRequest);
 

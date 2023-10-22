@@ -6,7 +6,7 @@ import com.example.yeoreumjava.user.domain.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface FriendRepositoryCustom {
+public interface FriendCustomRepository {
     List<Friend> findAllByUser(User user);
     Optional<Friend> isFriend(User loginUser, User targetUser);
 }

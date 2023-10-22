@@ -24,8 +24,17 @@ public class FriendController {
         return ResponseEntity.ok("신청 완료");
     }
 
-//    @GetMapping("")
-//    public ResponseEntity<List<Friend>> loadFriendList() {
-//        return ResponseEntity.ok()
-//    }
+    @PostMapping("{senderId}")
+    @PreAuthorize("hasAnyRole('USER')")
+    public ResponseEntity<String> acceptFriend(@PathVariable("senderId") Long senderId,
+                                              @AuthenticationPrincipal User user) {
+        friendService.acceptFriend(senderId, user.getId());
+        return ResponseEntity.ok("신청 완료");
+    }
+
+    @GetMapping("")
+    @PreAuthorize("hasAnyRole('USER')")
+    public ResponseEntity<List<Friend>> loadFriendList(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(friendService.loadFriendList(user.getId()));
+    }
 }

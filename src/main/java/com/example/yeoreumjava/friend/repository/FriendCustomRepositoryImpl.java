@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
-public class FriendRepositoryImpl implements FriendRepositoryCustom {
+public class FriendCustomRepositoryImpl implements FriendCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
     private final UserRepository userRepository;
 
@@ -33,6 +33,7 @@ public class FriendRepositoryImpl implements FriendRepositoryCustom {
         return Optional.ofNullable(jpaQueryFactory.selectFrom(qFriend)
                                                   .where((qFriend.sender.eq(loginUser).and(qFriend.receiver.eq(targetUser)))
                                                                  .or(qFriend.sender.eq(loginUser).and(qFriend.receiver.eq(targetUser))))
+                                                  .where(qFriend.accepted.eq(true))
                                                   .fetchOne());
     }
 }

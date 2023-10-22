@@ -1,8 +1,6 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.major.repository.MajorRepository;
 import com.example.yeoreumjava.user.domain.User;
-import com.example.yeoreumjava.user.mapper.UserMapper;
 import com.example.yeoreumjava.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -17,8 +15,6 @@ import java.util.List;
 class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    MajorRepository majorRepository;
 
     @Test
     void findUserByIds() {
