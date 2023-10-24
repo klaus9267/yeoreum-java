@@ -2,6 +2,8 @@ package com.example.yeoreumjava.user;
 
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.repository.BoardRepository;
+import com.example.yeoreumjava.friend.repository.FriendCustomRepository;
+import com.example.yeoreumjava.friend.repository.FriendRepository;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.domain.Authority;
 import com.example.yeoreumjava.user.domain.User;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final FriendCustomRepository friendCustomRepository;
     private final MeetingRepository meetingRepository;
     private final BoardRepository boardRepository;
     private final PasswordEncoder passwordEncoder;
@@ -61,11 +64,13 @@ public class UserService implements UserDetailsService {
         Authority authority = Authority.builder()
                                        .authorityName("ROLE_USER")
                                        .build();
-
+        String ps = passwordEncoder.encode(userRequest.getPassword());
+        System.out.println(ps);
         User user = User.builder()
                         .username(userRequest.getUsername())
                         .email(userRequest.getEmail())
-                        .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
+                        .hashedPassword(ps)
+//                        .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
                         .authorities(Collections.singleton(authority))
                         .major(userRequest.getMajor())
                         .build();
@@ -110,11 +115,10 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUser(User user) {
-        List<Board> boardList = boardRepository.findAllByWriterId(user.getId());
-        if (!boardList.isEmpty()) {
-            boardList.forEach(board -> meetingRepository.deleteById(board.getMeeting().getId()));
-        }
-
+        boardRepository.findAllByWriterId(user.getId())
+                       .orElseThrow(() -> new NoSuchElementException("게시글이 없습니다."))
+                       .forEach(board -> meetingRepository.deleteById(board.getMeeting().getId()));
+        friendCustomRepository.withdraw(user.getId());
         userRepository.deleteById(user.getId());
     }
 }

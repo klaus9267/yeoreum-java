@@ -20,22 +20,6 @@ public interface GuestMapper extends BaseMapper<GuestRequest, GuestResponse, Gue
     @Override
     @Named("E2D")
     @Mapping(target = "meetingId", expression = "java(entity.getMeeting().getId())")
-    @Mapping(target = "userId", expression = "java(entity.getUser().getId())")
+    @Mapping(target = "username", expression = "java(entity.getUser().getUsername())")
     GuestResponse toDto(Guest entity);
-
-    @Named("D2E")
-    @Mapping(target = "meeting", source = "meetingId", qualifiedByName = "loadMeeting")
-    @Mapping(target = "user", source = "userId", qualifiedByName = "loadUser")
-    Guest toEntity(GuestRequest dto,
-                   @Context UserService userService,
-                   @Context MeetingService meetingService);
-
-    @Override
-    @IterableMapping(qualifiedByName = "E2D")
-    List<GuestResponse> toDtoList(List<Guest> entityList);
-
-    @IterableMapping(qualifiedByName = "D2E")
-    List<Guest> toEntityList(List<GuestRequest> dtoList,
-                             @Context UserService userService,
-                             @Context MeetingService meetingService);
 }

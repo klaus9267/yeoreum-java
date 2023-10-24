@@ -8,6 +8,7 @@ import com.example.yeoreumjava.meeting.MeetingService;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import com.example.yeoreumjava.user.UserService;
+import com.example.yeoreumjava.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class BoardService {
     private final UserService userService;
 
     public List<Board> loadBoardList(Long writerId) {
-        return boardRepository.findAllByWriterId(writerId);
+        return boardRepository.findAllByWriterId(writerId).orElseThrow(()->new NoSuchElementException("게시글이 없습니다."));
     }
 
     public Optional<Board> findBoard(Long id) {
@@ -41,12 +42,14 @@ public class BoardService {
         return findBoard(id).orElseThrow(() -> new NoSuchElementException(id + "번 게시글이 없습니다."));
     }
 
-    public void createBoard(BoardRequest boardRequest) {
+    public void createBoard(BoardRequest boardRequest, User user) {
         Meeting meeting = meetingService.createMeeting(boardRequest);
-
-        Board board = BoardMapper.INSTANCE.toEntity(boardRequest);
-        board.setMeeting(meeting);
-        boardRepository.save(board);
+        boardRepository.save(Board.builder()
+                                  .title(boardRequest.getTitle())
+                                  .content(boardRequest.getContent())
+                                  .writer(user)
+                                  .meeting(meeting)
+                                  .build());
     }
 
     public void updateBoard(Long id, BoardRequest boardRequest) {

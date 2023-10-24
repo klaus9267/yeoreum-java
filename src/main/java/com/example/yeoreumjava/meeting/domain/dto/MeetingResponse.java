@@ -9,7 +9,6 @@ import lombok.Data;
 @Builder
 public class MeetingResponse {
     private Long id;
-
     private String place;
     private String time;
 }

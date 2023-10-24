@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface FriendCustomRepository {
     List<Friend> findAllByUser(User user);
     Optional<Friend> isFriend(User loginUser, User targetUser);
+
+    void withdraw(Long userId);
 }

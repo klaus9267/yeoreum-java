@@ -58,7 +58,6 @@ public class UserController {
     @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<String> deleteUser(@AuthenticationPrincipal User user) {
         userService.deleteUser(user);
-
         return ResponseEntity.ok("삭제 성공");
     }
 

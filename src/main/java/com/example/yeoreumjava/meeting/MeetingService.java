@@ -7,8 +7,6 @@ import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyRequest;
 import com.example.yeoreumjava.meeting.mapper.ApplyMapper;
-import com.example.yeoreumjava.meeting.mapper.HostMapper;
-import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import com.example.yeoreumjava.meeting.repository.ApplyRepository;
 import com.example.yeoreumjava.meeting.repository.GuestRepository;
 import com.example.yeoreumjava.meeting.repository.HostRepository;
@@ -57,22 +55,23 @@ public class MeetingService {
 
     public Meeting createMeeting(BoardRequest boardRequest) {
         List<User> userList = userService.loadUserList(boardRequest.getHostList());
-
-        Meeting extractedMeeting = MeetingMapper.instance.extractMeeting(boardRequest);
-        Meeting meeting = meetingRepository.save(extractedMeeting);
-
-        List<Host> hostList = HostMapper.instance.setHostList(userList, meeting);
-        hostRepository.saveAll(hostList);
-
+        Meeting meeting = meetingRepository.save(Meeting.builder()
+                                                        .place(boardRequest.getPlace())
+                                                        .time(boardRequest.getTime())
+                                                        .build());
+        hostRepository.saveAll(setHostList(userList, meeting));
         return meeting;
     }
 
     public void updateMeeting(Long id, BoardRequest boardRequest) {
         Meeting meeting = loadMeeting(id);
-        Meeting request = MeetingMapper.instance.extractMeeting(boardRequest);
+        Meeting request = Meeting.builder()
+                                 .time(boardRequest.getTime())
+                                 .place(boardRequest.getPlace())
+                                 .build();
+
         meeting.updateMeeting(request.getPlace(), request.getTime());
         meetingRepository.save(meeting);
-
         updateHostList(meeting, boardRequest.getHostList());
     }
 
@@ -94,13 +93,12 @@ public class MeetingService {
                                                                    .user(user)
                                                                    .build())
                                               .toList();
-
         guestRepository.saveAll(guestList);
     }
 
     public void updateHostList(Meeting meeting, List<Long> idList) {
         List<User> userList = userService.loadUserList(idList);
-        List<Host> hostList = HostMapper.instance.setHostList(userList, meeting);
+        List<Host> hostList = setHostList(userList, meeting);
 
         hostRepository.deleteAllByMeetingId(meeting.getId());
         hostRepository.saveAll(hostList);
@@ -113,5 +111,9 @@ public class MeetingService {
         meetingRepository.save(meeting);
 
         //채팅 시작되는 api
+    }
+
+    public List<Host> setHostList(List<User> userList, Meeting meeting) {
+        return userList.stream().map(user -> Host.builder().meeting(meeting).user(user).build()).toList();
     }
 }

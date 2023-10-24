@@ -30,10 +30,4 @@ public interface MeetingMapper extends BaseMapper<MeetingRequest, MeetingRespons
     @Override
     @IterableMapping(qualifiedByName = "D2E")
     List<Meeting> toEntityList(List<MeetingRequest> dtoList);
-
-    @Mapping(target = "place", source = "place")
-    @Mapping(target = "time", source = "time")
-    @Mapping(target = "hostList", ignore = true)
-    Meeting extractMeeting(BoardRequest boardRequest);
-
 }

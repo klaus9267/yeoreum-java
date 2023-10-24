@@ -19,15 +19,13 @@ public interface BoardMapper extends BaseMapper<BoardRequest, BoardResponse, Boa
 
     @Override
     @Named("E2D")
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "title", source = "title")
-    @Mapping(target = "content", source = "content")
     @Mapping(target = "writerId", expression = "java(entity.getWriter().getId())")
+    @Mapping(target = "hostList", expression = "java(entity.getMeeting().getHostList())")
+    @Mapping(target = "applyList", expression = "java(entity.getMeeting().getApplyList())")
     BoardResponse toDto(Board entity);
 
-    @Named("D2E")
-    @Mapping(target = "title", source = "title")
-    @Mapping(target = "content", source = "content")
-    @Mapping(target = "writer", ignore = true)
-    Board toEntity(BoardRequest dto);
+//    @Named("D2E")
+//    @Mapping(target = "writer", ignore = true)
+//    @Mapping(target = "meeting", ignore = true)
+//    Board toEntity(BoardRequest dto);
 }

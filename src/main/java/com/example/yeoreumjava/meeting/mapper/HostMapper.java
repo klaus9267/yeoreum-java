@@ -23,7 +23,7 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
     @Override
     @Named("E2D")
     @Mapping(target = "meetingId", expression = "java(entity.getMeeting().getId())")
-    @Mapping(target = "userId", expression = "java(entity.getUser().getId())")
+    @Mapping(target = "username", expression = "java(entity.getUser().getUsername())")
     HostResponse toDto(Host entity);
 
     @Named("D2E")
@@ -35,8 +35,4 @@ public interface HostMapper extends BaseMapper<HostRequest, HostResponse, Host> 
     List<Host> toEntityList(List<HostRequest> dtoList,
                             @Context UserService userService,
                             @Context MeetingService meetingService);
-
-    default List<Host> setHostList(List<User> userList, Meeting meeting) {
-        return userList.stream().map(user -> Host.builder().meeting(meeting).user(user).build()).toList();
-    }
 }

@@ -36,4 +36,13 @@ public class FriendCustomRepositoryImpl implements FriendCustomRepository {
                                                   .where(qFriend.accepted.eq(true))
                                                   .fetchOne());
     }
+
+    @Override
+    public void withdraw(Long userId) {
+        QFriend qFriend = QFriend.friend;
+        jpaQueryFactory.delete(qFriend)
+                       .where(qFriend.sender.id.eq(userId)
+                                               .or(qFriend.receiver.id.eq(userId)))
+                       .execute();
+    }
 }

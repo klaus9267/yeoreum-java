@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.user.domain;
 
 import com.example.yeoreumjava.board.domain.Board;
+import com.example.yeoreumjava.friend.domain.Friend;
 import com.example.yeoreumjava.meeting.domain.Host;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.jsonwebtoken.Claims;
@@ -52,7 +53,7 @@ public class User {
 
     public User(Claims claims) {
         this.id = Long.valueOf(claims.get("userId").toString());
-        this.username = claims.get("username").toString();
+        this.username = claims.get("sub").toString();
     }
 
     public void updateUser(String username, String major) {

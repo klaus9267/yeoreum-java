@@ -10,5 +10,5 @@ import lombok.Data;
 public class HostResponse {
     private Long id;
     private Long meetingId;
-    private Long userId;
+    private String username;
 }

@@ -62,7 +62,6 @@ public class JwtUtil implements InitializingBean {
         return Jwts.builder()
                    .setSubject(authentication.getName())
                    .claim("userId", userId)
-                   .claim("username", username)
                    .claim(AUTHORITIES_KEY, authorities)
                    .signWith(key, SignatureAlgorithm.HS512)
                    .setExpiration(validity)
