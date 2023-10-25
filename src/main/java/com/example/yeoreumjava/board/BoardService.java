@@ -11,6 +11,7 @@ import com.example.yeoreumjava.user.UserService;
 import com.example.yeoreumjava.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class BoardService {
     private final UserService userService;
 
     public List<Board> loadMyBoardList(Long userId, int page) {
+//        PageRequest pageRequest = PageRequest.of`
         List<Board> boardList = boardRepository.findAllByWriterId(userId);
         if (boardList.isEmpty()) {
             throw new NoSuchElementException("작성한 게시글이 없습니다.");

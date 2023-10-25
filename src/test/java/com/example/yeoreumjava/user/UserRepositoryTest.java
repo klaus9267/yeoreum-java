@@ -34,10 +34,4 @@ class UserRepositoryTest {
         User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
         System.out.println(user);
     }
-
-    @Test
-    void pageTest() {
-        PageRequest pageRequest = PageRequest.of(1, 2);
-        userRepository.findAll(pageRequest).forEach(System.out::println);
-    }
 }
