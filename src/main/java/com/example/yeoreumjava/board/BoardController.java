@@ -1,5 +1,6 @@
 package com.example.yeoreumjava.board;
 
+import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.mapper.BoardMapper;
@@ -19,10 +20,10 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
-    @GetMapping("/my/{id}")
+    @GetMapping("/my")
     @PreAuthorize("hasAnyRole('USER')")
-    public ResponseEntity<List<BoardResponse>> loadBoardList(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(BoardMapper.INSTANCE.toDtoList(boardService.loadBoardList(id)));
+    public ResponseEntity<List<BoardResponse>> loadMyBoardList(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(BoardMapper.INSTANCE.toDtoList(boardService.loadMyBoardList(user.getId())));
     }
 
     @GetMapping("/{id}")

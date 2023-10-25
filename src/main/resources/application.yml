@@ -39,3 +39,6 @@ server:
     include-message: always
     include-exception: false
     include-stacktrace: never
+logging:
+  level:
+    root: debug

@@ -10,12 +10,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.rmi.UnexpectedException;
+import java.util.Objects;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity handleException(Exception e) {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleException(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 
@@ -26,10 +27,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                WebRequest request) {
 
 
-        ProblemDetail problemDetail = ErrorResponse.builder(ex, status, ex.getBindingResult()
-                                                                          .getAllErrors()
-                                                                          .get(0)
-                                                                          .getDefaultMessage()).build().getBody();
+        ProblemDetail problemDetail = ErrorResponse.builder(ex,
+                                                            status,
+                                                            Objects.requireNonNull(ex.getBindingResult()
+                                                                                     .getAllErrors()
+                                                                                     .get(0)
+                                                                                     .getDefaultMessage())).build().getBody();
 
         return ResponseEntity.badRequest().body(problemDetail);
     }

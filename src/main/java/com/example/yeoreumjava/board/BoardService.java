@@ -2,11 +2,11 @@ package com.example.yeoreumjava.board;
 
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
+import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.meeting.MeetingService;
 import com.example.yeoreumjava.meeting.domain.Meeting;
-import com.example.yeoreumjava.meeting.mapper.MeetingMapper;
 import com.example.yeoreumjava.user.UserService;
 import com.example.yeoreumjava.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +29,13 @@ public class BoardService {
     private final MeetingService meetingService;
     private final UserService userService;
 
-    public List<Board> loadBoardList(Long writerId) {
-        return boardRepository.findAllByWriterId(writerId).orElseThrow(()->new NoSuchElementException("게시글이 없습니다."));
+    public List<Board> loadMyBoardList(Long userId) {
+        List<Board> boardList = boardRepository.findAllByWriterId(userId)
+                                               .orElseThrow(() -> new NoSuchElementException("게시글이 없습니다."));
+//        boardList.forEach(System.out::println);
+        BoardMapper.INSTANCE.toDtoList(boardList).forEach(System.out::println);
+        return  boardList;
+
     }
 
     public Optional<Board> findBoard(Long id) {
@@ -43,6 +48,7 @@ public class BoardService {
     }
 
     public void createBoard(BoardRequest boardRequest, User user) {
+        boardRequest.getHostList().add(user.getId());
         Meeting meeting = meetingService.createMeeting(boardRequest);
         boardRepository.save(Board.builder()
                                   .title(boardRequest.getTitle())

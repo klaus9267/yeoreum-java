@@ -19,8 +19,8 @@ public class BoardResponse {
     private String title;
     private String content;
 
-    private Long writerId;
+    private String writerName;
     private Long meetingId;
-    private List<Host> hostList = new ArrayList<>();
-    private List<Apply> applyList = new ArrayList<>();
+    private List<HostResponse> hostList = new ArrayList<>();
+    private List<ApplyResponse> applyList = new ArrayList<>();
 }

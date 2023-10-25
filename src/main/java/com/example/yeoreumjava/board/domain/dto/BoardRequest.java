@@ -1,6 +1,5 @@
 package com.example.yeoreumjava.board.domain.dto;
 
-import com.example.yeoreumjava.meeting.domain.Host;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,9 +19,6 @@ public class BoardRequest {
 
     @NotBlank(message = "content을 입력해 주세요.")
     private String content;
-
-    @NotNull(message = "writerId를 입력해 주세요.")
-    private Long writerId;
 
     // meeting
     @NotBlank(message = "place를 입력해 주세요.")
