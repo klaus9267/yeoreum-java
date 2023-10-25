@@ -4,6 +4,10 @@ spring:
 #    url: jdbc:mysql://mydb.c0eebz3zbzjp.ap-northeast-2.rds.amazonaws.com:3306/mydb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
 #    username: admin
 #    password: doctor978
+  jackson:
+    serialization:
+      indent-output: true
+
   h2:
     console:
       enabled: true
@@ -39,6 +43,7 @@ server:
     include-message: always
     include-exception: false
     include-stacktrace: never
-logging:
-  level:
-    root: debug
+
+#logging:
+#  level:
+#    root: debug
