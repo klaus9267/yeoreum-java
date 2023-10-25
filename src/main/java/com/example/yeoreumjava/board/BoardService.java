@@ -29,12 +29,13 @@ public class BoardService {
     private final MeetingService meetingService;
     private final UserService userService;
 
-    public List<Board> loadMyBoardList(Long userId) {
-        List<Board> boardList = boardRepository.findAllByWriterId(userId)
-                                               .orElseThrow(() -> new NoSuchElementException("게시글이 없습니다."));
-//        boardList.forEach(System.out::println);
+    public List<Board> loadMyBoardList(Long userId, int page) {
+        List<Board> boardList = boardRepository.findAllByWriterId(userId);
+        if (boardList.isEmpty()) {
+            throw new NoSuchElementException("작성한 게시글이 없습니다.");
+        }
         BoardMapper.INSTANCE.toDtoList(boardList).forEach(System.out::println);
-        return  boardList;
+        return boardList;
 
     }
 

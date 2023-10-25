@@ -64,13 +64,10 @@ public class UserService implements UserDetailsService {
         Authority authority = Authority.builder()
                                        .authorityName("ROLE_USER")
                                        .build();
-        String ps = passwordEncoder.encode(userRequest.getPassword());
-        System.out.println(ps);
         User user = User.builder()
                         .username(userRequest.getUsername())
                         .email(userRequest.getEmail())
-                        .hashedPassword(ps)
-//                        .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
+                        .hashedPassword(passwordEncoder.encode(userRequest.getPassword()))
                         .authorities(Collections.singleton(authority))
                         .major(userRequest.getMajor())
                         .build();
@@ -116,7 +113,6 @@ public class UserService implements UserDetailsService {
 
     public void deleteUser(User user) {
         boardRepository.findAllByWriterId(user.getId())
-                       .orElseThrow(() -> new NoSuchElementException("게시글이 없습니다."))
                        .forEach(board -> meetingRepository.deleteById(board.getMeeting().getId()));
         friendCustomRepository.withdraw(user.getId());
         userRepository.deleteById(user.getId());

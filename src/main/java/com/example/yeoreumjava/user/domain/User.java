@@ -2,6 +2,7 @@ package com.example.yeoreumjava.user.domain;
 
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.friend.domain.Friend;
+import com.example.yeoreumjava.meeting.domain.Guest;
 import com.example.yeoreumjava.meeting.domain.Host;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.jsonwebtoken.Claims;
@@ -43,6 +44,16 @@ public class User {
     @ToString.Exclude
     @JsonIgnore
     private List<Board> boardList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Host> hostList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Guest> guestList = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

@@ -20,10 +20,11 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
-    @GetMapping("/my")
+    @GetMapping("/my/{page}")
     @PreAuthorize("hasAnyRole('USER')")
-    public ResponseEntity<List<BoardResponse>> loadMyBoardList(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(BoardMapper.INSTANCE.toDtoList(boardService.loadMyBoardList(user.getId())));
+    public ResponseEntity<List<BoardResponse>> loadMyBoardList(@AuthenticationPrincipal User user,
+                                                               @PathVariable("page") int page) {
+        return ResponseEntity.ok(BoardMapper.INSTANCE.toDtoList(boardService.loadMyBoardList(user.getId(),page)));
     }
 
     @GetMapping("/{id}")
