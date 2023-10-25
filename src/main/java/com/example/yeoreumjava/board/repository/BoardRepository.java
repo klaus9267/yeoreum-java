@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board,Long> {
+    Page<Board> findAllByWriterId(Long userId,Pageable pageable);
     List<Board> findAllByWriterId(Long userId);
-    Page<Board> findAllByWriterId(Pageable pageable);
 }

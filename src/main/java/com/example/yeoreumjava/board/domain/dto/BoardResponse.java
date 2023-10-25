@@ -1,7 +1,5 @@
 package com.example.yeoreumjava.board.domain.dto;
 
-import com.example.yeoreumjava.meeting.domain.Apply;
-import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyResponse;
 import com.example.yeoreumjava.meeting.domain.dto.HostResponse;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.board;
 
 import com.example.yeoreumjava.board.domain.Board;
+import com.example.yeoreumjava.board.domain.dto.BoardPagination;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.mapper.BoardMapper;
@@ -22,9 +23,9 @@ public class BoardController {
 
     @GetMapping("/my/{page}")
     @PreAuthorize("hasAnyRole('USER')")
-    public ResponseEntity<List<BoardResponse>> loadMyBoardList(@AuthenticationPrincipal User user,
-                                                               @PathVariable("page") int page) {
-        return ResponseEntity.ok(BoardMapper.INSTANCE.toDtoList(boardService.loadMyBoardList(user.getId(),page)));
+    public ResponseEntity<BoardPagination> loadMyBoardList(@AuthenticationPrincipal User user,
+                                                           @PathVariable("page") int page) {
+        return ResponseEntity.ok(BoardMapper.INSTANCE.toPagination(boardService.loadMyBoardList(user.getId(),page)));
     }
 
     @GetMapping("/{id}")

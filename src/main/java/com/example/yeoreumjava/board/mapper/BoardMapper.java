@@ -2,6 +2,7 @@ package com.example.yeoreumjava.board.mapper;
 
 
 import com.example.yeoreumjava.board.domain.Board;
+import com.example.yeoreumjava.board.domain.dto.BoardPagination;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
 import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.common.mapper.BaseMapper;
@@ -13,6 +14,7 @@ import com.example.yeoreumjava.meeting.domain.dto.HostResponse;
 import com.example.yeoreumjava.user.UserService;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,8 +34,16 @@ public interface BoardMapper extends BaseMapper<BoardRequest, BoardResponse, Boa
     BoardResponse toDto(Board entity);
 
     @Override
+    @Named("E2DL")
     @IterableMapping(qualifiedByName = "E2D")
     List<BoardResponse> toDtoList(List<Board> entityList);
+
+
+    @Mapping(target = "boardResponseList", source =" boardPage.content",qualifiedByName = "E2DL")
+    @Mapping(target = "page",expression = "java(boardPage.getPageable().getPageNumber())")
+    @Mapping(target = "totalPage",expression = "java(boardPage.getTotalPages())")
+    @Mapping(target = "totalElements",expression = "java(boardPage.getTotalElements())")
+    BoardPagination toPagination(Page<Board> boardPage);
 
     @Named("setHostList")
     default List<HostResponse> setHostList(Meeting meeting) {

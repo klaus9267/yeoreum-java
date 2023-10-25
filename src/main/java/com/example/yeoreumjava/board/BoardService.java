@@ -11,7 +11,9 @@ import com.example.yeoreumjava.user.UserService;
 import com.example.yeoreumjava.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,15 +32,14 @@ public class BoardService {
     private final MeetingService meetingService;
     private final UserService userService;
 
-    public List<Board> loadMyBoardList(Long userId, int page) {
+    public Page<Board> loadMyBoardList(Long userId, int page) {
         PageRequest pageRequest = PageRequest.of(page, PageConstant.SIZE);
-        List<Board> boardList = boardRepository.findAllByWriterId(userId);
+        Page<Board> boardList = boardRepository.findAllByWriterId(userId, pageRequest);
         if (boardList.isEmpty()) {
             throw new NoSuchElementException("작성한 게시글이 없습니다.");
         }
-        BoardMapper.INSTANCE.toDtoList(boardList).forEach(System.out::println);
-        return boardList;
 
+        return boardList;
     }
 
     public Optional<Board> findBoard(Long id) {
