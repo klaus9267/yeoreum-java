@@ -44,8 +44,10 @@ public class BoardController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER')")
-    public ResponseEntity<String> updateBoard(@PathVariable("id") Long id, @RequestBody BoardRequest boardRequest) {
-        boardService.updateBoard(id, boardRequest);
+    public ResponseEntity<String> updateBoard(@AuthenticationPrincipal User user,
+                                              @PathVariable("id") Long id,
+                                              @RequestBody BoardRequest boardRequest) {
+        boardService.updateBoard(id, boardRequest,user);
         return ResponseEntity.ok("수정 완료");
     }
 

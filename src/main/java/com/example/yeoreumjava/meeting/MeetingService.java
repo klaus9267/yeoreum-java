@@ -7,6 +7,7 @@ import com.example.yeoreumjava.meeting.domain.Host;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.meeting.domain.dto.ApplyRequest;
 import com.example.yeoreumjava.meeting.mapper.ApplyMapper;
+import com.example.yeoreumjava.meeting.mapper.HostMapper;
 import com.example.yeoreumjava.meeting.repository.ApplyRepository;
 import com.example.yeoreumjava.meeting.repository.GuestRepository;
 import com.example.yeoreumjava.meeting.repository.HostRepository;
@@ -63,15 +64,10 @@ public class MeetingService {
         return meeting;
     }
 
-    public void updateMeeting(Long id, BoardRequest boardRequest) {
-        Meeting meeting = loadMeeting(id);
-        Meeting request = Meeting.builder()
-                                 .time(boardRequest.getTime())
-                                 .place(boardRequest.getPlace())
-                                 .build();
-
-        meeting.updateMeeting(request.getPlace(), request.getTime());
+    public void updateMeeting(Meeting meeting, BoardRequest boardRequest) {
+        meeting.updateMeeting(boardRequest.getPlace(), boardRequest.getTime());
         meetingRepository.save(meeting);
+
         updateHostList(meeting, boardRequest.getHostList());
     }
 
@@ -96,12 +92,10 @@ public class MeetingService {
         guestRepository.saveAll(guestList);
     }
 
-    public void updateHostList(Meeting meeting, List<Long> idList) {
-        List<User> userList = userService.loadUserList(idList);
-        List<Host> hostList = setHostList(userList, meeting);
-
+    public void updateHostList(Meeting meeting, List<Long> hostList) {
+        List<User> userList = userService.loadUserList(hostList);
         hostRepository.deleteAllByMeetingId(meeting.getId());
-        hostRepository.saveAll(hostList);
+        hostRepository.saveAll(setHostList(userList,meeting));
     }
 
     public void acceptApply(Long applyId) {

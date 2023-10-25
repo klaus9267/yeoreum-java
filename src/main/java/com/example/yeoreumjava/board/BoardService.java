@@ -59,12 +59,18 @@ public class BoardService {
                                   .build());
     }
 
-    public void updateBoard(Long id, BoardRequest boardRequest) {
+    public void updateBoard(Long id, BoardRequest boardRequest, User user) {
         Board board = loadBoard(id);
+
+        if (!board.getWriter().getId().equals(user.getId())) {
+            throw new RuntimeException("작성자가 아닙니다.");
+        }
+
         board.updateBoard(boardRequest.getTitle(), boardRequest.getContent());
         boardRepository.save(board);
 
-        meetingService.updateMeeting(board.getMeeting().getId(), boardRequest);
+        boardRequest.getHostList().add(user.getId());
+        meetingService.updateMeeting(board.getMeeting(), boardRequest);
     }
 
     public void deleteBoard(Long id) {
