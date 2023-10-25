@@ -1,9 +1,7 @@
 package com.example.yeoreumjava.user;
 
-import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.friend.repository.FriendCustomRepository;
-import com.example.yeoreumjava.friend.repository.FriendRepository;
 import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.domain.Authority;
 import com.example.yeoreumjava.user.domain.User;

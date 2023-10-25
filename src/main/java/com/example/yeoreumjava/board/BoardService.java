@@ -2,9 +2,9 @@ package com.example.yeoreumjava.board;
 
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
-import com.example.yeoreumjava.board.domain.dto.BoardResponse;
 import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.board.repository.BoardRepository;
+import com.example.yeoreumjava.common.constant.PageConstant;
 import com.example.yeoreumjava.meeting.MeetingService;
 import com.example.yeoreumjava.meeting.domain.Meeting;
 import com.example.yeoreumjava.user.UserService;
@@ -31,7 +31,7 @@ public class BoardService {
     private final UserService userService;
 
     public List<Board> loadMyBoardList(Long userId, int page) {
-//        PageRequest pageRequest = PageRequest.of`
+        PageRequest pageRequest = PageRequest.of(page, PageConstant.SIZE);
         List<Board> boardList = boardRepository.findAllByWriterId(userId);
         if (boardList.isEmpty()) {
             throw new NoSuchElementException("작성한 게시글이 없습니다.");
