@@ -2,7 +2,6 @@ package com.example.yeoreumjava.board;
 
 import com.example.yeoreumjava.board.domain.Board;
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
-import com.example.yeoreumjava.board.mapper.BoardMapper;
 import com.example.yeoreumjava.board.repository.BoardRepository;
 import com.example.yeoreumjava.common.constant.PageConstant;
 import com.example.yeoreumjava.meeting.MeetingService;
@@ -13,11 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -33,7 +30,7 @@ public class BoardService {
     private final UserService userService;
 
     public Page<Board> loadMyBoardList(Long userId, int page) {
-        PageRequest pageRequest = PageRequest.of(page, PageConstant.SIZE);
+        PageRequest pageRequest = PageRequest.of(page, PageConstant.BOARD_SIZE);
         Page<Board> boardList = boardRepository.findAllByWriterId(userId, pageRequest);
         if (boardList.isEmpty()) {
             throw new NoSuchElementException("작성한 게시글이 없습니다.");
