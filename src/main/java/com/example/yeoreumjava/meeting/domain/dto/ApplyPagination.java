@@ -10,11 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class ApplyResponse {
-    private Long id;
-    private String title;
-    private String content;
-    private Long meetingId;
+public class ApplyPagination {
+    List<ApplyResponse> applyResponseList = new ArrayList<>();
 
-    private List<GuestResponse> guestList = new ArrayList<>();
+    private int page;
+    private int totalPage;
+    private long totalElements;
 }

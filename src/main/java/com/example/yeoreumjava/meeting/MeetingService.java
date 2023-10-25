@@ -1,6 +1,7 @@
 package com.example.yeoreumjava.meeting;
 
 import com.example.yeoreumjava.board.domain.dto.BoardRequest;
+import com.example.yeoreumjava.common.constant.PageConstant;
 import com.example.yeoreumjava.meeting.domain.Apply;
 import com.example.yeoreumjava.meeting.domain.Guest;
 import com.example.yeoreumjava.meeting.domain.Host;
@@ -15,6 +16,8 @@ import com.example.yeoreumjava.meeting.repository.MeetingRepository;
 import com.example.yeoreumjava.user.UserService;
 import com.example.yeoreumjava.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,8 +45,13 @@ public class MeetingService {
         return findMeeting(id).orElseThrow(() -> new NoSuchElementException(id + "번 만남이 없습니다."));
     }
 
-    public List<Apply> loadApplyList(Long meetingId) {
-        return applyRepository.findAllByMeetingId(meetingId);
+    public Page<Apply> loadApplyList(Long meetingId, int page) {
+        PageRequest pageRequest = PageRequest.of(page, PageConstant.APPLY_SIZE);
+        Page<Apply> applyPage = applyRepository.findAllByMeetingId(meetingId, pageRequest);
+        if (applyPage.isEmpty()) {
+            throw new RuntimeException("받은 신청이 없습니다.");
+        }
+        return applyPage;
     }
 
     public Apply loadApply(Long id) {
